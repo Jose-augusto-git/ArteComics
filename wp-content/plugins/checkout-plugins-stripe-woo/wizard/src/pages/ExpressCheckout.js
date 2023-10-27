@@ -28,7 +28,7 @@ function ExpressCheckout() {
 		} ).then( ( res ) => {
 			if ( res.success ) {
 				navigate(
-					onboarding_vars.navigator_base + `&cpsw_call=webhooks`,
+					onboarding_vars.navigator_base + `&cpsw_call=thank-you`,
 				);
 			}
 		} );
@@ -64,7 +64,7 @@ function ExpressCheckout() {
 					</div>
 
 					<div className="mt-3 sm:mt-0 sm:ml-3">
-						<a href={ onboarding_vars.base_url + `&cpsw_call=webhooks` } className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-slate-300 md:py-4 md:text-lg md:px-10">
+						<a href={ onboarding_vars.base_url + `&cpsw_call=thank-you` } className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-slate-300 md:py-4 md:text-lg md:px-10">
 							{ __( 'Skip Express Checkout', 'checkout-plugins-stripe-woo' ) }
 						</a>
 					</div>

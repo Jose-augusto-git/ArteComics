@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 
 import HomePage from '@Admin/pages/HomePage';
 import Success from '@Admin/pages/Success';
-import Webhooks from '@Admin/pages/Webhooks';
 import ExpressCheckout from '@Admin/pages/ExpressCheckout';
 import Failed from '@Admin/pages/Failed';
 import ThankYou from '@Admin/pages/ThankYou';
@@ -21,9 +20,6 @@ function Settings() {
 			break;
 		case 'failed':
 			routePage = <Failed />;
-			break;
-		case 'webhooks':
-			routePage = <Webhooks />;
 			break;
 		case 'express-checkout':
 			routePage = <ExpressCheckout />;

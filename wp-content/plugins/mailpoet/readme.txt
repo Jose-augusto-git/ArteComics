@@ -3,7 +3,7 @@ Contributors: mailpoet, woocommerce, automattic
 Tags: email, email marketing, post notification, woocommerce emails, email automation, newsletter, newsletter builder, newsletter subscribers
 Requires at least: 6.2
 Tested up to: 6.3
-Stable tag: 4.29.0
+Stable tag: 4.34.0
 Requires PHP: 7.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -218,6 +218,43 @@ Check our [Knowledge Base](https://kb.mailpoet.com) or contact us through our [s
 6. WooCommerce emails
 
 == Changelog ==
+
+= 4.34.0 - 2023-10-25 =
+* Improved: minor changes and fixes.
+
+= 4.33.0 - 2023-10-24 =
+* Added: drag-to-scroll in the automation editor;
+* Added: "if/else" automation step to allow branching automations based on subscribers' behaviours and purchase history (paid feature);
+* Updated: composer dependencies;
+* Improved: declared compatibility with Checkout Blocks;
+* Improved: removed "MailPoet account connected" from onboarding step if MailPoet is set up in the background;
+* Improved: segment options are sorted alphabetically in all languages;
+* Changed: replace pQuery's "html" with "toString" method when encoding email content. This can affect how tags and tag-like entries are interpreted;
+* Fixed: missing spacing in Email editor block settings;
+* Fixed: due to some library conflicts, option to insert an image from Media Library is missing in Form editor.
+
+= 4.32.0 - 2023-10-16 =
+* Added: option to create new segment from the send page;
+* Improved: more robust checks when running migrations;
+* Fixed: in some cases there was no default condition when creating new segment.
+
+= 4.31.1 - 2023-10-13 =
+* Fixes: When editing a newsletter the media dialog did not open in some cases.
+
+= 4.31.0 - 2023-10-09 =
+* Added: show segment filter on email listing and stats pages;
+* Added: automation title on the analytics page;
+* Added: apply segment on top of lists on the send email page;
+* Improved: deferred loading of JS on frontend;
+* Improved: new WordPress-like design when adding or editing a segment;
+* Fixed: plugin conflict with Kubio site builder.
+
+= 4.30.0 - 2023-10-03 =
+* Updated: npm dependencies;
+* Fixed: typo in message when creating a segment;
+* Fixed: The automation filter for products works now also with variable products;
+* Fixed: in some themes, pop-up form on mobiles is larger than the screen;
+* Fixed: occasionally, when a different plugin is installed, website redirects to MailPoet landing page.
 
 = 4.29.0 - 2023-09-26 =
 * Added: a filter to remove restrictions on Woo Express;

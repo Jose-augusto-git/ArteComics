@@ -15,7 +15,6 @@ use MailPoet\Cron\Workers\SubscribersCountCacheRecalculation;
 use MailPoet\Entities\SegmentEntity;
 use MailPoet\Entities\TagEntity;
 use MailPoet\Features\FeaturesController;
-use MailPoet\Form\AssetsController;
 use MailPoet\Referrals\ReferralDetector;
 use MailPoet\Segments\SegmentsRepository;
 use MailPoet\Services\Bridge;
@@ -221,7 +220,11 @@ class PageRenderer {
         $this->subscribersCountCacheRecalculation->schedule();
       }
 
+      // If the page didn't enqueue any assets, this will act as a fallback.
+      // If some assets were enqueued, this won't change the queue ordering.
       $this->assetsController->setupAdminPagesDependencies();
+      $this->wp->doAction('mailpoet_styles_admin_after');
+
       // We are in control of the template and the data can be considered safe at this point
       // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped, WordPressDotOrg.sniffs.OutputEscaping.UnescapedOutputParameter
       echo $this->renderer->render($template, $data + $defaults);

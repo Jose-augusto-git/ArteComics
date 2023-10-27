@@ -11,7 +11,7 @@ return array(
 		'path'    => array( $vendorDir . '/defuse/php-encryption/src' )
 	),
 	'Automattic\\WooCommerce\\Pinterest\\' => array(
-		'version' => 'dev-release/1.3.10',
+		'version' => 'dev-release/1.3.12',
 		'path'    => array( $baseDir . '/src' )
 	),
 	'Automattic\\WooCommerce\\ActionSchedulerJobFramework\\' => array(
@@ -19,7 +19,7 @@ return array(
 		'path'    => array( $vendorDir . '/woocommerce/action-scheduler-job-framework/src' )
 	),
 	'Automattic\\Jetpack\\Autoloader\\' => array(
-		'version' => '2.11.22.0',
+		'version' => '2.12.0',
 		'path'    => array( $vendorDir . '/automattic/jetpack-autoloader/src' )
 	),
 );

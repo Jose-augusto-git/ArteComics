@@ -184,13 +184,14 @@ class Helper {
 	 * Get webhook secret key.
 	 *
 	 * @since 1.2.0
-	 *
+	 * @param string $mode payment mode.
 	 * @return mixed
 	 */
-	public static function get_webhook_secret() {
-		if ( 'live' === self::get_payment_mode() ) {
+	public static function get_webhook_secret( $mode = '' ) {
+		$mode = empty( $mode ) ? self::get_payment_mode() : $mode;
+		if ( 'live' === $mode ) {
 			$endpoint_secret = self::get_setting( 'cpsw_live_webhook_secret' );
-		} elseif ( 'test' === self::get_payment_mode() ) {
+		} elseif ( 'test' === $mode ) {
 			$endpoint_secret = self::get_setting( 'cpsw_test_webhook_secret' );
 		}
 

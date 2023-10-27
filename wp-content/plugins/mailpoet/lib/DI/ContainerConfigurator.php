@@ -33,12 +33,14 @@ class ContainerConfigurator implements IContainerConfigurator {
       'getInstance',
       ]);
     // AdminPages
+    $container->autowire(\MailPoet\AdminPages\AssetsController::class)->setPublic(true);
     $container->autowire(\MailPoet\AdminPages\PageRenderer::class)->setPublic(true);
     $container->autowire(\MailPoet\AdminPages\Pages\Automation::class)->setPublic(true);
     $container->autowire(\MailPoet\AdminPages\Pages\AutomationTemplates::class)->setPublic(true);
     $container->autowire(\MailPoet\AdminPages\Pages\AutomationEditor::class)->setPublic(true);
     $container->autowire(\MailPoet\AdminPages\Pages\AutomationAnalytics::class)->setPublic(true);
     $container->autowire(\MailPoet\AdminPages\Pages\DynamicSegments::class)->setPublic(true);
+    $container->autowire(\MailPoet\AdminPages\Pages\EmailEditor::class)->setPublic(true);
     $container->autowire(\MailPoet\AdminPages\Pages\ExperimentalFeatures::class)->setPublic(true);
     $container->autowire(\MailPoet\AdminPages\Pages\FormEditor::class)->setPublic(true);
     $container->autowire(\MailPoet\AdminPages\Pages\Forms::class)->setPublic(true);
@@ -162,6 +164,7 @@ class ContainerConfigurator implements IContainerConfigurator {
     $container->autowire(\MailPoet\Automation\Engine\Endpoints\Automations\AutomationsDeleteEndpoint::class)->setPublic(true);
     // Automation - core integration
     $container->autowire(\MailPoet\Automation\Integrations\Core\Actions\DelayAction::class)->setPublic(true);
+    $container->autowire(\MailPoet\Automation\Integrations\Core\Actions\IfElseAction::class)->setPublic(true);
     $container->autowire(\MailPoet\Automation\Integrations\Core\CoreIntegration::class)->setPublic(true);
     // Automation - WordPress integration
     $container->autowire(\MailPoet\Automation\Integrations\WordPress\WordPressIntegration::class)->setPublic(true);
@@ -303,6 +306,7 @@ class ContainerConfigurator implements IContainerConfigurator {
     $container->autowire(\MailPoet\Cron\Workers\Beamer::class)->setPublic(true);
     $container->autowire(\MailPoet\Cron\Workers\SubscribersEmailCount::class)->setPublic(true);
     $container->autowire(\MailPoet\Cron\Workers\InactiveSubscribers::class)->setPublic(true);
+    $container->autowire(\MailPoet\Cron\Workers\Mixpanel::class)->setPublic(true);
     $container->autowire(\MailPoet\Cron\Workers\UnsubscribeTokens::class)->setPublic(true);
     $container->autowire(\MailPoet\Cron\Workers\SubscriberLinkTokens::class)->setPublic(true);
     $container->autowire(\MailPoet\Cron\Workers\AuthorizedSendingEmailsCheck::class)->setPublic(true);
@@ -320,8 +324,8 @@ class ContainerConfigurator implements IContainerConfigurator {
     $container->autowire(\MailPoet\CustomFields\CustomFieldsRepository::class)->setPublic(true);
     // Email Editor
     $container->autowire(\MailPoet\EmailEditor\Engine\EmailEditor::class)->setPublic(true);
-    $container->autowire(\MailPoet\EmailEditor\Engine\AssetsCleaner::class)->setPublic(true);
     $container->autowire(\MailPoet\EmailEditor\Engine\EmailApiController::class)->setPublic(true);
+    $container->autowire(\MailPoet\EmailEditor\Engine\SettingsController::class)->setPublic(true);
     $container->autowire(\MailPoet\EmailEditor\Engine\Renderer\Renderer::class)->setPublic(true);
     $container->autowire(\MailPoet\EmailEditor\Engine\Renderer\BlocksRenderer::class)->setPublic(true);
     $container->autowire(\MailPoet\EmailEditor\Engine\Renderer\BlocksRegistry::class)->setPublic(true);

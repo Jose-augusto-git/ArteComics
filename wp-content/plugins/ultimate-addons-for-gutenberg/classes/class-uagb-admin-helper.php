@@ -55,6 +55,7 @@ if ( ! class_exists( 'UAGB_Admin_Helper' ) ) {
 				'uag_enable_block_condition'        => self::get_admin_settings_option( 'uag_enable_block_condition', 'disabled' ),
 				'uag_enable_masonry_gallery'        => self::get_admin_settings_option( 'uag_enable_masonry_gallery', 'enabled' ),
 				'uag_enable_animations_extension'   => self::get_admin_settings_option( 'uag_enable_animations_extension', 'enabled' ),
+				'uag_enable_gbs_extension'          => self::get_admin_settings_option( 'uag_enable_gbs_extension', 'enabled' ),
 				'uag_enable_block_responsive'       => self::get_admin_settings_option( 'uag_enable_block_responsive', 'enabled' ),
 				'uag_select_font_globally'          => self::get_admin_settings_option( 'uag_select_font_globally', array() ),
 				'uag_load_select_font_globally'     => self::get_admin_settings_option( 'uag_load_select_font_globally', 'disabled' ),
@@ -62,7 +63,7 @@ if ( ! class_exists( 'UAGB_Admin_Helper' ) ) {
 				'uag_collapse_panels'               => self::get_admin_settings_option( 'uag_collapse_panels', 'enabled' ),
 				'uag_copy_paste'                    => self::get_admin_settings_option( 'uag_copy_paste', 'enabled' ),
 				'uag_preload_local_fonts'           => self::get_admin_settings_option( 'uag_preload_local_fonts', 'disabled' ),
-				'uag_enable_coming_soon_mode'       => self::get_admin_settings_option( 'uag_enable_coming_soon_mode', 'disabled' ),
+				'uag_visibility_mode'               => self::get_admin_settings_option( 'uag_visibility_mode', 'disabled' ),
 				'uag_container_global_padding'      => self::get_admin_settings_option( 'uag_container_global_padding', 'default' ),
 				'uag_container_global_elements_gap' => self::get_admin_settings_option( 'uag_container_global_elements_gap', 20 ),
 				'uag_btn_inherit_from_theme'        => self::get_admin_settings_option( 'uag_btn_inherit_from_theme', 'disabled' ),
@@ -116,6 +117,24 @@ if ( ! class_exists( 'UAGB_Admin_Helper' ) ) {
 		public static function get_admin_settings_option( $key, $default = false, $network_override = false ) {
 			// Get the site-wide option if we're in the network admin.
 			return $network_override && is_multisite() ? get_site_option( $key, $default ) : get_option( $key, $default );
+		}
+
+		/**
+		 * Deletes an option from the database for
+		 * the admin settings page.
+		 *
+		 * @param  string  $key     The option key.
+		 * @param  boolean $network_override Whether to allow the network admin setting to be overridden on subsites.
+		 * @since 2.8.0
+		 * @return void            Return the option value.
+		 */
+		public static function delete_admin_settings_option( $key, $network_override = false ) {
+			// Get the site-wide option if we're in the network admin.
+			if ( $network_override && is_multisite() ) {
+				delete_site_option( $key );
+			} else {
+				delete_option( $key );
+			}
 		}
 
 		/**

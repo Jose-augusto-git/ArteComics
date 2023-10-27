@@ -3,7 +3,7 @@ Contributors: wpforms, jaredatch, smub, slaFFik
 Tags: contact form, contact form plugin, forms, form builder, custom form, contact button, contact me, custom contact form, form manager, form, forms builder, forms creator, captcha, recaptcha, Turnstile, Akismet, email form, web form, feedback form, payment form, survey form, donation form, email submit form, message form, mailchimp, mailchimp form, aweber, aweber form, paypal, paypal form, stripe, stripe form, getresponse, getresponse form, email subscription, contact form widget, user registration form, wordpress registration, wordpress login form, feedback
 Requires at least: 5.5
 Tested up to: 6.3
-Stable tag: 1.8.4
+Stable tag: 1.8.4.1
 Requires PHP: 7.0
 License: GNU General Public License v2.0 or later
 
@@ -182,7 +182,7 @@ Since contact forms are essential for marketing, WPForms is a must have plugin f
 * <a href="https://wpforms.com/addons/drip-addon/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin" rel="friend">Drip Forms</a> - Create Drip newsletter signup forms in WordPress and connect with your contact form to grow your email list.
 * <a href="https://wpforms.com/addons/activecampaign-addon/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin" rel="friend">ActiveCampaign Forms</a> - Add contacts to your ActiveCampaign account, record events, add notes to contacts, and more.
 * <a href="https://wpforms.com/addons/hubspot-addon/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin" rel="friend">HubSpot Forms</a> - Create HubSpot forms to send leads from WordPress directly to your HubSpot CRM.
-* <a href="https://wpforms.com/addons/sendinblue-addon/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin" rel="friend">Sendinblue Forms</a> - Create Sendinblue forms to automate your marketing and engage your subscribers.
+* <a href="https://wpforms.com/addons/sendinblue-addon/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin" rel="friend">Brevo Forms</a> - Create Brevo forms to automate your marketing and engage your subscribers.
 * <a href="https://wpforms.com/addons/mailerlite-addon/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin" rel="friend">MailerLite Forms</a> - Create MailerLite forms to easily add subscribers to your email marketing lists.
 * <a href="https://wpforms.com/addons/salesforce-addon/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin" rel="friend">Salesforce Forms</a> - Easily send your WordPress form contacts and leads to your Salesforce CRM account.
 * <a href="https://wpforms.com/addons/google-sheets-addon/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin" rel="friend">Google Sheets Addon</a> - Connect your WordPress forms to your Google account and easily send forms entries to Google Sheets.
@@ -442,6 +442,11 @@ Thank you
 Syed Balkhi
 
 == Changelog ==
+
+= 1.8.4.1 =
+- Fixed: A fatal error was thrown when using the WP-CLI command with the --context=admin parameter.
+- Fixed: Stripe assets were loaded on every page when the Elementor plugin was activated.
+- Fixed: Resized images in Image Choices were displayed in their original sizes inside Notifications.
 
 = 1.8.4 =
 - IMPORTANT: Support for PHP 5.6 has been discontinued. If you are running PHP 5.6, you MUST upgrade PHP before installing WPForms 1.8.4. Failure to do that will disable WPForms core functionality.

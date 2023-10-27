@@ -2,8 +2,8 @@
 Contributors: brainstormforce
 Tags: stripe, credit card, apple pay, google pay, express checkout
 Requires at least: 5.4
-Tested up to: 6.3
-Stable tag: 1.4.14
+Tested up to: 6.3.2
+Stable tag: 1.5.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -115,6 +115,10 @@ We understand the need for a quality product backed by dedicated support that ca
 4. Express Checkout Button on Checkout Page
 
 == Changelog ==
+= 1.5.0 - MONDAY, 16TH OCTOBER 2023 =
+* New: Introducing automated webhook creation for streamlined integration.
+* Improvement: Enhanced Klarna payment gateway now supports additional countries for broader accessibility.
+
 = 1.4.14 - TUESDAY, 4TH APRIL 2023 =
 * Fix: Apple pay domain verification failing.
 
@@ -122,7 +126,7 @@ We understand the need for a quality product backed by dedicated support that ca
 * Fix: Stripe zero currencies getting changed 100 times.
 
 = 1.4.12 - WEDNESDAY, 15TH MARCH 2023 =
-* Improvement – Refactored code for plugin security.
+* Improvement: Refactored code for plugin security.
 
 = 1.4.11 - SATURDAY, 21ST JANUARY 2023 =
 * Improvement: Hardened the security of the plugin.

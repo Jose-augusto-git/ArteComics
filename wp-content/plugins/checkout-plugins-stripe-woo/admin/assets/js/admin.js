@@ -138,6 +138,64 @@
 		}
 	} );
 
+	$( document ).on( 'click', '#cpsw_delete_webhook_key_test, #cpsw_delete_webhook_key_live', function( e ) {
+		e.preventDefault();
+		$.ajax( {
+			type: 'GET',
+			dataType: 'json',
+			url: cpsw_ajax_object.ajax_url,
+			data: { action: 'cpsw_delete_webhook', _security: cpsw_ajax_object.admin_nonce, webhook_key: $( this ).data( 'webhook-secret-key' ), mode: $( this ).data( 'mode' ) },
+			beforeSend: () => {
+				$.blockUI( { message: '' } );
+				$( 'body' ).css( 'cursor', 'progress' );
+			},
+			success( response ) {
+				if ( response.success === true ) {
+					alert( cpsw_ajax_object.delete_webhook );
+					window.location.href = cpsw_ajax_object.dashboard_url;
+				} else if ( response.success === false ) {
+					alert( response.data.message );
+				}
+				$( 'body' ).css( 'cursor', 'default' );
+				$.unblockUI();
+			},
+			error() {
+				$( 'body' ).css( 'cursor', 'default' );
+				$.unblockUI();
+				alert( cpsw_ajax_object.generic_error );
+			},
+		} );
+	} );
+
+	$( document ).on( 'click', '#cpsw_create_webhook_key_test, #cpsw_create_webhook_key_live', function( e ) {
+		e.preventDefault();
+		$.ajax( {
+			type: 'GET',
+			dataType: 'json',
+			url: cpsw_ajax_object.ajax_url,
+			data: { action: 'cpsw_create_webhook', _security: cpsw_ajax_object.admin_nonce, mode: $( this ).data( 'mode' ) },
+			beforeSend: () => {
+				$.blockUI( { message: '' } );
+				$( 'body' ).css( 'cursor', 'progress' );
+			},
+			success( response ) {
+				if ( response.success === true ) {
+					alert( cpsw_ajax_object.create_webhook );
+					window.location.href = cpsw_ajax_object.dashboard_url;
+				} else if ( response.success === false ) {
+					alert( response.data.message );
+				}
+				$( 'body' ).css( 'cursor', 'default' );
+				$.unblockUI();
+			},
+			error() {
+				$( 'body' ).css( 'cursor', 'default' );
+				$.unblockUI();
+				alert( cpsw_ajax_object.generic_error );
+			},
+		} );
+	} );
+
 	$( document ).on( 'click', '#cpsw_disconnect_acc', function( e ) {
 		e.preventDefault();
 		$.ajax( {
@@ -147,19 +205,22 @@
 			data: { action: 'cpsw_disconnect_account', _security: cpsw_ajax_object.admin_nonce },
 			beforeSend: () => {
 				$( 'body' ).css( 'cursor', 'progress' );
+				$.blockUI( { message: '' } );
 			},
 			success( response ) {
 				if ( response.success === true ) {
 					const icon = '✔';
-					alert( cpsw_ajax_object.stripe_disconnect + ' ' + icon );
+					alert( response.data.message + ' ' + icon );
 					window.location.href = cpsw_ajax_object.dashboard_url;
 				} else if ( response.success === false ) {
 					alert( response.data.message );
 				}
 				$( 'body' ).css( 'cursor', 'default' );
+				$.unblockUI();
 			},
 			error() {
 				$( 'body' ).css( 'cursor', 'default' );
+				$.unblockUI();
 				alert( cpsw_ajax_object.generic_error );
 			},
 		} );
@@ -212,9 +273,13 @@
 			if ( 'test' === mode ) {
 				$( '#cpsw_test_webhook_secret' ).parents( 'tr' ).show();
 				$( '#cpsw_live_webhook_secret' ).parents( 'tr' ).hide();
+				$( '#cpsw_create_webhook_key_test, #cpsw_delete_webhook_key_test' ).parents( 'tr' ).show();
+				$( '#cpsw_create_webhook_key_live, #cpsw_delete_webhook_key_live' ).parents( 'tr' ).hide();
 			} else if ( 'live' === mode ) {
 				$( '#cpsw_test_webhook_secret' ).parents( 'tr' ).hide();
 				$( '#cpsw_live_webhook_secret' ).parents( 'tr' ).show();
+				$( '#cpsw_create_webhook_key_test, #cpsw_delete_webhook_key_test' ).parents( 'tr' ).hide();
+				$( '#cpsw_create_webhook_key_live, #cpsw_delete_webhook_key_live' ).parents( 'tr' ).show();
 			}
 		},
 

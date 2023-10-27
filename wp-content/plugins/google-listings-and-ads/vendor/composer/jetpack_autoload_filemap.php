@@ -47,7 +47,7 @@ return array(
 		'path'    => $vendorDir . '/symfony/polyfill-intl-normalizer/bootstrap.php'
 	),
 	'a66af3295a2671f868924c6f4a9afc6c' => array(
-		'version' => 'dev-release/2.5.7',
+		'version' => 'dev-release/2.5.10',
 		'path'    => $vendorDir . '/guzzlehttp/guzzle/src/functions_include.php'
 	),
 );

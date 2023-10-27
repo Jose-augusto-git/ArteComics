@@ -5,9 +5,9 @@ namespace MailPoet\AdminPages\Pages;
 if (!defined('ABSPATH')) exit;
 
 
+use MailPoet\AdminPages\AssetsController;
 use MailPoet\AdminPages\PageRenderer;
 use MailPoet\Entities\SubscriberEntity;
-use MailPoet\Form\AssetsController;
 use MailPoet\Form\Util\CustomFonts;
 use MailPoet\Newsletter\Renderer\Blocks\Coupon;
 use MailPoet\Newsletter\Shortcodes\ShortcodesHelper;

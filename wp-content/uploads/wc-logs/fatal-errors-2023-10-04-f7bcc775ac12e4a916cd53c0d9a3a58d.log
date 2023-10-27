@@ -1,0 +1,6 @@
+2023-10-04T22:07:37+00:00 CRITICAL Allowed memory size of 134217728 bytes exhausted (tried to allocate 32768 bytes), em C:\wamp64\www\ArteComics\wp-content\themes\astra\inc\addons\transparent-header\classes\dynamic-css\dynamic.css.php, na linha 73
+
+2023-10-04T22:08:41+00:00 CRITICAL Allowed memory size of 134217728 bytes exhausted (tried to allocate 131072 bytes), em C:\wamp64\www\ArteComics\wp-content\themes\astra\inc\addons\breadcrumbs\dynamic-css\dynamic.css.php, na linha 522
+
+2023-10-04T22:09:00+00:00 CRITICAL Allowed memory size of 134217728 bytes exhausted (tried to allocate 131072 bytes), em C:\wamp64\www\ArteComics\wp-content\themes\astra\inc\addons\breadcrumbs\dynamic-css\dynamic.css.php, na linha 522
+

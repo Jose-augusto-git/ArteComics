@@ -1,0 +1,2 @@
+2023-10-24T18:46:48+00:00 CRITICAL Allowed memory size of 134217728 bytes exhausted (tried to allocate 32768 bytes), em C:\wamp64\www\ArteComics\wp-content\plugins\google-listings-and-ads\src\Jobs\BatchedActionSchedulerJobInterface.php, na linha 1
+

@@ -57,7 +57,6 @@ class Stripe_Api {
 	 * @return array
 	 */
 	private function execute( $api, $method, $args ) {
-
 		if ( is_null( $this->stripe ) ) {
 			$error_message = __( 'Stripe not initialized', 'checkout-plugins-stripe-woo' );
 			Logger::error( $error_message, true );
@@ -196,6 +195,17 @@ class Stripe_Api {
 	 */
 	public function accounts( $method, $args ) {
 		return $this->execute( 'accounts', $method, $args );
+	}
+
+	/**
+	 * Executes Stripe webhook query
+	 *
+	 * @param string $method method to be used.
+	 * @param array  $args parameter.
+	 * @return array
+	 */
+	public function webhooks( $method, $args ) {
+		return $this->execute( 'webhookEndpoints', $method, $args );
 	}
 
 	/**

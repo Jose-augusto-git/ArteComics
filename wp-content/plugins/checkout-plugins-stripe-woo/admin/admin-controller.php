@@ -62,6 +62,13 @@ class Admin_Controller {
 	private $settings = [];
 
 	/**
+	 * The secret key used for Stripe API authentication.
+	 *
+	 * @var string
+	 */
+	private $secret_key = '';
+
+	/**
 	 * Constructor
 	 *
 	 * @since 0.0.1
@@ -106,6 +113,10 @@ class Admin_Controller {
 		add_action( 'woocommerce_admin_field_cpsw_stripe_connect', [ $this, 'stripe_connect' ] );
 		add_action( 'woocommerce_admin_field_cpsw_account_id', [ $this, 'account_id' ] );
 		add_action( 'woocommerce_admin_field_cpsw_webhook_url', [ $this, 'webhook_url' ] );
+		add_action( 'woocommerce_admin_field_cpsw_delete_webhook', [ $this, 'delete_webhook_field' ] );
+		add_action( 'woocommerce_admin_field_cpsw_create_webhook', [ $this, 'create_webhook_field' ] );
+		add_action( 'woocommerce_admin_field_cpsw_live_delete_webhook', [ $this, 'delete_live_webhook_field' ] );
+		add_action( 'woocommerce_admin_field_cpsw_live_create_webhook', [ $this, 'create_live_webhook_field' ] );
 		add_action( 'woocommerce_admin_field_cpsw_express_checkout_preview', [ $this, 'express_checkout_preview' ] );
 		add_action( 'woocommerce_admin_field_express_checkout_notice', [ $this, 'express_checkout_notice' ] );
 
@@ -114,6 +125,8 @@ class Admin_Controller {
 
 		add_action( 'wp_ajax_cpsw_test_stripe_connection', [ $this, 'connection_test' ] );
 		add_action( 'wp_ajax_cpsw_disconnect_account', [ $this, 'disconnect_account' ] );
+		add_action( 'wp_ajax_cpsw_delete_webhook', [ $this, 'delete_webhook_action' ] );
+		add_action( 'wp_ajax_cpsw_create_webhook', [ $this, 'create_webhook_action' ] );
 		add_action( 'wp_ajax_cpsw_js_errors', [ $this, 'js_errors' ] );
 		add_action( 'wp_ajax_nopriv_cpsw_js_errors', [ $this, 'js_errors' ] );
 
@@ -287,6 +300,8 @@ class Admin_Controller {
 						'stripe_key_error'         => __( 'You must enter your API keys or connect the plugin before performing a connection test. Mode:', 'checkout-plugins-stripe-woo' ),
 						'stripe_key_unavailable'   => __( 'Keys Unavailable.', 'checkout-plugins-stripe-woo' ),
 						'stripe_disconnect'        => __( 'Your Stripe account has been disconnected.', 'checkout-plugins-stripe-woo' ),
+						'delete_webhook'           => __( 'Your Stripe webhook secret key has been deleted.', 'checkout-plugins-stripe-woo' ),
+						'create_webhook'           => __( 'Your Stripe webhook secret key has been created.', 'checkout-plugins-stripe-woo' ),
 						'stripe_connect_other_acc' => __( 'You can connect other Stripe account now.', 'checkout-plugins-stripe-woo' ),
 						'is_connected'             => $this->is_stripe_connected(),
 						// Localizing get values for use in JS, nonce verification not required.
@@ -454,6 +469,182 @@ class Admin_Controller {
 		foreach ( $options as $key => $value ) {
 			update_option( $key, $value );
 		}
+	}
+
+	/**
+	 * This method is used to retrieve webhooks.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param string $id Webhook id.
+	 *
+	 * @return obj
+	 */
+	public function retrieve_webhooks( $id ) {
+		$stripe_api = new Stripe_Api();
+		$response   = $stripe_api->webhooks( 'retrieve', [ $id ] );
+
+		if ( isset( $response['success'] ) && 1 === absint( $response['success'] ) && isset( $response['data'] ) ) {
+			return $response['data'];
+		} else {
+			Logger::error( sprintf( 'Error retrieve Stripe webhook. Reason: %2$s', Helper::get_payment_mode(), $response['message'] ), true );
+			return false;
+		}
+	}
+
+	/**
+	 * This method is used to delete webhooks.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param string $id Webhook id.
+	 * @param string $mode Webhook mode.
+	 *
+	 * @return void
+	 */
+	public function delete_webhooks( $id, $mode = '' ) {
+		if ( empty( $id ) ) {
+			return;
+		}
+
+		if ( ! empty( $mode ) && Helper::get_payment_mode() !== $mode ) {
+			$this->secret_key = '';
+			if ( 'live' === $mode ) {
+				$this->secret_key = Helper::get_setting( 'cpsw_secret_key' );
+			} else {
+				$this->secret_key = Helper::get_setting( 'cpsw_test_secret_key' );
+			}
+
+			if ( ! empty( $this->secret_key ) ) {
+				add_filter(
+					'cpsw_get_secret_key',
+					function() {
+						return $this->secret_key;
+					},
+					99
+				);
+			}
+		}
+
+		$stripe_api = new Stripe_Api();
+		$response   = $stripe_api->webhooks( 'delete', [ $id ] );
+
+		if ( isset( $response['success'] ) && 1 === absint( $response['success'] ) && isset( $response['data'] ) ) {
+			$this->remove_webhook_secret_settings_keys( $mode );
+			return true;
+		} else {
+			Logger::error( sprintf( 'Error deleting Stripe webhook. Reason: %2$s', Helper::get_payment_mode(), $response['message'] ), true );
+			$this->remove_webhook_secret_settings_keys( $mode );
+			return $response['message'];
+		}
+	}
+
+	/**
+	 * Remove webhook secret settings keys
+	 *
+	 * @since 1.5.0
+	 * @param string $mode Webhook mode.
+	 * @return void
+	 */
+	public function remove_webhook_secret_settings_keys( $mode ) {
+		if ( 'live' === $mode ) {
+			update_option( 'cpsw_live_webhook_secret', '' );
+			update_option( 'cpsw_live_webhook_id', '' );
+		} elseif ( 'test' === $mode ) {
+			update_option( 'cpsw_test_webhook_secret', '' );
+			update_option( 'cpsw_test_webhook_id', '' );
+		}
+	}
+
+	/**
+	 * This method is used to create webhooks.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param string $type Create webhook type.
+	 * @param string $mode Create webhook mode.
+	 * @return void
+	 */
+	public function create_webhooks( $type, $mode = '' ) {
+		if ( ! isset( $type ) ) {
+			return;
+		}
+
+		if ( false === $this->is_stripe_connected() ) {
+			return;
+		}
+
+		if ( empty( $mode ) ) {
+			$modes = [ 'test', 'live' ];
+		} else {
+			$modes = [ $mode ];
+		}
+
+		$webhooks_created = 0;
+
+		$error_message = '';
+
+		foreach ( $modes as $mode ) {
+
+			if ( Helper::get_payment_mode() !== $mode ) {
+				$this->secret_key = '';
+				if ( 'live' === $mode ) {
+					$this->secret_key = Helper::get_setting( 'cpsw_secret_key' );
+				} else {
+					$this->secret_key = Helper::get_setting( 'cpsw_test_secret_key' );
+				}
+
+				if ( ! empty( $this->secret_key ) ) {
+					add_filter(
+						'cpsw_get_secret_key',
+						function() {
+							return $this->secret_key;
+						},
+						99
+					);
+				}
+			}
+
+			$stripe_api = new Stripe_Api();
+
+			$data = [
+				'api_version'    => '2020-03-02',
+				'url'            => esc_url( get_home_url() . '/wp-json/cpsw/v1/webhook' ),
+				'enabled_events' => [
+					'charge.failed',
+					'charge.succeeded',
+					'source.chargeable',
+					'payment_intent.succeeded',
+					'charge.refunded',
+					'charge.dispute.created',
+					'charge.dispute.closed',
+					'review.opened',
+					'review.closed',
+				],
+			];
+
+			$response = $stripe_api->webhooks( 'create', [ $data ] );
+
+			if ( isset( $response['success'] ) && 1 === absint( $response['success'] ) && isset( $response['data'] ) ) {
+				if ( 'live' === $mode ) {
+					update_option( 'cpsw_live_webhook_secret', $response['data']->secret );
+					update_option( 'cpsw_live_webhook_id', $response['data']->id );
+				} elseif ( 'test' === $mode ) {
+					update_option( 'cpsw_test_webhook_secret', $response['data']->secret );
+					update_option( 'cpsw_test_webhook_id', $response['data']->id );
+				}
+
+				$webhooks_created++;
+			} else {
+				$error_message = $response['message'];
+				Logger::error( sprintf( 'Error creating Stripe webhook. Mode: %1$s. Reason: %2$s', $mode, $response['message'] ), true );
+			}
+		}
+
+		if ( count( $modes ) === $webhooks_created ) {
+			return true;
+		}
+		return $error_message;
 	}
 
 	/**
@@ -800,7 +991,7 @@ class Admin_Controller {
 		}
 
 		/**
-		 * Action before stripe conect button with stripe.
+		 * Action before stripe connect button with stripe.
 		 *
 		 * @since 1.3.0
 		 *
@@ -830,7 +1021,7 @@ class Admin_Controller {
 		<?php
 
 		/**
-		 * Action after stripe conect button with stripe.
+		 * Action after stripe connect button with stripe.
 		 *
 		 * @since 1.3.0
 		 *
@@ -880,7 +1071,7 @@ class Admin_Controller {
 	}
 
 	/**
-	 * Generates Stripe Autorization URL for onboarding process
+	 * Generates Stripe Authorization URL for onboarding process
 	 *
 	 * @param boolean $redirect_url destination url to redirect after stripe connect.
 	 * @return string
@@ -1002,19 +1193,31 @@ class Admin_Controller {
 				'desc'  => sprintf( __( 'Important: the webhook URL is called by Stripe when events occur in your account, like a source becomes chargeable. %1$1sWebhook Guide%2$2s or create webhook on %3$3sstripe dashboard%4$4s', 'checkout-plugins-stripe-woo' ), '<a href="https://checkoutplugins.com/docs/stripe-card-payments/#webhook" target="_blank">', '</a>', '<a href="https://dashboard.stripe.com/webhooks/create" target="_blank">', '</a>' ),
 				'id'    => 'cpsw_webhook_url',
 			],
-			'live_webhook_secret' => [
-				'name' => __( 'Live Webhook Secret', 'checkout-plugins-stripe-woo' ),
-				'type' => 'text',
-				/* translators: %1$1s Webhook Status */
-				'desc' => sprintf( __( 'The webhook secret is used to authenticate webhooks sent from Stripe. It ensures nobody else can send you events pretending to be Stripe. %1$1s', 'checkout-plugins-stripe-woo' ), '</br>' . Webhook::get_webhook_interaction_message( 'live' ) ),
-				'id'   => 'cpsw_live_webhook_secret',
+			'create_webhook'      => [
+				'name'  => __( 'Create Test Webhook', 'checkout-plugins-stripe-woo' ),
+				'type'  => 'cpsw_create_webhook',
+				'class' => 'wc_cpsw_create_webhook',
+				'id'    => 'cpsw_create_webhook',
 			],
-			'test_webhook_secret' => [
-				'name' => __( 'Test Webhook Secret', 'checkout-plugins-stripe-woo' ),
-				'type' => 'text',
-				/* translators: %1$1s Webhook Status */
-				'desc' => sprintf( __( 'The webhook secret is used to authenticate webhooks sent from Stripe. It ensures nobody else can send you events pretending to be Stripe. %1$1s', 'checkout-plugins-stripe-woo' ), '</br>' . Webhook::get_webhook_interaction_message( 'test' ) ),
-				'id'   => 'cpsw_test_webhook_secret',
+			'delete_webhook'      => [
+				'name'  => __( 'Delete Test Webhook', 'checkout-plugins-stripe-woo' ),
+				'type'  => 'cpsw_delete_webhook',
+				'class' => 'wc_cpsw_delete_webhook',
+				'id'    => 'cpsw_delete_webhook',
+				'desc'  => Webhook::get_webhook_interaction_message( 'test' ),
+			],
+			'live_create_webhook' => [
+				'name'  => __( 'Create Live Webhook', 'checkout-plugins-stripe-woo' ),
+				'type'  => 'cpsw_live_create_webhook',
+				'class' => 'wc_cpsw_create_webhook',
+				'id'    => 'cpsw_live_create_webhook',
+			],
+			'live_delete_webhook' => [
+				'name'  => __( 'Delete Live Webhook', 'checkout-plugins-stripe-woo' ),
+				'type'  => 'cpsw_live_delete_webhook',
+				'class' => 'wc_cpsw_delete_webhook',
+				'id'    => 'cpsw_live_delete_webhook',
+				'desc'  => Webhook::get_webhook_interaction_message( 'live' ),
 			],
 			'debug_log'           => [
 				'name'        => __( 'Debug Log', 'checkout-plugins-stripe-woo' ),
@@ -1031,6 +1234,121 @@ class Admin_Controller {
 		$settings = apply_filters( 'cpsw_settings', $settings );
 
 		return $settings;
+	}
+
+	/**
+	 * This method is used to display block for create webhook field.
+	 *
+	 * @param string $value Name of the field.
+	 */
+	public function create_webhook_field( $value ) {
+		$data         = WC_Admin_Settings::get_field_description( $value );
+		$tooltip_html = $data['tooltip_html'];
+
+		if ( ! empty( get_option( 'cpsw_test_webhook_id' ) ) ) {
+			return;
+		}
+		?>
+		<tr valign="top">
+			<th scope="row">
+				<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?> <?php echo wp_kses_post( $tooltip_html ); ?></label>
+			</th>
+			<td class="form-wc form-wc-<?php echo esc_attr( $value['class'] ); ?>">
+				<fieldset>
+					<button id="cpsw_create_webhook_key_test" data-mode="test" class="button" type="button"><?php esc_html_e( 'Create Webhook Automatically', 'checkout-plugins-stripe-woo' ); ?></button>
+				</fieldset>
+			</td>
+		</tr>
+		<?php
+	}
+
+	/**
+	 * This method is used to display block for create webhook field.
+	 *
+	 * @param string $value Name of the field.
+	 */
+	public function create_live_webhook_field( $value ) {
+		$data         = WC_Admin_Settings::get_field_description( $value );
+		$tooltip_html = $data['tooltip_html'];
+
+		if ( ! empty( get_option( 'cpsw_live_webhook_id' ) ) ) {
+			return;
+		}
+		?>
+		<tr valign="top">
+			<th scope="row">
+				<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?> <?php echo wp_kses_post( $tooltip_html ); ?></label>
+			</th>
+			<td class="form-wc form-wc-<?php echo esc_attr( $value['class'] ); ?>">
+				<fieldset>
+					<button id="cpsw_create_webhook_key_live" data-mode="live" class="button" type="button"><?php esc_html_e( 'Create Webhook Automatically', 'checkout-plugins-stripe-woo' ); ?></button>
+				</fieldset>
+			</td>
+		</tr>
+		<?php
+	}
+
+	/**
+	 * This method is used to display block for delete webhook field.
+	 *
+	 * @param string $value Name of the field.
+	 */
+	public function delete_webhook_field( $value ) {
+		$data          = WC_Admin_Settings::get_field_description( $value );
+		$tooltip_html  = $data['tooltip_html'];
+		$webhook_id    = get_option( 'cpsw_test_webhook_id' );
+		$webhook_label = ! empty( $webhook_id ) ? __( 'Webhook ID: ', 'checkout-plugins-stripe-woo' ) . $webhook_id : '';
+		if ( empty( $webhook_id ) ) {
+			return;
+		}
+		?>
+		<tr valign="top">
+			<th scope="row">
+				<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?> <?php echo wp_kses_post( $tooltip_html ); ?></label>
+			</th>
+			<td class="form-wc form-wc-<?php echo esc_attr( $value['class'] ); ?>">
+				<fieldset>
+					<button id="cpsw_delete_webhook_key_test" data-mode="test" data-webhook-secret-key="<?php echo esc_attr( $webhook_id ); ?>" class="button" type="button"><?php esc_html_e( 'Delete Webhook', 'checkout-plugins-stripe-woo' ); ?></button>
+				</fieldset>
+				<fieldset>
+					<strong><?php echo esc_html( $webhook_label ); ?></strong>
+					<?php echo wp_kses_post( $data['description'] ); ?>
+				</fieldset>
+			</td>
+		</tr>
+		<?php
+	}
+
+	/**
+	 * This method is used to display block for delete webhook field.
+	 *
+	 * @param string $value Name of the field.
+	 */
+	public function delete_live_webhook_field( $value ) {
+		$data          = WC_Admin_Settings::get_field_description( $value );
+		$tooltip_html  = $data['tooltip_html'];
+		$webhook_id    = get_option( 'cpsw_live_webhook_id' );
+		$webhook_label = ! empty( $webhook_id ) ? __( 'Webhook ID: ', 'checkout-plugins-stripe-woo' ) . $webhook_id : '';
+
+		if ( empty( $webhook_label ) ) {
+			return;
+		}
+		?>
+		<tr valign="top">
+			<th scope="row">
+				<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?> <?php echo wp_kses_post( $tooltip_html ); ?></label>
+			</th>
+			<td class="form-wc form-wc-<?php echo esc_attr( $value['class'] ); ?>">
+				<fieldset>
+					<button id="cpsw_delete_webhook_key_live" data-mode="live" data-webhook-secret-key="<?php echo esc_attr( $webhook_id ); ?>" class="button" type="button"><?php esc_html_e( 'Delete Webhook', 'checkout-plugins-stripe-woo' ); ?></button>
+				</fieldset>
+				<fieldset>
+					<strong><?php echo esc_html( $webhook_label ); ?></strong>
+					<?php echo wp_kses_post( $data['description'] ); ?>
+				</fieldset>
+			</td>
+		</tr>
+		<?php
 	}
 
 	/**
@@ -1225,10 +1543,72 @@ class Admin_Controller {
 			wp_send_json_error( [ 'message' => __( 'Error: The current user doesn\'t have sufficient permissions to perform this action. Please reload the page and try again.', 'checkout-plugins-stripe-woo' ) ] );
 		}
 
+		if ( $this->delete_webhooks( get_option( 'cpsw_test_webhook_id', true ), 'test' ) && $this->delete_webhooks( get_option( 'cpsw_live_webhook_id', true ), 'live' ) ) {
+			$this->remove_settings_keys();
+			wp_send_json_success( [ 'message' => __( 'Your Stripe account has been disconnected and webhook secret key deleted successfully', 'checkout-plugins-stripe-woo' ) ] );
+		} else {
+			$this->remove_settings_keys();
+			wp_send_json_success( [ 'message' => __( 'Your Stripe account has been disconnected.', 'checkout-plugins-stripe-woo' ) ] );
+		}
+	}
+
+	/**
+	 * Remove settings keys
+	 *
+	 * @return void
+	 */
+	public function remove_settings_keys() {
 		foreach ( $this->settings_keys as $key ) {
 			update_option( $key, '' );
 		}
 		wp_send_json_success( [ 'message' => __( 'Stripe keys are reset successfully.', 'checkout-plugins-stripe-woo' ) ] );
+	}
+
+	/**
+	 * Delete webhook secret key manually
+	 *
+	 * @return void
+	 */
+	public function delete_webhook_action() {
+		if ( ! isset( $_GET['_security'] ) || ! wp_verify_nonce( sanitize_text_field( $_GET['_security'] ), 'cpsw_admin_nonce' ) ) {
+			wp_send_json_error( [ 'message' => __( 'Error: Sorry, the nonce security check didn’t pass. Please reload the page and try again.', 'checkout-plugins-stripe-woo' ) ] );
+		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( [ 'message' => __( 'Error: The current user doesn’t have sufficient permissions to perform this action. Please reload the page and try again.', 'checkout-plugins-stripe-woo' ) ] );
+		}
+
+		$deletion_response = ! empty( $_GET['webhook_key'] ) && ! empty( $_GET['mode'] ) ? $this->delete_webhooks( sanitize_text_field( $_GET['webhook_key'] ), sanitize_text_field( $_GET['mode'] ) ) : false;
+		if ( true === $deletion_response ) {
+			wp_send_json_success( [ 'message' => __( 'Webhook secret key deleted successfully.', 'checkout-plugins-stripe-woo' ) ] );
+		} else {
+			// translators: %s - Error reason sent from stripe.
+			wp_send_json_error( [ 'message' => sprintf( __( 'Error: Unable to delete Webhook.%s', 'checkout-plugins-stripe-woo' ), PHP_EOL . $deletion_response ) ] );
+		}
+	}
+
+	/**
+	 * Create webhook secret key manually
+	 *
+	 * @return void
+	 */
+	public function create_webhook_action() {
+		if ( ! isset( $_GET['_security'] ) || ! wp_verify_nonce( sanitize_text_field( $_GET['_security'] ), 'cpsw_admin_nonce' ) ) {
+			wp_send_json_error( [ 'message' => __( 'Error: Sorry, the nonce security check didn’t pass. Please reload the page and try again.', 'checkout-plugins-stripe-woo' ) ] );
+		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( [ 'message' => __( 'Error: The current user doesn’t have sufficient permissions to perform this action. Please reload the page and try again.', 'checkout-plugins-stripe-woo' ) ] );
+		}
+
+		$creation_response = isset( $_GET['mode'] ) ? $this->create_webhooks( 'manually', sanitize_text_field( $_GET['mode'] ) ) : false;
+		if ( true === $creation_response ) {
+			wp_send_json_success( [ 'message' => __( 'Webhook secret key created successfully.', 'checkout-plugins-stripe-woo' ) ] );
+		} else {
+			// translators: %s - Error reason sent from stripe.
+			wp_send_json_error( [ 'message' => sprintf( __( 'Error: Webhook secret key not created.%s', 'checkout-plugins-stripe-woo' ), PHP_EOL . $creation_response ) ] );
+		}
+		exit();
 	}
 
 	/**
@@ -1287,8 +1667,10 @@ class Admin_Controller {
 		if ( 'success' !== Helper::get_setting( 'cpsw_con_status' ) && 'success' !== Helper::get_setting( 'cpsw_test_con_status' ) ) {
 			unset( $array['test_mode'] );
 			unset( $array['webhook_url'] );
-			unset( $array['test_webhook_secret'] );
-			unset( $array['live_webhook_secret'] );
+			unset( $array['create_webhook'] );
+			unset( $array['delete_webhook'] );
+			unset( $array['live_create_webhook'] );
+			unset( $array['live_delete_webhook'] );
 			unset( $array['debug_log'] );
 			unset( $array['test_conn_button'] );
 

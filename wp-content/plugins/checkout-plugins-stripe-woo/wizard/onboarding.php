@@ -47,7 +47,6 @@ class Onboarding {
 		add_action( 'wp_ajax_cpsw_onboarding_install_woocommerce', [ $this, 'cpsw_onboarding_install_woocommerce' ] );
 		add_action( 'wp_ajax_cpsw_onboarding_enable_gateway', [ $this, 'cpsw_onboarding_enable_gateway' ] );
 		add_action( 'wp_ajax_cpsw_onboarding_enable_express_checkout', [ $this, 'cpsw_onboarding_enable_express_checkout' ] );
-		add_action( 'wp_ajax_cpsw_onboarding_enable_webhooks', [ $this, 'cpsw_onboarding_enable_webhooks' ] );
 		add_action( 'admin_init', [ $this, 'hide_notices' ] );
 		add_action( 'admin_bar_menu', [ $this, 'admin_bar_icon' ], 999 );
 	}
@@ -238,7 +237,6 @@ class Onboarding {
 			'available_gateways'                      => $available_gateways,
 			'woocommerce_setup_url'                   => admin_url( 'plugin-install.php?s=woocommerce&tab=search' ),
 			'cpsw_onboarding_enable_gateway'          => wp_create_nonce( 'cpsw_onboarding_enable_gateway' ),
-			'cpsw_onboarding_enable_webhooks'         => wp_create_nonce( 'cpsw_onboarding_enable_webhooks' ),
 			'cpsw_onboarding_enable_express_checkout' => wp_create_nonce( 'cpsw_onboarding_enable_express_checkout' ),
 			'cpsw_onboarding_install_woocommerce'     => wp_create_nonce( 'cpsw_onboarding_install_woocommerce' ),
 			'woocommerce_installed'                   => $this->is_woocommerce_installed(),
@@ -298,6 +296,9 @@ class Onboarding {
 			}
 		}
 
+		// Create webhook secret key.
+		Admin_Controller::get_instance()->create_webhooks( 'automatic' );
+
 		return $available_gateways;
 	}
 
@@ -356,30 +357,6 @@ class Onboarding {
 		}
 
 		wp_send_json_success( [ 'activated_gateways' => $response ] );
-	}
-
-	/**
-	 * Handles webhooks enabling call from onboarding wizard
-	 *
-	 * @return void
-	 * @since 1.4.2
-	 */
-	public function cpsw_onboarding_enable_webhooks() {
-		check_ajax_referer( 'cpsw_onboarding_enable_webhooks', 'security' );
-		if ( ! current_user_can( 'manage_woocommerce' ) ) {
-			return;
-		}
-		$webhook_secret = isset( $_POST['webhook_secret'] ) && is_string( $_POST['webhook_secret'] ) ? sanitize_text_field( $_POST['webhook_secret'] ) : '';
-		$cpsw_mode      = isset( $_POST['cpsw_mode'] ) && is_string( $_POST['cpsw_mode'] ) ? sanitize_text_field( $_POST['cpsw_mode'] ) : '';
-		update_option( 'cpsw_mode', $cpsw_mode );
-
-		if ( 'live' === $cpsw_mode ) {
-			update_option( 'cpsw_live_webhook_secret', $webhook_secret );
-		} else {
-			update_option( 'cpsw_test_webhook_secret', $webhook_secret );
-		}
-
-		wp_send_json_success( [ 'webhook_secret' => true ] );
 	}
 
 	/**

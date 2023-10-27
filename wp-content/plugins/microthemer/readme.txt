@@ -79,6 +79,17 @@ I've been happily developing Microthemer and supporting users of varying technic
 
 == Changelog ==
 
+= 7.2.4.5 (October 9th, 2023) =
+
+# Bugs Fixed
+* JS error - "TypeError: e.replace is not a function at Object.custom_to_non_escaped".
+* JS error - "Uncaught TypeError: Cannot read properties of null (reading 'empty')".
+* JS error - "TypeError: Cannot read properties of undefined (reading 'add')".
+* JS error - "Uncaught TypeError: Cannot read properties of undefined (reading 'split')".
+* JS error - "TypeError: Cannot convert undefined or null to object".
+* JS error - "TypeError: Cannot read properties of undefined (reading 'interactions')".
+* JS error - "TypeError: Cannot read properties of undefined (reading 'is')".
+
 = 7.2.4.4 (September 6th, 2023) =
 
 # Bugs Fixed

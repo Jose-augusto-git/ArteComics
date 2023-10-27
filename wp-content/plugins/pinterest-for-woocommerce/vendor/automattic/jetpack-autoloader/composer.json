@@ -16,7 +16,7 @@
 	},
 	"require-dev": {
 		"yoast/phpunit-polyfills": "1.1.0",
-		"automattic/jetpack-changelogger": "^3.3.8"
+		"automattic/jetpack-changelogger": "^3.3.11"
 	},
 	"autoload": {
 		"classmap": [
@@ -43,8 +43,11 @@
 		"changelogger": {
 			"link-template": "https://github.com/Automattic/jetpack-autoloader/compare/v${old}...v${new}"
 		},
+		"version-constants": {
+			"::VERSION": "src/AutoloadGenerator.php"
+		},
 		"branch-alias": {
-			"dev-trunk": "2.11.x-dev"
+			"dev-trunk": "2.12.x-dev"
 		}
 	}
 }

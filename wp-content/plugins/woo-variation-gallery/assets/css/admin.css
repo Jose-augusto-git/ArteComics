@@ -1,0 +1,264 @@
+/*!
+ * Variation Gallery for WooCommerce
+ *
+ * Author: Emran Ahmed ( emran.bd.08@gmail.com )
+ * Date: 9/7/2023, 4:56:22 PM
+ * Released under the GPLv3 license.
+ */
+.rtl .woo-variation-gallery-images li {
+  float: right !important;
+}
+.rtl .woo-variation-gallery-images li .delete {
+  left: -5px;
+  right: auto !important;
+}
+
+.woo-variation-gallery-wrapper .woo-variation-gallery-inside {
+  border-top: 1px solid #c3c4c7;
+}
+.woo-variation-gallery-wrapper .woo-variation-gallery-postbox {
+  position: relative;
+  min-width: 255px;
+  border: 1px solid #c3c4c7;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  background: #fff;
+  padding: 0;
+  line-height: 1;
+}
+.woo-variation-gallery-wrapper .woo-variation-gallery-postbox .postbox-header {
+  border: none;
+}
+.woo-variation-gallery-wrapper .woo-variation-gallery-postbox.closed .woo-variation-gallery-inside {
+  display: none;
+}
+.woo-variation-gallery-wrapper .woo-variation-gallery-postbox.closed .toggle-indicator::before {
+  content: "\f140";
+}
+.woo-variation-gallery-wrapper .handle-div {
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.woo-variation-gallery-wrapper .woo-variation-gallery-image-container {
+  padding: 5px 10px;
+}
+.woo-variation-gallery-wrapper .woo-variation-gallery-images {
+  *zoom: 1;
+  margin: 0;
+  /*display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;*/
+}
+.woo-variation-gallery-wrapper .woo-variation-gallery-images::before, .woo-variation-gallery-wrapper .woo-variation-gallery-images::after {
+  content: " ";
+  display: table;
+}
+.woo-variation-gallery-wrapper .woo-variation-gallery-images::after {
+  clear: both;
+}
+.woo-variation-gallery-wrapper .woo-variation-gallery-images li {
+  float: left;
+  list-style: none;
+  position: relative;
+  cursor: move;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 3px;
+  background: none;
+  border-radius: 2px;
+  border: 3px solid transparent;
+}
+.woo-variation-gallery-wrapper .woo-variation-gallery-images li.woo-variation-gallery-sortable-placeholder {
+  position: relative;
+  border: 3px dashed #DDDDDD;
+  /*margin: 0;*/
+  background: #F7F7F7;
+}
+.woo-variation-gallery-wrapper .woo-variation-gallery-images li.woo-variation-gallery-sortable-placeholder::after {
+  font-family: "Dashicons";
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  text-indent: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  content: "\f161";
+  font-size: 2.618em;
+  line-height: 80px;
+  color: #DDDDDD;
+}
+.woo-variation-gallery-wrapper .woo-variation-gallery-images li img {
+  width: 80px;
+  display: block;
+  height: auto;
+  border: 1px solid #D5D5D5;
+}
+.woo-variation-gallery-wrapper .woo-variation-gallery-images li .delete {
+  display: none;
+  color: #999;
+  background: #fff;
+  position: absolute;
+  right: -5px;
+  top: -5px;
+  z-index: 1;
+  text-decoration: none;
+  border-radius: 100%;
+}
+.woo-variation-gallery-wrapper .woo-variation-gallery-images li:hover .delete {
+  display: block;
+}
+.woo-variation-gallery-wrapper .add-woo-variation-gallery-image-wrapper {
+  display: block;
+  padding: 0 13px 10px 13px;
+}
+
+#woo-variation-gallery-tutorials-wrapper {
+  background: #fff;
+  border-radius: 2px;
+  border: 1px solid #DDDDDD;
+}
+#woo-variation-gallery-tutorials-wrapper li {
+  overflow: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 50px 30px;
+  margin: 0;
+  border-bottom: 1px solid #DDDDDD;
+  position: relative;
+}
+#woo-variation-gallery-tutorials-wrapper li:last-child {
+  border: 0;
+}
+#woo-variation-gallery-tutorials-wrapper .tutorial-image-wrapper,
+#woo-variation-gallery-tutorials-wrapper .tutorial-description-wrapper {
+  float: left;
+  padding: 0 20px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+#woo-variation-gallery-tutorials-wrapper .tutorial-description-wrapper {
+  width: 40%;
+}
+#woo-variation-gallery-tutorials-wrapper .tutorial-description-wrapper h3 {
+  margin: 0 0 20px;
+  font-size: 1.5em;
+  line-height: 1.5em;
+}
+#woo-variation-gallery-tutorials-wrapper .tutorial-description-wrapper .tutorial-contents {
+  font-size: 15px;
+  line-height: 1.5em;
+  margin-bottom: 20px;
+}
+#woo-variation-gallery-tutorials-wrapper .tutorial-description-wrapper .tutorial-buttons .button {
+  border-radius: 3px;
+  line-height: 1;
+  padding: 13px 20px;
+  font-size: 13px;
+  height: 40px;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  text-shadow: none;
+}
+#woo-variation-gallery-tutorials-wrapper .tutorial-description-wrapper .tutorial-buttons .button:active {
+  -webkit-transform: translateY(0);
+      -ms-transform: translateY(0);
+          transform: translateY(0);
+}
+#woo-variation-gallery-tutorials-wrapper .tutorial-description-wrapper .tutorial-buttons .button.button-live-demo {
+  background-color: #FFFFFF;
+  color: #333333;
+  border: 1px solid #EEEEEE;
+}
+#woo-variation-gallery-tutorials-wrapper .tutorial-description-wrapper .tutorial-buttons .button.button-live-demo:hover {
+  background: #EEEEEE;
+}
+#woo-variation-gallery-tutorials-wrapper .tutorial-description-wrapper .tutorial-buttons .button.button-docs {
+  background-color: #36373A;
+  color: #FFFFFF;
+  border: 1px solid #36373A;
+}
+#woo-variation-gallery-tutorials-wrapper .tutorial-description-wrapper .tutorial-buttons .button.button-docs:hover {
+  background: #5D5E61;
+  border-color: #5D5E61;
+}
+#woo-variation-gallery-tutorials-wrapper .tutorial-description-wrapper .tutorial-buttons .button.button-pro {
+  background-color: #39B54A;
+  color: #FFFFFF;
+  border: 1px solid #39B54A;
+}
+#woo-variation-gallery-tutorials-wrapper .tutorial-description-wrapper .tutorial-buttons .button.button-pro:hover {
+  background: #3FC851;
+  border-color: #3FC851;
+}
+#woo-variation-gallery-tutorials-wrapper .tutorial-image-wrapper {
+  width: 60%;
+  position: relative;
+  text-align: center;
+}
+#woo-variation-gallery-tutorials-wrapper .tutorial-image-wrapper .ribbon {
+  position: absolute;
+  left: -5px;
+  top: -5px;
+  z-index: 1;
+  overflow: hidden;
+  width: 75px;
+  height: 75px;
+  text-align: right;
+  margin: 1px 22px;
+}
+#woo-variation-gallery-tutorials-wrapper .tutorial-image-wrapper .ribbon span {
+  font-size: 10px;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 20px;
+  -webkit-transform: rotate(-45deg);
+      -ms-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+  width: 100px;
+  display: block;
+  background: #bc0808;
+  -webkit-box-shadow: 0 3px 10px -5px rgb(0, 0, 0);
+          box-shadow: 0 3px 10px -5px rgb(0, 0, 0);
+  position: absolute;
+  top: 19px;
+  left: -21px;
+}
+#woo-variation-gallery-tutorials-wrapper .tutorial-image-wrapper .ribbon span::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: -1;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #8f0808 transparent transparent #8f0808;
+}
+#woo-variation-gallery-tutorials-wrapper .tutorial-image-wrapper .ribbon span::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 100%;
+  z-index: -1;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #8f0808 #8f0808 transparent transparent;
+}

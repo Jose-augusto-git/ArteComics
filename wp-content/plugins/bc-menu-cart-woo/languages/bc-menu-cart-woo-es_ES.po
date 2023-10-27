@@ -1,0 +1,501 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: BC Menubar Cart Icon For WooCommerce\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-24 09:21+0000\n"
+"PO-Revision-Date: 2021-01-24 09:22+0000\n"
+"Last-Translator: \n"
+"Language-Team: Spanish (Spain)\n"
+"Language: es_ES\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.5.0; wp-5.6\n"
+"X-Domain: bc-menu-cart-woo"
+
+#: Initiator.php:184
+msgid "Get started"
+msgstr ""
+
+#: Initiator.php:185
+msgid "Supports"
+msgstr ""
+
+#: Initiator.php:187
+msgid "Get pro"
+msgstr ""
+
+#: inc/Cart_Details.php:48
+msgid "Close"
+msgstr ""
+
+#: inc/Cart_Details.php:178
+msgid "Remove this product from cart"
+msgstr ""
+
+#: inc/Cart_Details.php:200
+msgid "Subtotal"
+msgstr ""
+
+#: inc/Cart_Details.php:202
+msgid "Your cart"
+msgstr ""
+
+#: inc/Cart_Details.php:206
+msgid "Your cart is empty"
+msgstr ""
+
+#: inc/Cart_Details.php:351
+msgid "Decrease one item"
+msgstr ""
+
+#: inc/Cart_Details.php:351
+msgid "Increase one item"
+msgstr ""
+
+#: inc/Cart_Details.php:369
+msgid "View cart"
+msgstr ""
+
+#: inc/Cart_Details.php:377
+msgid "Checkout"
+msgstr ""
+
+#: inc/Cart_Display.php:335
+#, php-format
+msgid "<div class=\"bc-mnc__cart-details--cart-items-count\">%d item</div>"
+msgid_plural ""
+"<div class=\"bc-mnc__cart-details--cart-items-count\">%d items</div>"
+msgstr[0] ""
+"<div class=\"bc-mnc__cart-details--cart-items-count\">%d articulo</div>"
+msgstr[1] ""
+"<div class=\"bc-mnc__cart-details--cart-items-count\">%d articulos</div>"
+
+#: inc/Options_Form.php:152
+msgid "You have no right to perform this action."
+msgstr ""
+
+#: ui/Main.php:73
+msgid "Binary Carpenter Menu Cart Icon"
+msgstr ""
+
+#: ui/Main.php:81
+msgid "Important!"
+msgstr ""
+
+#: ui/Main.php:83
+msgid ""
+"You don't have any menu yet. Please Go to <strong>Appearance -> "
+"Menus</strong> and create a menu to get started."
+msgstr ""
+
+#: ui/Main.php:93
+msgid "Welcome"
+msgstr ""
+
+#: ui/Main.php:96
+msgid "Create new cart design"
+msgstr ""
+
+#: ui/Main.php:99
+msgid "Link design to menu"
+msgstr ""
+
+#: ui/Main.php:103 ui/Main.php:643
+msgid "Theme's cart icon settings"
+msgstr ""
+
+#: ui/Main.php:114
+msgid "Thanks for using our plugin"
+msgstr ""
+
+#: ui/Main.php:115
+msgid "We hope you enjoy it."
+msgstr ""
+
+#: ui/Main.php:116
+msgid ""
+"We made a list of tutorial <a href=\"https://www.youtube.com/playlist?"
+"list=PL6rw2AEN42Eq4M6bJABDJJI5OhrslZ6cM\">here on YouTube</a>"
+msgstr ""
+
+#: ui/Main.php:117
+msgid ""
+"If you need help, please <a href=\"https://tickets.binarycarpenter.com/open."
+"php\">contact us</a>"
+msgstr ""
+
+#: ui/Main.php:130
+msgid ""
+"Like this plugin? The PRO version is much more awesome! <a target=\"_blank\" "
+"href=\"https://www.binarycarpenter.com/app/bc-menu-cart-icon-plugin/?"
+"src=upgrade-h3-first-page\">Check it out</a>"
+msgstr ""
+
+#: ui/Main.php:177
+msgid "General settings"
+msgstr ""
+
+#: ui/Main.php:181
+msgid "Design settings"
+msgstr ""
+
+#: ui/Main.php:192
+msgid "Cart icon shortcode"
+msgstr ""
+
+#: ui/Main.php:194
+msgid ""
+"Cart shortcode  is available in the pro version only. <a href=\"https://www."
+"binarycarpenter.com/app/bc-menu-cart-icon-plugin/?src=in-plugin-cart-"
+"shortcode\">Click here to upgrade</a> to unlock all features"
+msgstr ""
+
+#: ui/Main.php:199
+msgid "Design title"
+msgstr ""
+
+#: ui/Main.php:200
+msgid "Design title, like post title, easy to remember"
+msgstr ""
+
+#: ui/Main.php:206
+msgid "Always show the cart icon on the menu, even when the cart is empty"
+msgstr ""
+
+#: ui/Main.php:207
+msgid "Display icon on cart"
+msgstr ""
+
+#: ui/Main.php:214
+msgid "Cart layout"
+msgstr ""
+
+#: ui/Main.php:223
+msgid "Select cart layout on desktop"
+msgstr ""
+
+#: ui/Main.php:224
+msgid ""
+"Some layouts are locked. <a href=\"https://www.binarycarpenter.com/app/bc-"
+"menu-cart-icon-plugin/?src=in-plugin-locked-cart\">Click here to upgrade</a> "
+"to unlock all features"
+msgstr ""
+
+#: ui/Main.php:234
+msgid "Select cart layout on mobile"
+msgstr ""
+
+#: ui/Main.php:235
+msgid ""
+"Mobile layout is a pro version only. <a href=\"https://www.binarycarpenter."
+"com/app/bc-menu-cart-icon-plugin/?src=in-plugin-mobile-layout-locked\">Click "
+"here to upgrade</a> to unlock all features"
+msgstr ""
+
+#: ui/Main.php:236
+msgid "\"My Cart\" replacement"
+msgstr ""
+
+#: ui/Main.php:255
+msgid "Cart icon design"
+msgstr ""
+
+#: ui/Main.php:260
+msgid "Font icon"
+msgstr ""
+
+#: ui/Main.php:261
+msgid "Image"
+msgstr ""
+
+#: ui/Main.php:263
+msgid "Cart icon type"
+msgstr ""
+
+#: ui/Main.php:284
+msgid "Select icon for your cart"
+msgstr ""
+
+#: ui/Main.php:288
+msgid "Select"
+msgstr ""
+
+#: ui/Main.php:288
+msgid "Select cart image"
+msgstr ""
+
+#: ui/Main.php:291
+msgid ""
+"Some icons are not available in the free version. <a href=\"https://www."
+"binarycarpenter.com/app/bc-menu-cart-icon-plugin/?src=in-plugin-locked-cart-"
+"icons\">Click here to upgrade</a> to unlock all features"
+msgstr ""
+
+#: ui/Main.php:295
+msgid "Icon width(px)"
+msgstr ""
+
+#: ui/Main.php:296
+msgid "Icon height(px)"
+msgstr ""
+
+#: ui/Main.php:297
+msgid "Icon font size(px)"
+msgstr ""
+
+#: ui/Main.php:301
+msgid ""
+"Cart icon color  is available in the pro version only. <a href=\"https://www."
+"binarycarpenter.com/app/bc-menu-cart-icon-plugin/?src=in-plugin-cart-color\">"
+"Click here to upgrade</a> to unlock all features"
+msgstr ""
+
+#: ui/Main.php:303
+msgid "Cart icon color (in case you use font icon)"
+msgstr ""
+
+#: ui/Main.php:308
+msgid "Cart count circle design"
+msgstr ""
+
+#: ui/Main.php:312
+msgid "Item count circle background color"
+msgstr ""
+
+#: ui/Main.php:313
+msgid "Item count circle text color"
+msgstr ""
+
+#: ui/Main.php:316
+msgid "Item count circle width"
+msgstr ""
+
+#: ui/Main.php:317
+msgid "Item count circle height"
+msgstr ""
+
+#: ui/Main.php:318
+msgid "Item count font size"
+msgstr ""
+
+#: ui/Main.php:324
+msgid "Single item in cart details colors"
+msgstr ""
+
+#: ui/Main.php:328
+msgid "Product title color"
+msgstr ""
+
+#: ui/Main.php:329
+msgid "Product title font size (px)"
+msgstr ""
+
+#: ui/Main.php:342
+msgid ""
+"The section below is available in the pro version only. <a href=\"https:"
+"//www.binarycarpenter.com/app/bc-menu-cart-icon-plugin/?src=in-plugin\">"
+"Click here to upgrade</a> to unlock all features"
+msgstr ""
+
+#: ui/Main.php:345
+msgid "On cart item action behavior"
+msgstr ""
+
+#: ui/Main.php:348
+msgid "Go to cart"
+msgstr ""
+
+#: ui/Main.php:349 ui/Main.php:354 ui/Main.php:501
+msgid "Do nothing"
+msgstr ""
+
+#: ui/Main.php:350 ui/Main.php:355
+msgid "Show cart items list"
+msgstr ""
+
+#: ui/Main.php:352
+msgid "On cart click"
+msgstr ""
+
+#: ui/Main.php:356
+msgid "On cart hover"
+msgstr ""
+
+#: ui/Main.php:378
+msgid "Cart items list design"
+msgstr ""
+
+#: ui/Main.php:387
+msgid "Select preset designs for the cart list"
+msgstr ""
+
+#: ui/Main.php:406
+msgid "Cart list close button styling"
+msgstr ""
+
+#: ui/Main.php:421
+msgid "Select close cart list icon (display at the top right of the cart list)"
+msgstr ""
+
+#: ui/Main.php:423
+msgid "Icon's font size"
+msgstr ""
+
+#: ui/Main.php:424 ui/Main.php:458
+msgid "Icon's color"
+msgstr ""
+
+#: ui/Main.php:428
+msgid "Product image styling"
+msgstr ""
+
+#: ui/Main.php:429
+msgid "Display product image"
+msgstr ""
+
+#: ui/Main.php:431
+msgid "Product image width"
+msgstr ""
+
+#: ui/Main.php:432
+msgid "Product image height"
+msgstr ""
+
+#: ui/Main.php:437
+msgid "Product remove button styling"
+msgstr ""
+
+#: ui/Main.php:453
+msgid "Select remove product icon (display in front of every products in cart)"
+msgstr ""
+
+#: ui/Main.php:457
+msgid "Product removal icon font size"
+msgstr ""
+
+#: ui/Main.php:463
+msgid "Product quantity change styling"
+msgstr ""
+
+#: ui/Main.php:464
+msgid "Display quantity change option for every product in cart"
+msgstr ""
+
+#: ui/Main.php:475 ui/Main.php:486
+msgid "Icon for increase button"
+msgstr ""
+
+#: ui/Main.php:491
+msgid "Increase, decrease icons color"
+msgstr ""
+
+#: ui/Main.php:492
+msgid "Item's quantity text color"
+msgstr ""
+
+#: ui/Main.php:497
+msgid "Move the cart icon on mobile"
+msgstr ""
+
+#: ui/Main.php:502
+msgid "Left"
+msgstr ""
+
+#: ui/Main.php:503
+msgid "Right"
+msgstr ""
+
+#: ui/Main.php:504
+msgid "Inside replace"
+msgstr ""
+
+#: ui/Main.php:505
+msgid "Inside don't replace"
+msgstr ""
+
+#: ui/Main.php:507
+msgid "Position on mobile"
+msgstr ""
+
+#: ui/Main.php:511
+msgid "Element selector (the element that the cart icon is positioned against)"
+msgstr ""
+
+#: ui/Main.php:512
+msgid "Remove the original cart"
+msgstr ""
+
+#: ui/Main.php:515
+msgid "enter extra CSS rules here (property: value;), if any"
+msgstr ""
+
+#: ui/Main.php:518
+msgid "Other cart list settings"
+msgstr ""
+
+#: ui/Main.php:520
+msgid "Cart list header text (currently is \"Your cart\")"
+msgstr ""
+
+#: ui/Main.php:521
+msgid "Cart list subtotal text (default is \"Subtotal\")"
+msgstr ""
+
+#: ui/Main.php:525
+msgid "Display go to cart button"
+msgstr ""
+
+#: ui/Main.php:528
+msgid "Go to cart button background color"
+msgstr ""
+
+#: ui/Main.php:529 ui/Main.php:538
+msgid "Go to cart button text"
+msgstr ""
+
+#: ui/Main.php:537
+msgid "Go to checkout button background color"
+msgstr ""
+
+#: ui/Main.php:562 ui/Main.php:653
+msgid "Save settings"
+msgstr ""
+
+#: ui/Main.php:578
+msgid "You have not created any design. Go create one"
+msgstr ""
+
+#: ui/Main.php:623
+msgid "Save links"
+msgstr ""
+
+#: ui/Main.php:645
+msgid "Hide theme cart icon?"
+msgstr ""
+
+#: ui/Main.php:646
+msgid "Theme's cart CSS selector"
+msgstr ""
+
+#. Name of the plugin
+msgid "BC Menubar Cart Icon For WooCommerce"
+msgstr ""
+
+#. Description of the plugin
+msgid "Ultimate customization for your menubar cart icon on WooCommerce store"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://www.binarycarpenter.com/app/bc-menu-cart-icon-plugin/"
+msgstr ""
+
+#. Author of the plugin
+msgid "BinaryCarpenter.com"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://www.binarycarpenter.com"
+msgstr ""

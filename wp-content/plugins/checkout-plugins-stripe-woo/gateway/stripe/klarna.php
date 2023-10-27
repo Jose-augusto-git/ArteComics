@@ -40,7 +40,7 @@ class Klarna extends Local_Gateway {
 	 *
 	 * @var array
 	 */
-	public $allow_countries = [ 'US', 'AT', 'FI', 'DE', 'NL', 'DK', 'NO', 'SE', 'GB', 'BE', 'ES', 'IT' ];
+	public $allow_countries = [ 'AT', 'AU', 'BE', 'CA', 'CH', 'CZ', 'DE', 'DK', 'ES', 'FI', 'FR', 'GB', 'GR', 'IE', 'IT', 'NL', 'NO', 'NZ', 'PL', 'PT', 'SE', 'US' ];
 
 	/**
 	 * Constructor
@@ -74,7 +74,7 @@ class Klarna extends Local_Gateway {
 	public function method_description() {
 		$payment_description = $this->payment_description();
 		/* translators: HTML Entities.*/
-		$extra_description = $this->is_current_section() ? sprintf( __( 'Klarna is supported only for billing country %1$sUnited States (US), Austria (AT), Finland (FI), Germany (DE), Netherlands (NL), Denmark (DK), Norway (NO), Sweden (SE), United Kingdom (UK) (GB), Belgium (BE), Spain (ES), Italy (IT)%2$s.', 'checkout-plugins-stripe-woo' ), '<strong>', '</strong>' ) : '';
+		$extra_description = $this->is_current_section() ? sprintf( __( 'Klarna is supported only for billing countries %1$sAustralia (AU), Austria (AT), Belgium (BE), Canada (CA), Czechia (CZ), Denmark (DK), Finland (FI), France (FR), Germany (DE), Greece (GR), Ireland (IE), Italy (IT), Netherlands (NL), New Zealand (NZ), Norway (NO), Poland (PL), Portugal (PT), Spain (ES), Sweden (SE), Switzerland (CH), United Kingdom (UK) (GB), United States (US)%2$s.', 'checkout-plugins-stripe-woo' ), '<strong>', '</strong>' ) : '';
 
 		return sprintf(
 			/* translators: %1$s: Break, %2$s: Gateway appear message, %3$s: Break, %4$s: Gateway appear message currency wise, %4$s:  HTML entities */
