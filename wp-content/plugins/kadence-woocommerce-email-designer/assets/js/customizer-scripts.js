@@ -34,6 +34,7 @@ jQuery(document).ready(function() {
         var data = {
             wp_customize:   'on',
             action:         'kt_woomail_reset',
+			security:	     kt_woomail.nonce.reset,
         };
 
         // Send request to server
@@ -74,6 +75,7 @@ jQuery(document).ready(function() {
 			wp_customize:   'on',
 			action:         'kt_woomail_send_email',
 			recipients:     recipients,
+			security:	     kt_woomail.nonce.email,
 		};
 		// Send request to server
 		jQuery.post(kt_woomail.ajax_url, data, function( result ) {

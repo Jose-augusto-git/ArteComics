@@ -1,0 +1,48 @@
+/* Plugin setup wizard CSS */
+body:has(.ds-plugin-setup-wizard-main) #adminmenumain,body:has(.ds-plugin-setup-wizard-main) #wpadminbar{display:none;}
+body:has(.ds-plugin-setup-wizard-main) #wpcontent{margin:0;padding:0}
+.ds-plugin-setup-wizard-main,.ds-plugin-setup-wizard-main *{-webkit-box-sizing:border-box;box-sizing:border-box;}
+.ds-plugin-setup-wizard-main{display:inline-block;width:100%;padding:0 20px;position:relative;}
+.ds-plugin-setup-wizard-main .ds-wizard-wrap{background-color:#fff;width:100%;max-width:950px;margin:80px auto 0;border-radius:10px;-webkit-box-shadow:0 10px 40px 0 rgb(111 137 163 / 10%);box-shadow:0 10px 40px 0 rgb(111 137 163 / 10%);border-bottom:6px solid var(--dotstore-primary);padding:75px;}
+.ds-plugin-setup-wizard-main .ds-wizard-wrap h3{margin:0 0 30px;font-size:24px;font-weight:600;line-height:normal;text-transform:uppercase;color:#000000;}
+.ds-plugin-setup-wizard-main .ds-wizard-content{text-align:center;}
+.ds-plugin-setup-wizard-main .ds-wizard-content p{margin:0;color:#2C2A31;font-size:20px;line-height:30px;font-weight:400;}
+.ds-plugin-setup-wizard-main .ds-wizard-next-step{margin-top:30px;text-align:center;}
+.ds-plugin-setup-wizard-main .ds-wizard-next-step button{border:2px solid var(--dotstore-primary);background-color:var(--dotstore-primary);color:#fff;border-radius:30px;outline:none;cursor:pointer;padding:12px 35px 13px;font-size:20px;line-height:28px;}
+.ds-plugin-setup-wizard-main .ds-wizard-logo{margin-bottom:30px;width:95px;height:auto;}
+.ds-plugin-setup-wizard-main .ds-wizard-wrap .btn svg{margin-left:10px;}
+.ds-plugin-setup-wizard-main .ds-wizard-wrap h2.cta-title{margin:0 0 18px;color:#000000;font-size:34px;line-height:normal;font-weight:500;}
+.ds-plugin-setup-wizard-main .ds-wizard-where-hear{margin-bottom:22px;}
+.ds-plugin-setup-wizard-main .ds-wizard-where-hear-select{font-size:15px;border:1px solid rgb(112 112 112 / 40%);width:100%;display:inline-block;padding:6px 28px 6px 15px;outline:none;box-shadow:none;margin-top:18px;border-radius:5px;color:#2c2a31;line-height:30px;outline:none;box-shadow:none;}
+.ds-plugin-setup-wizard-main ul.wizard-social-list{margin:20px 0 0;}
+.ds-plugin-setup-wizard-main ul.wizard-social-list li{display:inline-block;margin:0;margin-right:20px;}
+.ds-plugin-setup-wizard-main ul.wizard-social-list li:last-child{margin-right:0;}
+.ds-plugin-setup-wizard-main ul.wizard-social-list li a span{background-color:#707070;color:#fff;width:30px;height:30px;line-height:30px;border-radius:50%;font-size:18px;}
+.ds-plugin-setup-wizard-main ul.wizard-social-list li a{text-decoration:none;outline:none;-webkit-box-shadow:none;box-shadow:none;}
+.ds-plugin-setup-wizard-main ul.wizard-social-list li a:hover span{background-color:var(--dotstore-primary);}
+.ds-plugin-setup-wizard-main .ds-wizard-content p a{color:var(--dotstore-primary);-webkit-box-shadow:none;box-shadow:none;outline:none;}
+.ds-plugin-setup-wizard-main .ds-wizard-quick-tour{position:relative;padding:62% 0 0;overflow:hidden;}
+.ds-plugin-setup-wizard-main .ds-wizard-quick-tour iframe{border:10px solid #FFFFFF;-webkit-box-shadow:0 0 60px 0 rgb(0 0 0 / 10%);box-shadow:0 0 60px 0 rgb(0 0 0 / 10%);position:absolute;top:0;left:0;height:100%;width:100%;}
+.ds-plugin-setup-wizard-main label.ds-wizard-checkbox{color:#2C2A31;font-size:20px;line-height:28px;font-weight:400;margin-top:30px;display:inline-block;}
+.ds-plugin-setup-wizard-main #fs_marketing_optin{display:none!important;}
+.ds-plugin-setup-wizard-main .tab-panel{display:none;}
+.ds-wizard-wrap #fs_connect .fs-header .fs-plugin-icon img{width: 70px;height: 70px;margin: 2px 0 0 0px;border-radius: 0;}
+@media screen and (max-width:991px){
+	.ds-plugin-setup-wizard-main .ds-wizard-wrap{margin:50px auto 0;padding:55px;}
+	.ds-plugin-setup-wizard-main .ds-wizard-wrap h3{font-size:22px;}
+	.ds-plugin-setup-wizard-main .ds-wizard-wrap h2.cta-title{font-size:30px;}
+	.ds-plugin-setup-wizard-main .ds-wizard-content p{font-size:18px;line-height:28px;}
+	.ds-plugin-setup-wizard-main label.ds-wizard-checkbox{font-size:18px;line-height:26px;margin-top:22px;}
+}
+@media screen and (max-width:782px){
+	.ds-plugin-setup-wizard-main .ds-wizard-wrap{margin:30px auto 0;padding:30px;}
+	.ds-plugin-setup-wizard-main .ds-wizard-wrap h3{font-size:20px;margin:0 0 24px;}
+	.ds-plugin-setup-wizard-main .ds-wizard-logo{width:75px;margin-bottom:22px;}
+	.ds-plugin-setup-wizard-main .ds-wizard-next-step button{padding:10px 32px 11px;font-size:18px;line-height:26px;}
+	.plugin-setup-wizard-main .ds-wizard-wrap h2.cta-title{font-size:24px;}
+	.ds-plugin-setup-wizard-main .ds-wizard-content p{font-size:16px;line-height:26px;}
+	.ds-plugin-setup-wizard-main label.ds-wizard-checkbox{font-size:16px;line-height:24px;}
+	.ds-plugin-setup-wizard-main label.ds-wizard-checkbox input{width:1rem;height:1rem;}
+	.ds-plugin-setup-wizard-main label.ds-wizard-checkbox input:before{margin:-0.1875rem 0 0 -0.25rem;height:1.3125rem;width:1.3125rem;}
+	.ds-plugin-setup-wizard-main .ds-wizard-wrap h2.cta-title{font-size:24px;}
+}

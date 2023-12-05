@@ -140,12 +140,12 @@ if ( ! class_exists( 'Cartflows_Loader' ) ) {
 			define( 'CARTFLOWS_DIR', plugin_dir_path( CARTFLOWS_FILE ) );
 			define( 'CARTFLOWS_URL', plugins_url( '/', CARTFLOWS_FILE ) );
 
-			define( 'CARTFLOWS_VER', '1.11.15' );
+			define( 'CARTFLOWS_VER', '2.0.2' );
 			define( 'CARTFLOWS_SLUG', 'cartflows' );
 			define( 'CARTFLOWS_SETTINGS', 'cartflows_settings' );
 			define( 'CARTFLOWS_NAME', 'CartFlows' );
 
-			define( 'CARTFLOWS_REQ_CF_PRO_VER', '1.11.5' );
+			define( 'CARTFLOWS_REQ_CF_PRO_VER', '2.0.0' );
 
 			// For backward compatibility we are setting CARTFLOWS_LEGACY_ADMIN to false, so pro-loader for new UI will be load.
 			define( 'CARTFLOWS_LEGACY_ADMIN', false );
@@ -633,6 +633,8 @@ if ( ! class_exists( 'Cartflows_Loader' ) ) {
 
 			// Update the cartflows asset version when plugin activated.
 			update_option( 'cartflows-assets-version', time() );
+
+			update_option( 'wcf_start_onboarding', true );
 		}
 
 		/**

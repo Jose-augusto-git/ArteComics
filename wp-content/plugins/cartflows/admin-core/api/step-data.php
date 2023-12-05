@@ -95,9 +95,9 @@ class StepData extends ApiBase {
 
 		$step_type         = $meta_options['type'];
 		$flow_id           = get_post_meta( $step_id, 'wcf-flow-id', true );
-		$edit_step         = get_edit_post_link( $step_id );
+		$edit_step         = get_edit_post_link( $step_id, 'edit' );
 		$view_step         = get_permalink( $step_id );
-		$page_builder_edit = AdminHelper::get_page_builder_edit_link( $step_id );
+		$page_builder_edit = \Cartflows_Helper::get_page_builder_edit_link( $step_id );
 
 		/* Get Settings */
 		$settings_data = StepMeta::get_meta_settings( $step_id, $step_type );

@@ -293,6 +293,8 @@
                 $enable_catalog_mode        = wc_string_to_bool( woo_variation_swatches()->get_option( 'enable_catalog_mode', 'no' ) );
                 $catalog_mode_display_limit = absint( woo_variation_swatches()->get_option( 'catalog_mode_display_limit', 0 ) );
                 $display_limit              = absint( woo_variation_swatches()->get_option( 'display_limit', 0 ) );
+                $archive_display_limit      = absint( woo_variation_swatches()->get_option( 'archive_display_limit', 0 ) );
+                
                 
                 $style = apply_filters( 'woo_variation_swatches_inline_style', $style );
                 
@@ -302,6 +304,9 @@
                 
                 if ( woo_variation_swatches()->is_pro() && $display_limit > 0 ) {
                     $style .= sprintf( ".enabled-display-limit-mode > li.variable-item:nth-child(n+%d) {display:none !important;}", absint( $display_limit ) + 1 );
+                }
+                if ( woo_variation_swatches()->is_pro() && $archive_display_limit > 0 && ! $enable_catalog_mode ) {
+                    $style .= sprintf( ".enabled-archive-display-limit-mode > li.variable-item:nth-child(n+%d) {display:none !important;}", absint( $archive_display_limit ) + 1 );
                 }
                 
                 wp_add_inline_style( 'woo-variation-swatches', $style );

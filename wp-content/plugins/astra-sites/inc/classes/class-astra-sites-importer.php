@@ -316,6 +316,7 @@ if ( ! class_exists( 'Astra_Sites_Importer' ) ) {
 			if ( ! current_user_can( 'edit_posts' ) ) {
 				wp_send_json_error();
 			}
+
 			// Disable CartFlows import logging.
 			add_filter( 'cartflows_enable_log', '__return_false' );
 

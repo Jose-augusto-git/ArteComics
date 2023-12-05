@@ -449,9 +449,17 @@ class Cartflows_Ca_Tabs {
 				if ( empty( $image_url ) ) {
 					$image_url = CARTFLOWS_CA_URL . 'admin/assets/images/image-placeholder.png';
 				}
+
+				$custom_field_data = '';
+				$custom_field_data = wp_kses( wc_get_formatted_cart_item_data( $cart_item ), array( 'ul', 'li' ) );
+
+				if ( ! empty( $custom_field_data ) ) {
+					$custom_field_data = '<h4>' . __( 'Product Custom Data: ', 'woo-cart-abandonment-recovery' ) . '</h4>' . $custom_field_data;
+				}
+
 				$tr = $tr . '<tr  align="center">
                            <td ><img class="demo_img" width="42" height="42" src=" ' . esc_url( $image_url ) . ' "/></td>
-						   <td >' . $product_name . '</td>
+						   <td >' . $product_name . '<br> ' . $custom_field_data . '</td>
                            <td > ' . $cart_item['quantity'] . ' </td>
                            <td >' . wc_price( $cart_item['line_total'] ) . '</td>
                            <td  >' . wc_price( $cart_item['line_total'] ) . '</td>

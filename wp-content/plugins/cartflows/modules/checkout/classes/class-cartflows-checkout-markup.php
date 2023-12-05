@@ -562,6 +562,15 @@ class Cartflows_Checkout_Markup {
 					}
 
 					$skip_cart = true;
+
+					/**
+					 * This action should/can be used to configure the cart of store checkout.
+					 *
+					 * @param int $checkout_id
+					 * @hooked to wp action.
+					 * @since 1.11.16
+					 */
+					do_action( 'cartflows_store_checkout_before_configure_cart', $checkout_id );
 				}
 
 				if ( ! apply_filters( 'cartflows_skip_configure_cart', $skip_cart, $checkout_id ) ) {
@@ -635,7 +644,7 @@ class Cartflows_Checkout_Markup {
 
 							$discount_type  = isset( $data['discount_type'] ) ? $data['discount_type'] : '';
 							$discount_value = ! empty( $data['discount_value'] ) ? $data['discount_value'] : '';
-							$_product_price = $_product->get_price( $data['product'] );
+							$_product_price = $_product->get_price(); // Removed the parameter as it was not required and was creating issue with MultiCurrency plugin.
 
 							$custom_price = $this->calculate_discount( '', $discount_type, $discount_value, $_product_price );
 
@@ -1456,6 +1465,9 @@ class Cartflows_Checkout_Markup {
 		$vars['email_validation_msgs'] = array(
 			'error_msg'   => __( 'Entered email address is not a valid email.', 'cartflows' ),
 			'success_msg' => __( 'This email is already registered. Please enter the password to continue.', 'cartflows' ),
+		);
+		$vars['field_validation_msgs'] = array(
+			'number_field' => __( 'Value must be between ', 'cartflows' ),
 		);
 
 		$vars['order_review_toggle_texts'] = array(

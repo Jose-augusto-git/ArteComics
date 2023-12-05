@@ -137,7 +137,7 @@ class AbSteps extends AjaxBase {
 		$result = array(
 			'status' => false,
 			/* translators: %s step id */
-			'text'   => sprintf( __( 'Can\'t delete a variation for this step - %s, Invalid Step Id or Flow Id.', 'cartflows' ), $step_id ),
+			'text'   => sprintf( __( 'Can\'t delete a variation for this step - %s, Invalid Step Id or Funnel Id.', 'cartflows' ), $step_id ),
 		);
 
 		if ( ! $step_id || ! $flow_id ) {

@@ -2,7 +2,7 @@
  * Variation Swatches for WooCommerce
  *
  * Author: Emran Ahmed ( emran.bd.08@gmail.com )
- * Date: 10/25/2023, 11:31:20 PM
+ * Date: 11/21/2023, 2:00:07 PM
  * Released under the GPLv3 license.
  */
 .woo-variation-swatches.wvs-tooltip {
@@ -974,6 +974,7 @@
 .woo-variation-swatches.wvs-show-label .variations th, .woo-variation-swatches.wvs-show-label .variations td {
   display: block;
   width: auto !important;
+  text-align: start;
 }
 .woo-variation-swatches.wvs-show-label .variations th label, .woo-variation-swatches.wvs-show-label .variations th .woo-selected-variation-item-name, .woo-variation-swatches.wvs-show-label .variations td label, .woo-variation-swatches.wvs-show-label .variations td .woo-selected-variation-item-name {
   display: inline-block;

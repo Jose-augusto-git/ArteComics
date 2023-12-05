@@ -136,6 +136,7 @@ if ( ! class_exists( 'Astra_Sites' ) ) :
 			add_action( 'astra_sites_after_plugin_activation', array( $this, 'disable_wp_forms_redirect' ) );
 			add_action( 'astra_notice_before_markup', array( $this, 'notice_assets' ) );
 			add_action( 'load-index.php', array( $this, 'admin_dashboard_notices' ) );
+			add_action( 'admin_notices', array( $this, 'check_filesystem_access_notice' ) );
 
 			// AJAX.
 			$this->ajax = array(
@@ -171,7 +172,63 @@ if ( ! class_exists( 'Astra_Sites' ) ) :
 			add_filter( 'status_header', array( $this, 'status_header' ), 10, 4 );
 			add_filter( 'wp_php_error_message', array( $this, 'php_error_message' ), 10, 2 );
 			add_filter( 'wp_import_post_data_processed', array( $this, 'wp_slash_after_xml_import' ), 99, 2 );
+			add_filter( 'zip_ai_enable_chat_sidebar', array( $this, 'disable_zip_ai_assistant' ) );
+			add_filter( 'ast_block_templates_authorization_url_param', array( $this, 'add_auth_url_param' ) );
+
 		}
+
+		/**
+		 * Set plugin param for auth URL.
+		 *
+		 * @param array $url_param url parameters.
+		 *
+		 * @since  3.5.0
+		 */
+		public function add_auth_url_param( $url_param ) {
+
+			$url_param['plugin'] = 'starter-templates';
+
+			return $url_param;
+		}
+
+		/**
+		 * Disable ZipAI Assistant.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @return boolean
+		 */
+		public function disable_zip_ai_assistant() {
+
+			if ( 'active' === $this->get_plugin_status( 'ultimate-addons-for-gutenberg/ultimate-addons-for-gutenberg.php' ) ) {
+				return true;
+			}
+
+			return false;
+		}
+
+		/**
+		 * Get plugin status
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param  string $plugin_init_file Plguin init file.
+		 * @return string
+		 */
+		public function get_plugin_status( $plugin_init_file ) {
+
+			$installed_plugins = get_plugins();
+
+			if ( ! isset( $installed_plugins[ $plugin_init_file ] ) ) {
+				return 'not-installed';
+			} elseif ( is_plugin_active( $plugin_init_file ) ) {
+				return 'active';
+			} else {
+				return 'inactive';
+			}
+		}
+
+
 
 		/**
 		 * Add slashes while importing the XML with WordPress Importer v2.
@@ -859,7 +916,7 @@ if ( ! class_exists( 'Astra_Sites' ) ) :
 			$id = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : '';
 			$type = isset( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';
 			$demo_data = get_option( 'astra_sites_import_elementor_data_' . $id, array() );
-			
+
 			if ( 'astra-blocks' == $type ) {
 				$url = trailingslashit( self::get_instance()->get_api_domain() ) . 'wp-json/wp/v2/' . $type . '/' . $id;
 			} else {
@@ -1728,7 +1785,9 @@ if ( ! class_exists( 'Astra_Sites' ) ) :
 			if ( 'spectra-one' === get_option( 'stylesheet', 'astra' ) ) {
 				$spectra_theme = 'installed-and-active';
 			}
+			$enable_block_builder = apply_filters( 'st_enable_block_page_builder', false );
 			$default_page_builder = ( 'installed-and-active' === $spectra_theme ) ? 'fse' : Astra_Sites_Page::get_instance()->get_setting( 'page_builder' );
+			$default_page_builder = ( $enable_block_builder && empty( $default_page_builder ) ) ? 'gutenberg' : $default_page_builder;
 
 			if ( is_callable( '\SureCart\Models\ApiToken::get()' ) ) {
 				$surecart_store_exist = \SureCart\Models\ApiToken::get();
@@ -1984,11 +2043,11 @@ if ( ! class_exists( 'Astra_Sites' ) ) :
 			}
 
 			/* translators: %s are link. */
-			$license_msg = sprintf( __( 'This is a premium template available with Essential Bundle and Growth Bundle. you can purchase it from <a href="%s" target="_blank">here</a>.', 'astra-sites' ), 'https://wpastra.com/starter-templates-plans/' );
+			$license_msg = sprintf( __( 'This is a premium template available with Essential Bundle and Business Toolkits. you can purchase it from <a href="%s" target="_blank">here</a>.', 'astra-sites' ), 'https://wpastra.com/starter-templates-plans/' );
 
 			if ( defined( 'ASTRA_PRO_SITES_NAME' ) ) {
 				/* translators: %s are link. */
-				$license_msg = sprintf( __( 'This is a premium template available with Essential Bundle and Growth Bundle. <a href="%s" target="_blank">Validate Your License</a> Key to import this template.', 'astra-sites' ), esc_url( admin_url( 'plugins.php?bsf-inline-license-form=astra-pro-sites' ) ) );
+				$license_msg = sprintf( __( 'This is a premium template available with Essential Bundle and Business Toolkits. <a href="%s" target="_blank">Validate Your License</a> Key to import this template.', 'astra-sites' ), esc_url( admin_url( 'plugins.php?bsf-inline-license-form=astra-pro-sites' ) ) );
 			}
 
 			$last_viewed_block_data = array();
@@ -1997,7 +2056,7 @@ if ( ! class_exists( 'Astra_Sites' ) ) :
 			if ( ! empty( $id ) ) {
 				$last_viewed_block_data = get_option( 'astra_sites_import_elementor_data_' . $id ) !== false ? get_option( 'astra_sites_import_elementor_data_' . $id ) : array();
 			}
-			
+
 			$data = apply_filters(
 				'astra_sites_render_localize_vars',
 				array(
@@ -2128,6 +2187,7 @@ if ( ! class_exists( 'Astra_Sites' ) ) :
 			require_once ASTRA_SITES_DIR . 'inc/classes/class-astra-sites-wp-cli.php';
 			require_once ASTRA_SITES_DIR . 'inc/lib/class-astra-sites-ast-block-templates.php';
 			require_once ASTRA_SITES_DIR . 'inc/lib/onboarding/class-onboarding.php';
+			require_once ASTRA_SITES_DIR . 'inc/lib/zip-ai/zip-ai.php';
 
 			// Batch Import.
 			require_once ASTRA_SITES_DIR . 'inc/classes/batch-import/class-astra-sites-batch-import.php';
@@ -2204,7 +2264,7 @@ if ( ! class_exists( 'Astra_Sites' ) ) :
 		 * @return array                     The array of required plugins data.
 		 */
 		public function get_required_plugins_data( $response, $required_plugins ) {
-			
+
 			$learndash_course_grid = 'https://www.learndash.com/add-on/course-grid/';
 			$learndash_woocommerce = 'https://www.learndash.com/add-on/woocommerce/';
 			if ( is_plugin_active( 'sfwd-lms/sfwd_lms.php' ) ) {
@@ -2644,11 +2704,11 @@ if ( ! class_exists( 'Astra_Sites' ) ) :
 					'show_if' => ( false === Astra_Sites_White_Label::get_instance()->is_white_labeled() && empty( $first_import_status ) ),
 					/* translators: %1$s white label plugin name and %2$s deactivation link */
 					'message' => sprintf(
-						'<div class="notice-welcome-container">	
+						'<div class="notice-welcome-container">
 							<div class="text-section">
 								<h1 class="text-heading">' . __( 'Welcome to Starter Templates!', 'astra-sites' ) . '</h1>
 								<p>' . __( 'Create professionally designed pixel-perfect websites in minutes.', 'astra-sites' ) . '</p>
-								<a href="/wp-admin/themes.php?page=starter-templates" class="text-button">' . __( 'Get Started', 'astra-sites' ) . '</a>
+								<a href="' . home_url() . '/wp-admin/themes.php?page=starter-templates" class="text-button">' . __( 'Get Started', 'astra-sites' ) . '</a>
 							</div>
 							<div class="showcase-section">
 								<img src="' . esc_url( ASTRA_SITES_URI . 'inc/assets/images/templates-showcase.png' ) . '" />
@@ -2661,7 +2721,7 @@ if ( ! class_exists( 'Astra_Sites' ) ) :
 								<div class="link-section">
 									<h4>' . __( 'Ecommerce', 'astra-sites' ) . '</h4>
 									<p>' . __( 'Looking for a fully operational eCommerce template to launch a store or level up an existing one?', 'astra-sites' ) . '</p>
-									<a href="/wp-admin/themes.php?page=starter-templates&ci=1&s=E-Commerce">' . __( 'View Ecommerce Templates', 'astra-sites' ) . ' →</a>
+									<a href="' . home_url() . '/wp-admin/themes.php?page=starter-templates&ci=1&s=E-Commerce">' . __( 'View Ecommerce Templates', 'astra-sites' ) . ' →</a>
 								</div>
 							</div>
 							<div class="content-section">
@@ -2670,7 +2730,7 @@ if ( ! class_exists( 'Astra_Sites' ) ) :
 								<div class="link-section">
 									<h4>' . __( 'Local Business', 'astra-sites' ) . '</h4>
 									<p>' . __( 'Fully customizable local business templates that can deliver a fully functioning website in minutes', 'astra-sites' ) . '</p>
-									<a href="/wp-admin/themes.php?page=starter-templates&ci=1&s=Business">' . __( 'View Local Business Templates', 'astra-sites' ) . ' →</a>
+									<a href="' . home_url() . '/wp-admin/themes.php?page=starter-templates&ci=1&s=Business">' . __( 'View Local Business Templates', 'astra-sites' ) . ' →</a>
 								</div>
 							</div>
 							<div class="content-section">
@@ -2679,7 +2739,7 @@ if ( ! class_exists( 'Astra_Sites' ) ) :
 								<div class="link-section">
 									<h4>' . __( 'Agency', 'astra-sites' ) . '</h4>
 									<p>' . __( 'Do more in less time with Starter Templates. Pro-quality designs that can be fully customized to suit your clients.', 'astra-sites' ) . '</p>
-									<a href="/wp-admin/themes.php?page=starter-templates&ci=1&s=Agency">' . __( 'View Agency Templates', 'astra-sites' ) . ' →</a>
+									<a href="' . home_url() . '/wp-admin/themes.php?page=starter-templates&ci=1&s=Agency">' . __( 'View Agency Templates', 'astra-sites' ) . ' →</a>
 								</div>
 							</div>
 							<div class="content-section">
@@ -2688,7 +2748,7 @@ if ( ! class_exists( 'Astra_Sites' ) ) :
 								<div class="link-section">
 									<h4>' . __( 'Blog', 'astra-sites' ) . '</h4>
 									<p>' . __( 'Customizable blog templates covering every niche. Page builder compatible, easy to use and fast!', 'astra-sites' ) . '</p>
-									<a href="/wp-admin/themes.php?page=starter-templates&ci=1&s=Blog">' . __( 'View Blog Templates', 'astra-sites' ) . ' →</a>
+									<a href="' . home_url() . '/wp-admin/themes.php?page=starter-templates&ci=1&s=Blog">' . __( 'View Blog Templates', 'astra-sites' ) . ' →</a>
 								</div>
 							</div>
 						</div>'
@@ -2721,17 +2781,27 @@ if ( ! class_exists( 'Astra_Sites' ) ) :
 				if ( ! current_user_can( 'customize' ) ) {
 					wp_send_json_error( __( 'You do not have permission to perform this action.', 'astra-sites' ) );
 				}
+			}
+			$wp_upload_path = wp_upload_dir();
+			$permissions = array(
+				'is_readable' => false,
+				'is_writable' => false,
+			);
 
-				$wp_upload_path = wp_upload_dir();
-				$permissions = array(
-					'is_readable' => false,
-					'is_writable' => false,
-				);
+			foreach ( $permissions as $file_permission => $value ) {
+				$permissions[ $file_permission ] = $file_permission( $wp_upload_path['basedir'] );
+			}
 
-				foreach ( $permissions as $file_permission => $value ) {
-					$permissions[ $file_permission ] = $file_permission( $wp_upload_path['basedir'] );
+			$permissions['is_wp_filesystem'] = true;
+			if ( ! WP_Filesystem() ) {
+				$permissions['is_wp_filesystem'] = false;
+			}
+
+			if ( defined( 'WP_CLI' ) ) {
+				if ( ! $permissions['is_readable'] || ! $permissions['is_writable'] || ! $permissions['is_wp_filesystem'] ) {
+					WP_CLI::error( esc_html__( 'Please contact the hosting service provider to help you update the permissions so that you can successfully import a complete template.', 'astra-sites' ) );
 				}
-
+			} else {
 				wp_send_json_success(
 					array(
 						'permissions' => $permissions,
@@ -2739,8 +2809,19 @@ if ( ! class_exists( 'Astra_Sites' ) ) :
 					)
 				);
 			}
+		}
 
-			wp_send_json_error( __( 'You do not have permission to perform this action.', 'astra-sites' ) );
+		/**
+		 * Display notice on dashboard if WP_Filesystem() false.
+		 *
+		 * @return void
+		 */
+		public function check_filesystem_access_notice() {
+			// Check if WP_Filesystem() returns false.
+			if ( ! WP_Filesystem() ) {
+				// Display a notice on the dashboard.
+				echo '<div class="error"><p>' . esc_html__( 'Required WP_Filesystem Permissions to import the templates from Starter Templates are missing.', 'astra-sites' ) . '</p></div>';
+			}
 		}
 	}
 

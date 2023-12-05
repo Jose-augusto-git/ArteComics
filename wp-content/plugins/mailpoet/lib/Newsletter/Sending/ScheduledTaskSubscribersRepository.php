@@ -10,6 +10,7 @@ use MailPoet\Entities\ScheduledTaskEntity;
 use MailPoet\Entities\ScheduledTaskSubscriberEntity;
 use MailPoet\Entities\SubscriberEntity;
 use MailPoet\InvalidStateException;
+use MailPoetVendor\Carbon\Carbon;
 use MailPoetVendor\Doctrine\DBAL\Connection;
 use MailPoetVendor\Doctrine\ORM\QueryBuilder;
 
@@ -126,12 +127,69 @@ class ScheduledTaskSubscribersRepository extends Repository {
       ->setParameter('task', $scheduledTask)
       ->getQuery()
       ->execute();
+
+    // delete was done via DQL, make sure the entities are also detached from the entity manager
+    $this->detachAll(function (ScheduledTaskSubscriberEntity $entity) use ($scheduledTask) {
+      return $entity->getTask() === $scheduledTask;
+    });
+  }
+
+  public function deleteByScheduledTaskAndSubscriberIds(ScheduledTaskEntity $scheduledTask, array $subscriberIds): void {
+    $this->entityManager->createQueryBuilder()
+      ->delete(ScheduledTaskSubscriberEntity::class, 'sts')
+      ->where('sts.task = :task')
+      ->andWhere('sts.subscriber IN (:subscriberIds)')
+      ->setParameter('task', $scheduledTask)
+      ->setParameter('subscriberIds', $subscriberIds, Connection::PARAM_INT_ARRAY)
+      ->getQuery()
+      ->execute();
+
+    // delete was done via DQL, make sure the entities are also detached from the entity manager
+    $this->detachAll(function (ScheduledTaskSubscriberEntity $entity) use ($scheduledTask, $subscriberIds) {
+      return $entity->getTask() === $scheduledTask && in_array($entity->getSubscriberId(), $subscriberIds, true);
+    });
+
+    $this->checkCompleted($scheduledTask);
+  }
+
+  public function setSubscribers(ScheduledTaskEntity $task, array $subscriberIds): void {
+    $this->deleteByScheduledTask($task);
+
+    foreach ($subscriberIds as $subscriberId) {
+      $this->createOrUpdate([
+        'task_id' => $task->getId(),
+        'subscriber_id' => $subscriberId,
+      ]);
+    }
+  }
+
+  public function saveError(ScheduledTaskEntity $scheduledTask, int $subscriberId, string $errorMessage): void {
+    $scheduledTaskSubscriber = $this->findOneBy(['task' => $scheduledTask, 'subscriber' => $subscriberId]);
+
+    if ($scheduledTaskSubscriber instanceof ScheduledTaskSubscriberEntity) {
+      $scheduledTaskSubscriber->setFailed(ScheduledTaskSubscriberEntity::FAIL_STATUS_FAILED);
+      $scheduledTaskSubscriber->setProcessed(ScheduledTaskSubscriberEntity::STATUS_PROCESSED);
+      $scheduledTaskSubscriber->setError($errorMessage);
+      $this->persist($scheduledTaskSubscriber);
+      $this->flush();
+
+      $this->checkCompleted($scheduledTask);
+    }
+  }
+
+  public function countProcessed(ScheduledTaskEntity $scheduledTaskEntity): int {
+    return $this->countBy(['task' => $scheduledTaskEntity, 'processed' => ScheduledTaskSubscriberEntity::STATUS_PROCESSED]);
+  }
+
+  public function countUnprocessed(ScheduledTaskEntity $scheduledTaskEntity): int {
+    return $this->countBy(['task' => $scheduledTaskEntity, 'processed' => ScheduledTaskSubscriberEntity::STATUS_UNPROCESSED]);
   }
 
   private function checkCompleted(ScheduledTaskEntity $task): void {
-    $count = $this->countBy(['task' => $task, 'processed' => ScheduledTaskSubscriberEntity::STATUS_UNPROCESSED]);
+    $count = $this->countUnprocessed($task);
     if ($count === 0) {
       $task->setStatus(ScheduledTaskEntity::STATUS_COMPLETED);
+      $task->setProcessedAt(new Carbon());
       $this->entityManager->flush();
     }
   }

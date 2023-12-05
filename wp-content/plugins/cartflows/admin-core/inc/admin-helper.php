@@ -500,8 +500,7 @@ class AdminHelper {
 				$steps[ $in ]['actions']      = self::get_step_actions( $flow_id, $step_id );
 				$steps[ $in ]['menu_actions'] = self::get_step_actions( $flow_id, $step_id, 'menu' );
 
-				$steps[ $in ]['menu_actions']      = self::get_step_actions( $flow_id, $step_id, 'menu' );
-				$steps[ $in ]['page_builder_edit'] = self::get_page_builder_edit_link( $step_id );
+				$steps[ $in ]['page_builder_edit'] = \Cartflows_Helper::get_page_builder_edit_link( $step_id );
 
 				/* Add variation data */
 				if ( ! empty( $steps[ $in ]['ab-test-variations'] ) ) {
@@ -547,38 +546,14 @@ class AdminHelper {
 	}
 
 	/**
-	 * Get step edit link.
+	 * Get step actions.
 	 *
-	 * @param int $step_id Step id.
+	 * @param  int    $flow_id Flow id.
+	 * @param  int    $step_id Step id.
+	 * @param  string $type type.
+	 *
+	 * @return array
 	 */
-	public static function get_page_builder_edit_link( $step_id ) {
-
-		$edit_step         = get_edit_post_link( $step_id );
-		$view_step         = get_permalink( $step_id );
-		$page_builder      = \Cartflows_Helper::get_common_setting( 'default_page_builder' );
-		$page_builder_edit = $edit_step;
-
-		switch ( $page_builder ) {
-			case 'beaver-builder':
-				$page_builder_edit = strpos( $view_step, '?' ) ? $view_step . '&fl_builder' : $view_step . '?fl_builder';
-				break;
-			case 'elementor':
-				$page_builder_edit = admin_url( 'post.php?post=' . $step_id . '&action=elementor' );
-				break;
-		}
-
-		return $page_builder_edit;
-	}
-
-		/**
-		 * Get step actions.
-		 *
-		 * @param  int    $flow_id Flow id.
-		 * @param  int    $step_id Step id.
-		 * @param  string $type type.
-		 *
-		 * @return array
-		 */
 	public static function get_step_actions( $flow_id, $step_id, $type = 'inline' ) {
 
 		if ( 'menu' === $type ) {
@@ -587,18 +562,10 @@ class AdminHelper {
 					'slug'       => 'clone',
 					'class'      => 'wcf-step-clone',
 					'icon_class' => 'dashicons dashicons-admin-page',
-					'text'       => __( 'Clone', 'cartflows' ),
+					'text'       => __( 'Duplicate', 'cartflows' ),
 					'pro'        => true,
 					'link'       => '#',
 					'ajaxcall'   => 'cartflows_clone_step',
-				),
-				'delete' => array(
-					'slug'       => 'delete',
-					'class'      => 'wcf-step-delete',
-					'icon_class' => 'dashicons dashicons-trash',
-					'text'       => __( 'Delete', 'cartflows' ),
-					'link'       => '#',
-					'ajaxcall'   => 'cartflows_delete_step',
 				),
 				'abtest' => array(
 					'slug'       => 'abtest',
@@ -608,18 +575,14 @@ class AdminHelper {
 					'pro'        => true,
 					'link'       => '#',
 				),
-
-				/*
-				Action.
-					// 'export' => array(
-					// 'slug'       => 'export',
-					// 'class'      => 'wcf-step-export',
-					// 'icon_class' => 'dashicons dashicons-database-export',
-					// 'text'       => __( 'Export', 'cartflows' ),
-					// 'link'       => '#',
-					// 'pro'        => true,
-					// ),
-				*/
+				'delete' => array(
+					'slug'       => 'delete',
+					'class'      => 'wcf-step-delete',
+					'icon_class' => 'dashicons dashicons-trash',
+					'text'       => __( 'Delete', 'cartflows' ),
+					'link'       => '#',
+					'ajaxcall'   => 'cartflows_delete_step',
+				),
 			);
 		} else {
 			$actions = array(
@@ -628,20 +591,15 @@ class AdminHelper {
 					'class'      => 'wcf-step-view',
 					'icon_class' => 'dashicons dashicons-visibility',
 					'target'     => 'blank',
-					'text'       => __( 'View', 'cartflows' ),
 					'link'       => get_permalink( $step_id ),
 				),
 				'edit' => array(
 					'slug'       => 'edit',
 					'class'      => 'wcf-step-edit',
 					'icon_class' => 'dashicons dashicons-edit',
-					'text'       => __( 'Edit', 'cartflows' ),
-					'link'       => admin_url( 'admin.php?page=cartflows&action=wcf-edit-step&step_id=' . $step_id . '&flow_id=' . $flow_id ),
+					'link'       => \Cartflows_Helper::get_page_builder_edit_link( $step_id ),
 				),
 			);
-
-			// This should be used by filter, curretly filter is not worker hence using function directly.
-			$actions = StoreCheckout::store_checkout_get_step_actions( $actions, $flow_id, $step_id );
 		}
 		return $actions;
 	}
@@ -664,7 +622,7 @@ class AdminHelper {
 					'slug'       => 'clone',
 					'class'      => 'wcf-ab-test-step-clone',
 					'icon_class' => 'dashicons dashicons-admin-page',
-					'text'       => __( 'Clone', 'cartflows' ),
+					'text'       => __( 'Duplicate', 'cartflows' ),
 					'link'       => '#',
 					'pro'        => true,
 					'ajaxcall'   => 'cartflows_clone_ab_test_step',
@@ -681,7 +639,7 @@ class AdminHelper {
 					'slug'       => 'archived',
 					'class'      => 'wcf-ab-test-step-archived',
 					'icon_class' => 'dashicons dashicons-archive',
-					'text'       => __( 'Archived', 'cartflows' ),
+					'text'       => __( 'Archive', 'cartflows' ),
 					'link'       => '#',
 				),
 				'winner'   => array(
@@ -701,15 +659,13 @@ class AdminHelper {
 					'class'      => 'wcf-step-view',
 					'icon_class' => 'dashicons dashicons-visibility',
 					'target'     => 'blank',
-					'text'       => __( 'View', 'cartflows' ),
 					'link'       => get_permalink( $step_id ),
 				),
 				'edit' => array(
 					'slug'       => 'edit',
 					'class'      => 'wcf-step-edit',
 					'icon_class' => 'dashicons dashicons-edit',
-					'text'       => __( 'Edit', 'cartflows' ),
-					'link'       => admin_url( 'admin.php?page=cartflows&action=' . $action_slug . '&step_id=' . $step_id . '&flow_id=' . $flow_id ),
+					'link'       => \Cartflows_Helper::get_page_builder_edit_link( $step_id ),
 				),
 			);
 		}
@@ -732,7 +688,7 @@ class AdminHelper {
 				'archive-hide'   => array(
 					'slug'        => 'hide',
 					'class'       => 'wcf-step-archive-hide',
-					'icon_class'  => 'dashicons dashicons-hidden',
+					'icon_class'  => '',
 					'target'      => 'blank',
 					'before_text' => __( 'Deleted variation can\'t be restored.', 'cartflows' ),
 					'text'        => __( 'Hide', 'cartflows' ),
@@ -741,7 +697,7 @@ class AdminHelper {
 				'archive-delete' => array(
 					'slug'       => 'deleteArch',
 					'class'      => 'wcf-step-archive-delete',
-					'icon_class' => 'dashicons dashicons-trash',
+					'icon_class' => '',
 					'target'     => 'blank',
 					'text'       => __( 'Delete', 'cartflows' ),
 					'link'       => '#',
@@ -753,7 +709,7 @@ class AdminHelper {
 				'archive-restore' => array(
 					'slug'       => 'restore',
 					'class'      => 'wcf-step-archive-restore',
-					'icon_class' => 'dashicons dashicons-open-folder',
+					'icon_class' => '',
 					'target'     => 'blank',
 					'text'       => __( 'Restore', 'cartflows' ),
 					'link'       => '#',
@@ -761,7 +717,7 @@ class AdminHelper {
 				'archive-delete'  => array(
 					'slug'       => 'delete',
 					'class'      => 'wcf-step-archive-delete',
-					'icon_class' => 'dashicons dashicons-trash',
+					'icon_class' => '',
 					'target'     => 'blank',
 					'text'       => __( 'Delete', 'cartflows' ),
 					'link'       => '#',
@@ -816,16 +772,10 @@ class AdminHelper {
 
 			foreach ( $orders as $order ) {
 
-				$order_id = $order->ID;
-				$order    = wc_get_order( $order_id );
-				$user_id  = $order->get_user_id();
-
-				// skip the orders which are placed by the user whose user role is Administrator.
-				if ( $user_id && user_can( $user_id, 'cartflows_manage_flows_steps' ) ) {
-					continue;
-				}
-
+				$order_id    = $order->ID;
+				$order       = wc_get_order( $order_id );
 				$order_total = $order ? $order->get_total() : 0;
+
 				$order_count++;
 
 				if ( $order && ! $order->has_status( 'cancelled' ) ) {
@@ -838,7 +788,7 @@ class AdminHelper {
 		return array(
 			'order_currency'       => $currency_symbol,
 			'total_orders'         => $order_count,
-			'total_revenue'        => number_format( (float) $gross_sale, 2, '.', '' ),
+			'total_revenue'        => str_replace( '&nbsp;', '', wc_price( (float) $gross_sale ) ),
 			'total_bump_revenue'   => '0',
 			'total_offers_revenue' => '0',
 			'total_visits'         => '0',
@@ -855,7 +805,7 @@ class AdminHelper {
 	 *
 	 * @param string $start_date start date.
 	 * @param string $end_date end date.
-	 * @return int
+	 * @return wc_order object.
 	 */
 	public static function get_orders_by_flow( $start_date, $end_date ) {
 
@@ -1035,7 +985,7 @@ class AdminHelper {
 	 */
 	public static function validate_ip_address( $ip_address ) {
 
-		$ip_address = filter_var( $ip_address, FILTER_VALIDATE_IP, '' );
+		$ip_address = filter_var( $ip_address, FILTER_VALIDATE_IP, array() );
 
 		return $ip_address ? $ip_address : '';
 	}

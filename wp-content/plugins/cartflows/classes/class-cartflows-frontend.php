@@ -51,11 +51,12 @@ class Cartflows_Frontend {
 	/**
 	 * Redirect to thank page if upsell not exists
 	 *
-	 * @param string $order_recieve_url url.
+	 * @param string $order_receive_url url.
 	 * @param object $order order object.
+	 * @return string $order_receive_url next step URL.
 	 * @since 1.0.0
 	 */
-	public function redirect_to_thankyou_page( $order_recieve_url, $order ) {
+	public function redirect_to_thankyou_page( $order_receive_url, $order ) {
 
 		/* Only for thank you page */
 		wcf()->logger->log( 'Start-' . __CLASS__ . '::' . __FUNCTION__ );
@@ -84,22 +85,26 @@ class Cartflows_Frontend {
 
 				if ( $thankyou_step_id ) {
 
-					$order_recieve_url = get_permalink( $thankyou_step_id );
-
-					$order_recieve_url = add_query_arg(
+					$query_param = wcf()->utils->may_be_append_query_string(
+						// Default query string args.
 						array(
 							'wcf-key'   => $order->get_order_key(),
 							'wcf-order' => $order->get_id(),
-						),
-						$order_recieve_url
+						)
 					);
+
+					$order_receive_url = add_query_arg(
+						$query_param,
+						get_permalink( $thankyou_step_id )
+					);
+
 				}
 			}
 		}
 
 		wcf()->logger->log( 'End-' . __CLASS__ . '::' . __FUNCTION__ );
 
-		return $order_recieve_url;
+		return $order_receive_url;
 	}
 
 	/**
@@ -657,11 +662,12 @@ class Cartflows_Frontend {
 	/**
 	 * Redirect to thank page if upsell not exists
 	 *
-	 * @param string $order_recieve_url url.
+	 * @param string $order_receive_url url.
 	 * @param object $order order object.
+	 * @return string $order_receive_url next step URL.
 	 * @since 1.0.0
 	 */
-	public function redirect_optin_to_next_step( $order_recieve_url, $order ) {
+	public function redirect_optin_to_next_step( $order_receive_url, $order ) {
 
 		/* Only for optin page */
 		wcf()->logger->log( 'Start-' . __CLASS__ . '::' . __FUNCTION__ );
@@ -687,7 +693,7 @@ class Cartflows_Frontend {
 
 			if ( $next_step_id ) {
 
-				$order_recieve_url = get_permalink( $next_step_id );
+				$order_receive_url = get_permalink( $next_step_id );
 				$query_param       = array(
 					'wcf-key'   => $order->get_order_key(),
 					'wcf-order' => $order->get_id(),
@@ -700,8 +706,6 @@ class Cartflows_Frontend {
 					$fields = array_map( 'trim', explode( ',', $fields_string ) );
 
 					if ( is_array( $fields ) ) {
-
-						$order_id = $order->get_id();
 
 						foreach ( $fields as $in => $key ) {
 							switch ( $key ) {
@@ -722,16 +726,19 @@ class Cartflows_Frontend {
 					}
 				}
 
-				$order_recieve_url = add_query_arg(
+				// Add any existing URL parameters at the end of the URL before redirecting.
+				$query_param = wcf()->utils->may_be_append_query_string( $query_param );
+
+				$order_receive_url = add_query_arg(
 					$query_param,
-					$order_recieve_url
+					$order_receive_url
 				);
 			}
 		}
 
 		wcf()->logger->log( 'End-' . __CLASS__ . '::' . __FUNCTION__ );
 
-		return $order_recieve_url;
+		return $order_receive_url;
 	}
 }
 

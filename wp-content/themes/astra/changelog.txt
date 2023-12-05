@@ -1,3 +1,34 @@
+v4.5.1
+- Improvement: Compatibility with WooCommerce 8.3.
+- Improvement: Introducing a new filter 'astra_embed_wrapper_class' to add a class to the iframe wrapper for embed blocks.
+- Fix: Function parameter value was wrong in 'responsive_oembed_wrapper' callback while processing embed blocks iframe. (Props: https://github.com/IngoWinter)
+- Fix: Embed block (Twitter, SoundCloud, Spotify) does not appear on the frontend.
+- Fix: Customizer - Avoid premature closing of Gradient Color Picker.
+- Fix: WooCommerce - Container related meta are settings not working on Cart & Checkout Page.
+- Fix: Submenu border width of old header footer builder causing site crashing issue.
+
+v4.5.0
+- New: Introducing Site Builder theme preview (formerly known as Custom Layout).
+- New: Introducing fresh color presets to supercharge your site design.
+- Fix: Footer Builder - Above and Below Footer vertical alignment options are not working.
+- Fix: EDD - Mini cart widget UI broken in the RTL mode.
+- Fix: Enable Smooth Scroll to ID causes a jerk issue on the comment navigation section.
+- Fix: External JavaScript script not loading properly on frontend.
+
+v4.4.1
+- Improvement: Compatibility with WordPress-6.4.
+- Improvement: Updated SelectWoo library to 1.0.10 to hardened the security.
+- Fix: Default colors from customizer palette are mismatch with frontend global colors & with block editor's theme colors.
+- Fix: Smooth Scroll fails to navigate by keyboard on-focus and eventually breaks Accessibility.
+- Fix: Search - Live Search - Search results dropdown goes beneath the header menu.
+- Fix: Search - Live Search results container not visible in offcanvas section.
+- Fix: Search - Live search is not working on the Safari browser.
+- Fix: Search - Live search not getting their translated post type label on the frontend.
+- Fix: WooCommerce - Duplicate 'No Products in the Cart' Message in WooCommerce Cart Widget.
+- Fix: Editor - Content Background not applying correctly in some edge cases.
+- Fix: Post Title - Behind Featured image position breaks the UI with sidebar layout.
+- Fix: Block Editor - Slow editor experience after version 4.4.0.
+
 v4.4.0
 - New: Header Builder - Search - Introducing a new feature Live Search. ( https://wpastra.com/docs/live-search/ )
 - New: Header Builder - Search - Post Types selection option to filter Live Search results within.

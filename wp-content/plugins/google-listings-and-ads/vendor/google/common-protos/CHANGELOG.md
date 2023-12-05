@@ -1,5 +1,19 @@
 # Changelog
 
+## [4.4.0](https://github.com/googleapis/common-protos-php/compare/v4.3.0...v4.4.0) (2023-10-02)
+
+
+### Features
+
+* Public google.api.FieldInfo type and extension ([#71](https://github.com/googleapis/common-protos-php/issues/71)) ([4002074](https://github.com/googleapis/common-protos-php/commit/40020744c65e7561dec08e1cd2994afcc51ec771))
+
+## [4.3.0](https://github.com/googleapis/common-protos-php/compare/v4.2.0...v4.3.0) (2023-08-22)
+
+
+### Features
+
+* Add new FieldBehavior value IDENTIFIER ([#67](https://github.com/googleapis/common-protos-php/issues/67)) ([6c6c21f](https://github.com/googleapis/common-protos-php/commit/6c6c21fc4a2f4711aeddad11082ed17acaf4733c))
+
 ## [4.2.0](https://github.com/googleapis/common-protos-php/compare/v4.1.0...v4.2.0) (2023-07-25)
 
 

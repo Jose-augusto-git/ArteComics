@@ -1,0 +1,322 @@
+{
+	"apiVersion": "1",
+	"name": "csb/content-slider-block",
+	"title": "Content Slider",
+	"description": "Display slider in a beautiful way.",
+	"category": "CSBlock",
+	"keywords": [
+		"carousel slider",
+		"content carousel",
+		"custom slider"
+	],
+	"textdomain": "content-slider-block",
+	"attributes": {
+		"align": {
+			"type": "string",
+			"default": ""
+		},
+		"cId": {
+			"type": "string",
+			"default": ""
+		},
+		"isPremium": {
+			"type": "string",
+			"default": true
+		},
+		"slides": {
+			"type": "array",
+			"default": [
+				{
+					"background": {
+						"color": "#00000080"
+					},
+					"border": {},
+					"position": "center center",
+					"positionHolder": "center center",
+					"childPositions": [
+						{
+							"top": 11,
+							"left": 5.8
+						},
+						{
+							"top": 22,
+							"left": 5.8
+						},
+						{
+							"top": 33,
+							"left": 5.8
+						}
+					],
+					"title": "Slide Title 1",
+					"titleColor": "#fff",
+					"description": "This content area describes slider 1 descriptions/details.",
+					"descColor": "#fff",
+					"btnText": "Button 1",
+					"btnLink": "#",
+					"btnColors": {
+						"color": "#fff",
+						"bg": "#4527a4"
+					},
+					"btnHovColors": {
+						"color": "#fff",
+						"bg": "#8344c5"
+					}
+				},
+				{
+					"background": {
+						"color": "#00000080"
+					},
+					"border": {},
+					"position": "center center",
+					"positionHolder": "center center",
+					"childPositions": [
+						{
+							"top": 11,
+							"left": 5.8
+						},
+						{
+							"top": 22,
+							"left": 5.8
+						},
+						{
+							"top": 33,
+							"left": 5.8
+						}
+					],
+					"title": "Slide Title 2",
+					"titleColor": "#fff",
+					"description": "This content area describes slider 2 descriptions/details.",
+					"descColor": "#fff",
+					"btnText": "Button 2",
+					"btnLink": "#",
+					"btnColors": {
+						"color": "#fff",
+						"bg": "#4527a4"
+					},
+					"btnHovColors": {
+						"color": "#fff",
+						"bg": "#8344c5"
+					}
+				}
+			]
+		},
+		"columns": {
+			"type": "object",
+			"default": {
+				"desktop": 1,
+				"tablet": 1,
+				"mobile": 1
+			}
+		},
+		"columnGap": {
+			"type": "number",
+			"default": 15
+		},
+		"sliderWidth": {
+			"type": "string",
+			"default": "100%"
+		},
+		"sliderHeight": {
+			"type": "string",
+			"default": "400px"
+		},
+		"sliderAlign": {
+			"type": "string",
+			"default": "center"
+		},
+		"isLoop": {
+			"type": "boolean",
+			"default": true
+		},
+		"isTouchMove": {
+			"type": "boolean",
+			"default": true
+		},
+		"speed": {
+			"type": "number",
+			"default": 1.5
+		},
+		"isAutoplay": {
+			"type": "boolean",
+			"default": true
+		},
+		"autoplayOptions": {
+			"type": "object",
+			"default": {
+				"delay": 1.5,
+				"disableOnInteraction": false,
+				"reverseDirection": false,
+				"pauseOnMouseEnter": false,
+				"stopOnLastSlide": false
+			}
+		},
+		"freeModeOptions": {
+			"type": "object",
+			"default": {
+				"enabled": false,
+				"sticky": false
+			}
+		},
+		"effect": {
+			"type": "string",
+			"default": "slide"
+		},
+		"keyboardOptions": {
+			"type": "object",
+			"default": {
+				"enabled": false
+			}
+		},
+		"isMousewheel": {
+			"type": "boolean",
+			"default": false
+		},
+		"isPage": {
+			"type": "boolean",
+			"default": true
+		},
+		"pageOnDevice": {
+			"type": "object",
+			"default": {
+				"tablet": true,
+				"mobile": true
+			}
+		},
+		"isPageClickable": {
+			"type": "boolean",
+			"default": true
+		},
+		"isPageDynamic": {
+			"type": "boolean",
+			"default": true
+		},
+		"isPrevNext": {
+			"type": "boolean",
+			"default": true
+		},
+		"prevNextOnDevice": {
+			"type": "object",
+			"default": {
+				"tablet": true,
+				"mobile": true
+			}
+		},
+		"sliderBG": {
+			"type": "object",
+			"default": {
+				"color": "#0000"
+			}
+		},
+		"sliderPadding": {
+			"type": "object",
+			"default": {
+				"vertical": "0px",
+				"horizontal": "0px"
+			}
+		},
+		"pageColor": {
+			"type": "string",
+			"default": "#fff"
+		},
+		"pageWidth": {
+			"type": "string",
+			"default": "15px"
+		},
+		"pageHeight": {
+			"type": "string",
+			"default": "15px"
+		},
+		"pageBorder": {
+			"type": "object",
+			"default": {
+				"radius": "50%"
+			}
+		},
+		"prevNextColor": {
+			"type": "string",
+			"default": "#fff"
+		},
+		"isTitle": {
+			"type": "boolean",
+			"default": true
+		},
+		"titleTypo": {
+			"type": "object",
+			"default": {
+				"fontSize": {
+					"desktop": 25,
+					"tablet": 22,
+					"mobile": 20
+				}
+			}
+		},
+		"isDesc": {
+			"type": "boolean",
+			"default": true
+		},
+		"descTypo": {
+			"type": "object",
+			"default": {
+				"fontSize": {
+					"desktop": 15,
+					"tablet": 15,
+					"mobile": 15
+				}
+			}
+		},
+		"descColor": {
+			"type": "string",
+			"default": ""
+		},
+		"isBtn": {
+			"type": "boolean",
+			"default": true
+		},
+		"linkTarget": {
+			"type": "string",
+			"default": "_blank"
+		},
+		"btnTypo": {
+			"type": "object",
+			"default": {
+				"fontSize": {
+					"desktop": 16,
+					"tablet": 16,
+					"mobile": 16
+				}
+			}
+		},
+		"btnPadding": {
+			"type": "object",
+			"default": {
+				"vertical": "12px",
+				"horizontal": "35px"
+			}
+		},
+		"btnBorder": {
+			"type": "object",
+			"default": {
+				"radius": "3px"
+			}
+		}
+	},
+	"supports": {
+		"align": [
+			"wide",
+			"full"
+		],
+		"html": false
+	},
+	"example": {
+		"attributes": {
+			"preview": true,
+			"columns": {
+				"desktop": 1,
+				"tablet": 1,
+				"mobile": 1
+			}
+		}
+	},
+	"editorScript": "file:dist/editor.js",
+	"script": "file:dist/script.js"
+}

@@ -2,16 +2,16 @@
 # This file is distributed under the same license as the Google Listings and Ads plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Google Listings and Ads 2.5.10\n"
+"Project-Id-Version: Google Listings and Ads 2.5.12\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/google-listings-and-ads\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-10-18T07:32:06+00:00\n"
+"POT-Creation-Date: 2023-11-22T12:28:46+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.1\n"
+"X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: google-listings-and-ads\n"
 
 #. Plugin Name of the plugin
@@ -30,7 +30,7 @@ msgid "WooCommerce"
 msgstr ""
 
 #. Author URI of the plugin
-msgid "https://woocommerce.com/"
+msgid "https://woo.com/"
 msgstr ""
 
 #. translators: %s: the action name
@@ -229,16 +229,16 @@ msgid "The cut of the item. Recommended for apparel items."
 msgstr ""
 
 #. translators: 1: is a numeric account ID
-#: src/Ads/AccountService.php:107
+#: src/Ads/AccountService.php:109
 msgid "Ads account %1$d already connected."
 msgstr ""
 
 #. translators: 1: is a string representing an unknown step name
-#: src/Ads/AccountService.php:172
+#: src/Ads/AccountService.php:174
 msgid "Unknown ads account creation step %1$s"
 msgstr ""
 
-#: src/Ads/AccountService.php:238
+#: src/Ads/AccountService.php:241
 msgid "Billing setup must be completed."
 msgstr ""
 
@@ -247,20 +247,20 @@ msgstr ""
 msgid "Invalid Term ID or Post ID or site url %1$d"
 msgstr ""
 
-#: src/Ads/AssetSuggestionsService.php:246
-#: src/Ads/AssetSuggestionsService.php:247
-#: src/Ads/AssetSuggestionsService.php:248
-#: src/Ads/AssetSuggestionsService.php:730
+#: src/Ads/AssetSuggestionsService.php:242
+#: src/Ads/AssetSuggestionsService.php:243
+#: src/Ads/AssetSuggestionsService.php:244
+#: src/Ads/AssetSuggestionsService.php:721
 msgid "Homepage"
 msgstr ""
 
 #. translators: 1: is an integer representing an unknown Post ID
-#: src/Ads/AssetSuggestionsService.php:271
+#: src/Ads/AssetSuggestionsService.php:266
 msgid "Invalid Post ID %1$d"
 msgstr ""
 
 #. translators: 1: is an integer representing an unknown Term ID
-#: src/Ads/AssetSuggestionsService.php:320
+#: src/Ads/AssetSuggestionsService.php:315
 msgid "Invalid Term ID %1$d"
 msgstr ""
 
@@ -288,16 +288,16 @@ msgstr ""
 msgid "Error retrieving asset groups: %s"
 msgstr ""
 
-#: src/API/Google/AdsAssetGroup.php:378
+#: src/API/Google/AdsAssetGroup.php:377
 msgid "Each image type (landscape, square, portrait or logo) cannot contain duplicated images."
 msgstr ""
 
 #. translators: %s Error message
-#: src/API/Google/AdsAssetGroup.php:384
+#: src/API/Google/AdsAssetGroup.php:383
 msgid "Error editing asset group: %s"
 msgstr ""
 
-#: src/API/Google/AdsAssetGroup.php:473
+#: src/API/Google/AdsAssetGroup.php:472
 msgid "Invalid asset group ID"
 msgstr ""
 
@@ -307,48 +307,48 @@ msgid "Error retrieving asset groups assets: %s"
 msgstr ""
 
 #. translators: %s Error message
-#: src/API/Google/AdsAssetGroupAsset.php:207
+#: src/API/Google/AdsAssetGroupAsset.php:206
 msgid "Error retrieving asset groups assets by final url: %s"
 msgstr ""
 
 #. translators: %s Error message
-#: src/API/Google/AdsCampaign.php:132
+#: src/API/Google/AdsCampaign.php:145
 msgid "Error retrieving campaigns: %s"
 msgstr ""
 
 #. translators: %s Error message
-#: src/API/Google/AdsCampaign.php:175
+#: src/API/Google/AdsCampaign.php:188
 msgid "Error retrieving campaign: %s"
 msgstr ""
 
 #. translators: %s Error message
-#: src/API/Google/AdsCampaign.php:234
+#: src/API/Google/AdsCampaign.php:250
 msgid "Error creating campaign: %s"
 msgstr ""
 
-#: src/API/Google/AdsCampaign.php:237
+#: src/API/Google/AdsCampaign.php:253
 msgid "A campaign with this name already exists"
 msgstr ""
 
 #. translators: %s Error message
-#: src/API/Google/AdsCampaign.php:290
+#: src/API/Google/AdsCampaign.php:306
 msgid "Error editing campaign: %s"
 msgstr ""
 
 #. translators: %s Error message
-#: src/API/Google/AdsCampaign.php:323
+#: src/API/Google/AdsCampaign.php:339
 msgid "Error deleting campaign: %s"
 msgstr ""
 
-#: src/API/Google/AdsCampaign.php:326
+#: src/API/Google/AdsCampaign.php:342
 msgid "This campaign has already been deleted"
 msgstr ""
 
-#: src/API/Google/AdsCampaign.php:586
+#: src/API/Google/AdsCampaign.php:602
 msgid "Invalid campaign ID"
 msgstr ""
 
-#: src/API/Google/AdsCampaign.php:602
+#: src/API/Google/AdsCampaign.php:618
 msgid "Invalid geo target location ID"
 msgstr ""
 
@@ -558,44 +558,44 @@ msgstr ""
 msgid "Campaign ID."
 msgstr ""
 
-#: src/API/Site/Controllers/Ads/AssetGroupController.php:175
+#: src/API/Site/Controllers/Ads/AssetGroupController.php:174
 msgid "Successfully created asset group."
 msgstr ""
 
-#: src/API/Site/Controllers/Ads/AssetGroupController.php:198
+#: src/API/Site/Controllers/Ads/AssetGroupController.php:197
 msgid "No asset group fields to update."
 msgstr ""
 
-#: src/API/Site/Controllers/Ads/AssetGroupController.php:204
+#: src/API/Site/Controllers/Ads/AssetGroupController.php:203
 msgid "Successfully edited asset group."
 msgstr ""
 
-#: src/API/Site/Controllers/Ads/AssetGroupController.php:222
+#: src/API/Site/Controllers/Ads/AssetGroupController.php:221
 msgid "Asset Group ID"
 msgstr ""
 
-#: src/API/Site/Controllers/Ads/AssetGroupController.php:227
+#: src/API/Site/Controllers/Ads/AssetGroupController.php:226
 #: js/build/commons.js:1
 msgid "Final URL"
 msgstr ""
 
-#: src/API/Site/Controllers/Ads/AssetGroupController.php:233
+#: src/API/Site/Controllers/Ads/AssetGroupController.php:232
 msgid "Text that may appear appended to the url displayed in the ad."
 msgstr ""
 
-#: src/API/Site/Controllers/Ads/AssetGroupController.php:238
+#: src/API/Site/Controllers/Ads/AssetGroupController.php:237
 msgid "Asset is a part of an ad which can be shared across multiple ads. It can be an image, headlines, descriptions, etc."
 msgstr ""
 
-#: src/API/Site/Controllers/Ads/AssetGroupController.php:282
+#: src/API/Site/Controllers/Ads/AssetGroupController.php:281
 msgid "Asset ID"
 msgstr ""
 
-#: src/API/Site/Controllers/Ads/AssetGroupController.php:286
+#: src/API/Site/Controllers/Ads/AssetGroupController.php:285
 msgid "Asset content"
 msgstr ""
 
-#: src/API/Site/Controllers/Ads/AssetGroupController.php:290
+#: src/API/Site/Controllers/Ads/AssetGroupController.php:289
 msgid "Asset field type"
 msgstr ""
 
@@ -1325,7 +1325,7 @@ msgstr ""
 msgid "Your installation of Google Listings and Ads is incomplete. If you installed from GitHub, %1$splease refer to this document%2$s to set up your development environment."
 msgstr ""
 
-#: src/Coupon/CouponSyncer.php:471
+#: src/Coupon/CouponSyncer.php:472
 #: src/Product/ProductSyncer.php:363
 msgid "Google Merchant Center has not been set up correctly. Please review your configuration."
 msgstr ""

@@ -2,8 +2,8 @@
 Contributors: sujaypawar, wpcrafter
 Tags: woocommerce, funnel builder, sales funnels, elementor, beaver builder
 Requires at least: 5.8
-Tested up to: 6.3
-Stable tag: 1.11.15
+Tested up to: 6.4
+Stable tag: 2.0.2
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -321,6 +321,29 @@ This includes, but is not limited to:
 5. Easily edit anything with your page builder.
 
 == Changelog ==
+
+= Version 2.0.2 - Monday, 4th December 2023 =
+* Security Fix: Hardened the security of the plugin suggested by PatchStack.
+* Fix: Unable to add the product on the upsell/downsell step after they are cloned.
+* Fix: Responsive issue for width of first and last name fields.
+* Fix: Flow template from exported JSON file was not getting imported.
+* Fix: Dynamic Conditions Rules of checkout step were not getting re-ordered.
+* Fix: Radio button for product options selection was not working when set to single selection.
+
+= Version 2.0.1 - Friday, 10th November 2023 =
+* New: Introduced the option to enable the Global Color Pallet of CartFlows for individual flows.
+* New: Introduced the option to edit the order bump title.
+* Fix: Fixed deprecated notices for Elementor displayed on the landing step for next step button.
+* Fix: Fixed the array to string conversion warning while using the Block Builder.
+
+= Version 2.0.0 - Tuesday, 7th November 2023 =
+* New: Revamped the whole CartFlows user-interface to add a user-friendly touch.
+* New: Introduced a do_action `cartflows_store_checkout_before_configure_cart` for store checkout.
+* New: Added a way to carry forward the URL parameters to the next step.
+* Fix: Fixed the flow import/export issue with multi-language in which special characters are used.
+* Fix: Fixed Modern Cart Plugin compatibility for dynamic flow feature of CartFlows.
+* Fix: Fixed the deprecation notices for the latest update of Elementor.
+* Fix: Fixed the checkout field mobile responsive issue for two-step checkout layout.
 
 = Version 1.11.15 - Monday, 14th August 2023 =
 * Fix: CartFlows blocks were not working with the latest version of Spectra.

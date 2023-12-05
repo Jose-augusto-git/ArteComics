@@ -76,7 +76,7 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 		$flow_id = absint( get_post_meta( $step_id, 'wcf-flow-id', true ) );
 
 		if ( absint( \Cartflows_Helper::get_global_setting( '_cartflows_store_checkout' ) ) === $flow_id && ! apply_filters( 'cartflows_show_store_checkout_product_tab', false ) ) {
-			unset( $settings['tabs']['checkout_products'] );
+			unset( $settings['tabs']['products'] );
 		}
 
 		return $settings;
@@ -101,7 +101,7 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 
 					$product_obj = wc_get_product( $product['product'] );
 					if ( $product_obj ) {
-						$checkout_products[ $index ]['name']          = $product_obj->get_name() . ' (#' . $product_obj->get_id() . ')';
+						$checkout_products[ $index ]['name']          = $product_obj->get_name();
 						$checkout_products[ $index ]['img_url']       = get_the_post_thumbnail_url( $product['product'] );
 						$checkout_products[ $index ]['regular_price'] = Cartflows_Helper::get_product_original_price( $product_obj );
 					}
@@ -132,44 +132,36 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 	 */
 	public function get_settings( $step_id, $options = array() ) {
 
-		$this->step_id = $step_id;
-		$this->options = $options;
-
 		$common_tabs = $this->common_tabs();
 		$add_tabs    = array(
-			'checkout_products'    => array(
+			'products'             => array(
 				'title'    => __( 'Products', 'cartflows' ),
-				'id'       => 'checkout_products',
+				'id'       => 'products',
 				'class'    => '',
-				'icon'     => 'dashicons-format-aside',
 				'priority' => 10,
 			),
 			'multi_order_bump'     => array(
 				'title'    => __( 'Order Bumps', 'cartflows' ),
 				'id'       => 'order_bumps',
 				'class'    => '',
-				'icon'     => 'dashicons-format-aside',
 				'priority' => 20,
 			),
 			'checkout_form_fields' => array(
-				'title'    => __( 'Form Fields', 'cartflows' ),
+				'title'    => __( 'Checkout Form', 'cartflows' ),
 				'id'       => 'checkout_form_fields',
 				'class'    => '',
-				'icon'     => 'dashicons-format-aside',
 				'priority' => 40,
 			),
 			'dynamic-offers'       => array(
 				'title'    => __( 'Dynamic Offers', 'cartflows' ),
 				'id'       => 'dynamic-offers',
 				'class'    => '',
-				'icon'     => 'dashicons-format-aside',
 				'priority' => 50,
 			),
 			'settings'             => array(
 				'title'    => __( 'Settings', 'cartflows' ),
 				'id'       => 'settings',
 				'class'    => '',
-				'icon'     => 'dashicons-format-aside',
 				'priority' => 60,
 			),
 		);
@@ -180,7 +172,6 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 				'title'    => __( 'Checkout Offer', 'cartflows' ),
 				'id'       => 'checkout_offer',
 				'class'    => '',
-				'icon'     => 'dashicons-format-aside',
 				'priority' => 30,
 			);
 		}
@@ -218,17 +209,33 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 
 		$settings = array(
 			'settings' => array(
-				'checkout-design'          => array(
-					'title'    => __( 'Checkout Design', 'cartflows' ),
-					'slug'     => 'checkout_design',
+				'shortcode'            => array(
+					'title'    => __( 'Shortcode', 'cartflows' ),
+					'slug'     => 'shortcodes',
 					'priority' => 10,
 					'fields'   => array(
+						'checkout-shortcode' => array(
+							'type'          => 'text',
+							'name'          => 'checkout-shortcode',
+							'label'         => __( 'CartFlows Checkout', 'cartflows' ),
+							'value'         => '[cartflows_checkout]',
+							'help'          => __( 'Add this shortcode to your checkout page', 'cartflows' ),
+							'readonly'      => true,
+							'display_align' => 'vertical',
+						),
+					),
+				),
+				'checkout-design'      => array(
+					'title'    => __( 'Checkout Design', 'cartflows' ),
+					'slug'     => 'checkout_design',
+					'priority' => 20,
+					'fields'   => array(
 						'checkout-skin'       => array(
-							'type'        => 'select',
-							'label'       => __( 'Checkout Skin', 'cartflows' ),
-							'name'        => 'wcf-checkout-layout',
-							'value'       => $options['wcf-checkout-layout'],
-							'options'     => array(
+							'type'          => 'select',
+							'label'         => __( 'Checkout Skin', 'cartflows' ),
+							'name'          => 'wcf-checkout-layout',
+							'value'         => $options['wcf-checkout-layout'],
+							'options'       => array(
 								array(
 									'value' => 'modern-checkout',
 									'label' => esc_html__( 'Modern Checkout', 'cartflows' ),
@@ -255,7 +262,8 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 								),
 
 							),
-							'pro_options' => $layout_pro_option,
+							'display_align' => 'vertical',
+							'pro_options'   => $layout_pro_option,
 						),
 						'primary-color'       => array(
 							'type'  => 'color-picker',
@@ -264,43 +272,31 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 							'value' => $options['wcf-primary-color'],
 						),
 						'heading-font-family' => array(
-							'type'  => 'font-family',
-							'label' => esc_html__( 'Font Family', 'cartflows' ),
-							'name'  => 'wcf-base-font-family',
-							'value' => $options['wcf-base-font-family'],
+							'type'          => 'font-family',
+							'label'         => esc_html__( 'Font Family', 'cartflows' ),
+							'name'          => 'wcf-base-font-family',
+							'value'         => $options['wcf-base-font-family'],
+							'display_align' => 'vertical',
 						),
 					),
 				),
 
-				'checkout-text-design'     => array(
+				'checkout-text-design' => array(
 					'title'    => __( 'Checkout Texts & Buttons', 'cartflows' ),
 					'slug'     => 'checkout_texts_buttons',
-					'priority' => 20,
+					'priority' => 30,
 					'fields'   => array(
 						'advanced-options'          => array(
-							'type'  => 'checkbox',
-							'label' => __( 'Enable Advance Options', 'cartflows' ),
-							'name'  => 'wcf-advance-options-fields',
-							'value' => $options['wcf-advance-options-fields'],
-						),
-
-						'heading-heading'           => array(
-							'type'       => 'heading',
-							'label'      => esc_html__( 'Heading', 'cartflows' ),
-							'conditions' => array(
-								'fields' => array(
-									array(
-										'name'     => 'wcf-advance-options-fields',
-										'operator' => '===',
-										'value'    => 'yes',
-									),
-								),
-							),
+							'type'         => 'toggle',
+							'label'        => __( 'Enable Advance Options', 'cartflows' ),
+							'name'         => 'wcf-advance-options-fields',
+							'value'        => $options['wcf-advance-options-fields'],
+							'is_fullwidth' => true,
 						),
 
 						'heading-font-color'        => array(
 							'type'       => 'color-picker',
-							'label'      => __( 'Heading Color', 'cartflows' ),
+							'label'      => __( 'Heading Text Color', 'cartflows' ),
 							'name'       => 'wcf-heading-color',
 							'value'      => $options['wcf-heading-color'],
 							'conditions' => array(
@@ -316,12 +312,13 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 						'heading-font-family'       => array(
 							'type'              => 'font-family',
 							'for'               => 'wcf-heading',
-							'label'             => esc_html__( 'Font Family', 'cartflows' ),
+							'label'             => esc_html__( 'Heading Font Family', 'cartflows' ),
 							'name'              => 'wcf-heading-font-family',
 							'value'             => $options['wcf-heading-font-family'],
 							'font_weight_name'  => 'wcf-heading-font-weight',
 							'font_weight_value' => $options['wcf-heading-font-weight'],
 							'for'               => 'wcf-heading',
+							'display_align'     => 'vertical',
 							'conditions'        => array(
 								'fields' => array(
 									array(
@@ -331,28 +328,15 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 									),
 								),
 							),
-						),
-
-						'heading-input-field'       => array(
-							'type'       => 'heading',
-							'label'      => esc_html__( 'Input Fields', 'cartflows' ),
-							'conditions' => array(
-								'fields' => array(
-									array(
-										'name'     => 'wcf-advance-options-fields',
-										'operator' => '===',
-										'value'    => 'yes',
-									),
-								),
-							),
+							'display_align'     => 'vertical',
 						),
 
 						'input-field-style'         => array(
-							'type'       => 'select',
-							'label'      => __( 'Style', 'cartflows' ),
-							'name'       => 'wcf-fields-skins',
-							'value'      => 'style-one' === $options['wcf-fields-skins'] ? 'modern-label' : $options['wcf-fields-skins'],
-							'options'    => array(
+							'type'          => 'select',
+							'label'         => __( 'Input Field Style', 'cartflows' ),
+							'name'          => 'wcf-fields-skins',
+							'value'         => 'style-one' === $options['wcf-fields-skins'] ? 'modern-label' : $options['wcf-fields-skins'],
+							'options'       => array(
 								array(
 									'value' => 'default',
 									'label' => esc_html__( 'Default', 'cartflows' ),
@@ -362,7 +346,7 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 									'label' => esc_html__( 'Modern Labels', 'cartflows' ),
 								),
 							),
-							'conditions' => array(
+							'conditions'    => array(
 								'fields' => array(
 									array(
 										'name'     => 'wcf-advance-options-fields',
@@ -371,11 +355,12 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 									),
 								),
 							),
+							'display_align' => 'vertical',
 						),
 						'input-font-family'         => array(
 							'type'              => 'font-family',
 							'for'               => 'wcf-input',
-							'label'             => esc_html__( 'Font Family', 'cartflows' ),
+							'label'             => esc_html__( 'Input Field Font Family', 'cartflows' ),
 							'name'              => 'wcf-input-font-family',
 							'value'             => $options['wcf-input-font-family'],
 							'font_weight_name'  => 'wcf-input-font-weight',
@@ -390,14 +375,15 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 									),
 								),
 							),
+							'display_align'     => 'vertical',
 						),
 
 						'input-size'                => array(
-							'type'       => 'select',
-							'label'      => __( 'Size', 'cartflows' ),
-							'name'       => 'wcf-input-field-size',
-							'value'      => $options['wcf-input-field-size'],
-							'options'    => array(
+							'type'          => 'select',
+							'label'         => __( 'Field Size', 'cartflows' ),
+							'name'          => 'wcf-input-field-size',
+							'value'         => $options['wcf-input-field-size'],
+							'options'       => array(
 								array(
 									'value' => '33px',
 									'label' => esc_html__( 'Extra Small', 'cartflows' ),
@@ -423,7 +409,7 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 									'label' => esc_html__( 'Custom', 'cartflows' ),
 								),
 							),
-							'conditions' => array(
+							'conditions'    => array(
 								'fields' => array(
 									array(
 										'name'     => 'wcf-advance-options-fields',
@@ -432,13 +418,14 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 									),
 								),
 							),
+							'display_align' => 'vertical',
 						),
 						'input-bottom-space'        => array(
-							'type'       => 'number',
-							'label'      => __( 'Top Bottom Spacing', 'cartflows' ),
-							'name'       => 'wcf-field-tb-padding',
-							'value'      => $options['wcf-field-tb-padding'],
-							'conditions' => array(
+							'type'          => 'number',
+							'label'         => __( 'Field Top-Bottom Spacing', 'cartflows' ),
+							'name'          => 'wcf-field-tb-padding',
+							'value'         => $options['wcf-field-tb-padding'],
+							'conditions'    => array(
 								'fields' => array(
 									array(
 										'name'     => 'wcf-input-field-size',
@@ -447,13 +434,14 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 									),
 								),
 							),
+							'display_align' => 'vertical',
 						),
 						'input-right-space'         => array(
-							'type'       => 'number',
-							'label'      => __( 'Left Right Spacing', 'cartflows' ),
-							'name'       => 'wcf-field-lr-padding',
-							'value'      => $options['wcf-field-lr-padding'],
-							'conditions' => array(
+							'type'          => 'number',
+							'label'         => __( 'Field Left-Right Spacing', 'cartflows' ),
+							'name'          => 'wcf-field-lr-padding',
+							'value'         => $options['wcf-field-lr-padding'],
+							'conditions'    => array(
 								'fields' => array(
 									array(
 										'name'     => 'wcf-input-field-size',
@@ -462,10 +450,11 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 									),
 								),
 							),
+							'display_align' => 'vertical',
 						),
 						'input-text/p-color'        => array(
 							'type'       => 'color-picker',
-							'label'      => __( 'Text / Placeholder Color', 'cartflows' ),
+							'label'      => __( 'Field Text / Placeholder Color', 'cartflows' ),
 							'name'       => 'wcf-field-color',
 							'value'      => $options['wcf-field-color'],
 							'conditions' => array(
@@ -480,7 +469,7 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 						),
 						'input-bg-color'            => array(
 							'type'       => 'color-picker',
-							'label'      => __( 'Background Color', 'cartflows' ),
+							'label'      => __( 'Field Background Color', 'cartflows' ),
 							'name'       => 'wcf-field-bg-color',
 							'value'      => $options['wcf-field-bg-color'],
 							'conditions' => array(
@@ -495,7 +484,7 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 						),
 						'input-border-color'        => array(
 							'type'       => 'color-picker',
-							'label'      => __( 'Border Color', 'cartflows' ),
+							'label'      => __( 'Field Border Color', 'cartflows' ),
 							'name'       => 'wcf-field-border-color',
 							'value'      => $options['wcf-field-border-color'],
 							'conditions' => array(
@@ -510,7 +499,7 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 						),
 						'input-label-color'         => array(
 							'type'       => 'color-picker',
-							'label'      => __( 'Label Color', 'cartflows' ),
+							'label'      => __( 'Field Label Color', 'cartflows' ),
 							'name'       => 'wcf-field-label-color',
 							'value'      => $options['wcf-field-label-color'],
 							'conditions' => array(
@@ -524,23 +513,10 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 							),
 						),
 
-						'button-heading'            => array(
-							'type'       => 'heading',
-							'label'      => esc_html__( 'Buttons', 'cartflows' ),
-							'conditions' => array(
-								'fields' => array(
-									array(
-										'name'     => 'wcf-advance-options-fields',
-										'operator' => '===',
-										'value'    => 'yes',
-									),
-								),
-							),
-						),
 						'button-font-family'        => array(
 							'type'              => 'font-family',
 							'for'               => 'wcf-button',
-							'label'             => esc_html__( 'Font Family', 'cartflows' ),
+							'label'             => esc_html__( 'Button Font Family', 'cartflows' ),
 							'name'              => 'wcf-button-font-family',
 							'value'             => $options['wcf-button-font-family'],
 							'font_weight_name'  => 'wcf-button-font-weight',
@@ -555,14 +531,15 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 									),
 								),
 							),
+							'display_align'     => 'vertical',
 						),
 
-						'buttom-font-size'          => array(
-							'type'       => 'select',
-							'label'      => __( 'Size', 'cartflows' ),
-							'name'       => 'wcf-input-button-size',
-							'value'      => $options['wcf-input-button-size'],
-							'options'    => array(
+						'button-font-size'          => array(
+							'type'          => 'select',
+							'label'         => __( 'Button Size', 'cartflows' ),
+							'name'          => 'wcf-input-button-size',
+							'value'         => $options['wcf-input-button-size'],
+							'options'       => array(
 								array(
 									'value' => '33px',
 									'label' => esc_html__( 'Extra Small', 'cartflows' ),
@@ -588,7 +565,7 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 									'label' => esc_html__( 'Custom', 'cartflows' ),
 								),
 							),
-							'conditions' => array(
+							'conditions'    => array(
 								'fields' => array(
 									array(
 										'name'     => 'wcf-advance-options-fields',
@@ -597,33 +574,14 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 									),
 								),
 							),
+							'display_align' => 'vertical',
 						),
-						'buttom-top-space'          => array(
-							'type'       => 'number',
-							'label'      => __( 'Top Bottom Spacing', 'cartflows' ),
-							'name'       => 'wcf-submit-tb-padding',
-							'value'      => $options['wcf-submit-tb-padding'],
-							'conditions' => array(
-								'fields' => array(
-									array(
-										'name'     => 'wcf-input-button-size',
-										'operator' => '===',
-										'value'    => 'custom',
-									),
-									array(
-										'name'     => 'wcf-advance-options-fields',
-										'operator' => '===',
-										'value'    => 'yes',
-									),
-								),
-							),
-						),
-						'buttom-left-space'         => array(
-							'type'       => 'number',
-							'label'      => __( 'Left Right Spacing', 'cartflows' ),
-							'name'       => 'wcf-submit-lr-padding',
-							'value'      => $options['wcf-submit-lr-padding'],
-							'conditions' => array(
+						'button-top-space'          => array(
+							'type'          => 'number',
+							'label'         => __( 'Button Top-Bottom Spacing', 'cartflows' ),
+							'name'          => 'wcf-submit-tb-padding',
+							'value'         => $options['wcf-submit-tb-padding'],
+							'conditions'    => array(
 								'fields' => array(
 									array(
 										'name'     => 'wcf-input-button-size',
@@ -637,10 +595,32 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 									),
 								),
 							),
+							'display_align' => 'vertical',
 						),
-						'buttom-text-color'         => array(
+						'button-left-space'         => array(
+							'type'          => 'number',
+							'label'         => __( 'Button Left-Right Spacing', 'cartflows' ),
+							'name'          => 'wcf-submit-lr-padding',
+							'value'         => $options['wcf-submit-lr-padding'],
+							'conditions'    => array(
+								'fields' => array(
+									array(
+										'name'     => 'wcf-input-button-size',
+										'operator' => '===',
+										'value'    => 'custom',
+									),
+									array(
+										'name'     => 'wcf-advance-options-fields',
+										'operator' => '===',
+										'value'    => 'yes',
+									),
+								),
+							),
+							'display_align' => 'vertical',
+						),
+						'button-text-color'         => array(
 							'type'       => 'color-picker',
-							'label'      => __( 'Text Color', 'cartflows' ),
+							'label'      => __( 'Button Text Color', 'cartflows' ),
 							'name'       => 'wcf-submit-color',
 							'value'      => $options['wcf-submit-color'],
 							'conditions' => array(
@@ -653,9 +633,9 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 								),
 							),
 						),
-						'buttom-text-hover-color'   => array(
+						'button-text-hover-color'   => array(
 							'type'       => 'color-picker',
-							'label'      => __( 'Text Hover Color', 'cartflows' ),
+							'label'      => __( 'Button Text Hover Color', 'cartflows' ),
 							'name'       => 'wcf-submit-hover-color',
 							'value'      => $options['wcf-submit-hover-color'],
 							'conditions' => array(
@@ -668,9 +648,9 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 								),
 							),
 						),
-						'buttom-bg-color'           => array(
+						'button-bg-color'           => array(
 							'type'       => 'color-picker',
-							'label'      => __( 'Background Color', 'cartflows' ),
+							'label'      => __( 'Button Background Color', 'cartflows' ),
 							'name'       => 'wcf-submit-bg-color',
 							'value'      => $options['wcf-submit-bg-color'],
 							'conditions' => array(
@@ -683,9 +663,9 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 								),
 							),
 						),
-						'buttom-bg-hover-color'     => array(
+						'button-bg-hover-color'     => array(
 							'type'       => 'color-picker',
-							'label'      => __( 'Background Hover Color', 'cartflows' ),
+							'label'      => __( 'Button Background Hover Color', 'cartflows' ),
 							'name'       => 'wcf-submit-bg-hover-color',
 							'value'      => $options['wcf-submit-bg-hover-color'],
 							'conditions' => array(
@@ -698,9 +678,9 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 								),
 							),
 						),
-						'buttom-border-color'       => array(
+						'button-border-color'       => array(
 							'type'       => 'color-picker',
-							'label'      => __( 'Border Color', 'cartflows' ),
+							'label'      => __( 'Button Border Color', 'cartflows' ),
 							'name'       => 'wcf-submit-border-color',
 							'value'      => $options['wcf-submit-border-color'],
 							'conditions' => array(
@@ -713,9 +693,9 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 								),
 							),
 						),
-						'buttom-border-hover-color' => array(
+						'button-border-hover-color' => array(
 							'type'       => 'color-picker',
-							'label'      => __( 'Border Hover Color', 'cartflows' ),
+							'label'      => __( 'Button Border Hover Color', 'cartflows' ),
 							'name'       => 'wcf-submit-border-hover-color',
 							'value'      => $options['wcf-submit-border-hover-color'],
 							'conditions' => array(
@@ -729,23 +709,9 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 							),
 						),
 
-						'section-heading'           => array(
-							'type'       => 'heading',
-							'label'      => esc_html__( 'Sections', 'cartflows' ),
-							'conditions' => array(
-								'fields' => array(
-									array(
-										'name'     => 'wcf-advance-options-fields',
-										'operator' => '===',
-										'value'    => 'yes',
-									),
-								),
-							),
-						),
-
 						'highlighted-area'          => array(
 							'type'       => 'color-picker',
-							'label'      => __( 'Highlight Area Background Color', 'cartflows' ),
+							'label'      => __( 'Section Background Color', 'cartflows' ),
 							'name'       => 'wcf-hl-bg-color',
 							'value'      => $options['wcf-hl-bg-color'],
 							'conditions' => array(
@@ -757,69 +723,17 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 									),
 								),
 							),
+							'tooltip'    => __( 'Apply the background color to the payment description box', 'cartflows' ),
 						),
 
 					),
-				),
-
-				'checkout-two-step-design' => array(
-					'title'      => __( 'Two-Step Design', 'cartflows' ),
-					'slug'       => 'two_step_design',
-					'priority'   => 40,
-					'fields'     => ! _is_cartflows_pro() ? array(
-						'product-option' => array(
-							'type'    => 'pro-notice',
-							'feature' => 'Two Step',
-						),
-					) : '',
-					'conditions' => array(
-						'relation' => 'and',
-						'fields'   => array(
-							array(
-								'name'     => 'wcf-checkout-layout',
-								'operator' => '===',
-								'value'    => 'two-step',
-							),
-						),
-					),
-				),
-
-				'product-option-design'    => array(
-					'title'    => __( 'Product Options', 'cartflows' ),
-					'slug'     => 'product_options',
-					'priority' => 50,
-					'fields'   => ! _is_cartflows_pro() ? array(
-						'product-option' => array(
-							'type'    => 'pro-notice',
-							'feature' => 'Product Options',
-						),
-					) : '',
-				),
-
-				'checkout-offer-design'    => array(
-					'title'    => __( 'Checkout Offer', 'cartflows' ),
-					'slug'     => 'checkout_offer',
-					'priority' => 70,
-					'fields'   => ! _is_cartflows_pro() ? array(
-						'product-option' => array(
-							'type'    => 'pro-notice',
-							'feature' => 'Checkout Offer',
-						),
-					)
-
-						: '',
 				),
 			),
 		);
 
 		$flow_id = absint( get_post_meta( $step_id, 'wcf-flow-id', true ) );
 
-		if ( absint( Cartflows_Helper::get_global_setting( '_cartflows_store_checkout' ) ) === $flow_id && ! apply_filters( 'cartflows_show_store_checkout_product_tab', false ) ) {
-
-			unset( $settings['settings']['product-option-design'] );
-		}
-
-		$settings = apply_filters( 'cartflows_admin_checkout_design_fields', $settings, $options );
+		$settings = apply_filters( 'cartflows_admin_checkout_design_fields', $settings, $options, $flow_id );
 		return $settings;
 	}
 
@@ -839,7 +753,7 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 
 			'wcf-product-options'           => array(
 				'type'    => 'radio',
-				'label'   => __( 'Product Options Conditions', 'cartflows' ),
+				'label'   => __( 'Enable Conditions', 'cartflows' ),
 				'options' => array(
 					array(
 						'value' => 'force-all',
@@ -860,7 +774,7 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 				'label' => __( 'Enable Variations', 'cartflows' ),
 			),
 			'wcf-product-variation-options' => array(
-				'type'        => 'radio',
+				'type'        => 'radiofield',
 				'label'       => '',
 				'child_class' => 'wcf-child-field',
 				'options'     => array(
@@ -887,18 +801,16 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 	 */
 	public function get_dummy_settings_for_coupon() {
 		return array(
-			'coupon'     => array(
+			'coupon' => array(
 				'type'        => 'coupon',
 				'label'       => __( 'Select Coupon', 'cartflows' ),
-				'placeholder' => __( 'Type to search for a coupon...', 'cartflows' ),
+				'placeholder' => __( 'Search for a coupon', 'cartflows' ),
 				'multiple'    => false,
 				'allow_clear' => true,
-			),
-			'coupon-doc' => array(
-				'type'    => 'doc',
 				/* translators: %1$1s: link html start, %2$12: link html end*/
-				'content' => sprintf( __( 'For more information about the CartFlows coupon please %1$1s Click here.%2$2s', 'cartflows' ), '<a href="https://cartflows.com/docs/enable-coupons-on-cartflows-page/?utm_source=dashboard&utm_medium=free-cartflows&utm_campaign=docs" target="_blank">', '</a>' ),
+				'desc'        => sprintf( __( 'For more information about the CartFlows coupon please %1$1s Click here.%2$2s', 'cartflows' ), '<a href="https://cartflows.com/docs/enable-coupons-on-cartflows-page/" class="!text-gray-600" target="_blank">', '</a>' ),
 			),
+
 		);
 	}
 
@@ -914,7 +826,7 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 		$settings = array(
 			'settings' => array(
 				'product'         => array(
-					'title'    => __( 'Product', 'cartflows' ),
+					'title'    => __( 'Products', 'cartflows' ),
 					'priority' => 20,
 					'fields'   => array(
 						'wcf-checkout-products' => array(
@@ -939,7 +851,7 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 				),
 
 				'coupon'          => array(
-					'title'    => __( 'Coupon', 'cartflows' ),
+					'title'    => __( 'Auto Apply Coupon', 'cartflows' ),
 					'priority' => 30,
 					'fields'   => _is_cartflows_pro() && 'Activated' === _is_cartflows_pro_license_activated() ? '' : $this->get_dummy_settings_for_coupon(),
 
@@ -967,25 +879,6 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 			),
 		);
 
-		// @todo Remove this code after v1.7.4 update.
-		// Start.
-
-		// Order Bump.
-		$settings['settings']['order-bump'] = array(
-			'title'    => __( 'Order Bump', 'cartflows' ),
-			'priority' => 50,
-			'fields'   => ! _is_cartflows_pro() ? array(
-				'order-Bump' => array(
-					'type'    => 'pro-notice',
-					'feature' => 'Order Bump',
-				),
-			)
-
-				: '',
-		);
-
-		// End.
-
 		$settings = apply_filters( 'cartflows_admin_checkout_meta_fields', $settings, $step_id, $options );
 
 		return $settings;
@@ -999,189 +892,61 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 
 		$options = $this->get_data( $step_id );
 
-		$autoaddress_setting_url = admin_url( 'admin.php?page=' . CARTFLOWS_SLUG . '&path=settings#auto_fields' );
-
 		$settings = array(
 			'settings' => array(
-				'shortcodes'        => array(
-					'title'    => __( 'Shortcodes', 'cartflows' ),
-					'slug'     => 'shortcodes',
-					'priority' => 30,
-					'fields'   => array(
-						'checkout-shortcode' => array(
-							'type'     => 'text',
-							'name'     => 'checkout-shortcode',
-							'label'    => __( 'CartFlows Checkout', 'cartflows' ),
-							'value'    => '[cartflows_checkout]',
-							'help'     => __( 'Add this shortcode to your checkout page', 'cartflows' ),
-							'readonly' => true,
-						),
-					),
-				),
-				'general'           => array(
+				'general'  => array(
 					'title'    => __( 'General', 'cartflows' ),
 					'slug'     => 'general',
-					'priority' => 20,
+					'priority' => 10,
 					'fields'   => array(
-						'slug'      => array(
-							'type'  => 'text',
-							'name'  => 'post_name',
-							'label' => __( 'Step Slug', 'cartflows' ),
-							'value' => get_post_field( 'post_name', $step_id ),
+						'slug'                       => array(
+							'type'          => 'text',
+							'name'          => 'post_name',
+							'label'         => __( 'Step Slug', 'cartflows' ),
+							'value'         => get_post_field( 'post_name', $step_id ),
+							'display_align' => 'vertical',
+							'tooltip'       => __( 'Current step\'s slug. Be careful while changing the slug. It will change the URL of the current step.', 'cartflows' ),
 						),
-						'step-note' => array(
-							'type'  => 'textarea',
-							'name'  => 'wcf-step-note',
-							'label' => __( 'Step Note', 'cartflows' ),
-							'value' => get_post_meta( $step_id, 'wcf-step-note', true ),
-							'rows'  => 2,
-							'cols'  => 38,
+						'step-note'                  => array(
+							'type'          => 'textarea',
+							'name'          => 'wcf-step-note',
+							'label'         => __( 'Step Note', 'cartflows' ),
+							'value'         => get_post_meta( $step_id, 'wcf-step-note', true ),
+							'rows'          => 2,
+							'cols'          => 38,
+							'display_align' => 'vertical',
+						),
+						'wcf-checkout-custom-script' => array(
+							'type'          => 'textarea',
+							'label'         => __( 'Custom Script', 'cartflows' ),
+							'name'          => 'wcf-custom-script',
+							'value'         => $options['wcf-custom-script'],
+							'display_align' => 'vertical',
+							'tooltip'       => __( 'Enter custom JS/CSS. Wrap your custom CSS in style tag.', 'cartflows' ),
 						),
 					),
 				),
-
-				// Checkout Fields.
-				'checkout-settings' => array(
-					'title'    => __( 'Checkout Settings', 'cartflows' ),
-					'slug'     => 'checkout_setting',
-					'priority' => 10,
+				'advanced' => array(
+					'title'    => esc_html__( 'Advanced', 'cartflows' ),
+					'slug'     => 'advanced',
+					'priority' => 20,
 					'fields'   => array(
-						'checkout-strings-heading'       => array(
-							'type'  => 'heading',
-							'label' => esc_html__( 'Checkout Texts', 'cartflows' ),
-						),
-
-						'wcf-billing-details-text'       => array(
-							'type'        => 'text',
-							'label'       => __( 'Billing Details', 'cartflows' ),
-							'name'        => 'wcf-checkout-billing-details-text',
-							'placeholder' => __( 'Billing details', 'cartflows' ),
-						),
-						'wcf-shipping-details-text'      => array(
-							'type'        => 'text',
-							'label'       => __( 'Shipping Details', 'cartflows' ),
-							'name'        => 'wcf-checkout-shipping-details-text',
-							'placeholder' => __( 'Ship to a different address?', 'cartflows' ),
-						),
-						'wcf-your-order-text'            => array(
-							'type'        => 'text',
-							'label'       => __( 'Your Order', 'cartflows' ),
-							'name'        => 'wcf-checkout-your-order-text',
-							'placeholder' => __( 'Your order', 'cartflows' ),
-						),
-						'wcf-customer-info-text'         => array(
-							'type'        => 'text',
-							'label'       => __( 'Customer Information', 'cartflows' ),
-							'name'        => 'wcf-checkout-customer-info-text',
-							'placeholder' => __( 'Customer information', 'cartflows' ),
-							'tooltip'     => __( 'This heading will be displayed only on modern checkout style.', 'cartflows' ),
-						),
-						'wcf-payment-text'               => array(
-							'type'        => 'text',
-							'label'       => __( 'Payment', 'cartflows' ),
-							'name'        => 'wcf-checkout-payment-text',
-							'placeholder' => __( 'Payment', 'cartflows' ),
-							'tooltip'     => __( 'This heading will be displayed only on modern checkout style.', 'cartflows' ),
-						),
-						'wcf-enable-validation-text'     => array(
-							'type'    => 'checkbox',
-							'label'   => __( 'Enable Field validation error message', 'cartflows' ),
-							'name'    => 'wcf-enable-checkout-field-validation-text',
-							'value'   => $options['wcf-enable-checkout-field-validation-text'],
-							'tooltip' => __( 'This is the error message appended to the field name to form a error message.', 'cartflows' ),
-						),
-						'wcf-field-validation-text'      => array(
-							'type'        => 'text',
-							'label'       => __( 'Validation error message', 'cartflows' ),
-							'name'        => 'wcf-checkout-field-validation-text',
-							'placeholder' => __( 'is required', 'cartflows' ),
-							'conditions'  => array(
-								'fields' => array(
-									array(
-										'name'     => 'wcf-enable-checkout-field-validation-text',
-										'operator' => '===',
-										'value'    => 'yes',
-									),
-								),
-							),
-						),
-						'checkout-button-heading'        => array(
-							'type'  => 'heading',
-							'label' => esc_html__( 'Place Order Button', 'cartflows' ),
-						),
-						'wcf-place-order-button-text'    => array(
-							'type'        => 'text',
-							'label'       => __( 'Place Order Button Text', 'cartflows' ),
-							'name'        => 'wcf-checkout-place-order-button-text',
-							'value'       => $options['wcf-checkout-place-order-button-text'],
-							'placeholder' => __( 'Place Order', 'cartflows' ),
-							'tooltip'     => __( 'It will change the Place Order Button text on checkout page.', 'cartflows' ),
-						),
-
-						'wcf-place-order-button-icon'    => array(
-							'type'    => 'checkbox',
-							'label'   => __( 'Enable Lock Icon', 'cartflows' ),
-							'name'    => 'wcf-checkout-place-order-button-lock',
-							'value'   => $options['wcf-checkout-place-order-button-lock'],
-							'tooltip' => __( 'This will show the lock icon on the place order button on checkout page.', 'cartflows' ),
-						),
-
-						'wcf-place-order-price-display'  => array(
-							'type'    => 'checkbox',
-							'label'   => __( 'Enable Price Display', 'cartflows' ),
-							'name'    => 'wcf-checkout-place-order-button-price-display',
-							'value'   => $options['wcf-checkout-place-order-button-price-display'],
-							'tooltip' => __( 'This will show the cart total from the place order button.', 'cartflows' ),
-						),
-
-						'checkout-other-heading'         => array(
-							'type'  => 'heading',
-							'label' => __( 'Others', 'cartflows' ),
-						),
-
 						'wcf-show-prod-img-order-review' => array(
-							'type'    => 'checkbox',
-							'label'   => __( 'Display product images', 'cartflows' ),
-							'name'    => 'wcf-order-review-show-product-images',
-							'value'   => $options['wcf-order-review-show-product-images'],
-							'tooltip' => __( 'Enabling this option will display the product\'s images in the order review section.', 'cartflows' ),
+							'type'         => 'toggle',
+							'label'        => __( 'Display product images', 'cartflows' ),
+							'name'         => 'wcf-order-review-show-product-images',
+							'value'        => $options['wcf-order-review-show-product-images'],
+							'tooltip'      => __( 'Enabling this option will display the product\'s images in the order review section.', 'cartflows' ),
+							'is_fullwidth' => true,
 						),
 
 						'wcf-edit-cart'                  => array(
-							'type'    => 'checkbox',
-							'label'   => __( 'Enable cart editing on checkout', 'cartflows' ),
-							'name'    => 'wcf-remove-product-field',
-							'value'   => $options['wcf-remove-product-field'],
-							'tooltip' => __( 'Users will able to remove products from the checkout page.', 'cartflows' ),
-						),
-
-						'wcf-google-autoaddress'         => array(
-							'type'  => 'checkbox',
-							'label' => __( 'Enable Google Address Autocomplete', 'cartflows' ),
-							'name'  => 'wcf-google-autoaddress',
-							/* translators: %1$s: link html start, %2$s: link html end*/
-							'desc'  => sprintf( __( 'Before enabling this option, make sure that you have added API key in %1$1sGoogle Address Autocomplete Settings.%1$1s', 'cartflows' ), '<a href="' . $autoaddress_setting_url . '" target="_blank">', '</a>' ),
-						),
-
-						'wcf-animate-browser-tab'        => ! _is_cartflows_pro() ? array(
-							'type'    => 'pro-notice',
-							'feature' => 'Animate Browser Tab',
-						) : '',
-
-					),
-				),
-
-				'custom-scripts'    => array(
-					'title'    => __( 'Custom Script', 'cartflows' ),
-					'slug'     => 'custom_script',
-					'priority' => 40,
-					'fields'   => array(
-
-						'wcf-checkout-custom-script' => array(
-							'type'  => 'textarea',
-							'label' => __( 'Custom Script', 'cartflows' ),
-							'name'  => 'wcf-custom-script',
-							'value' => $options['wcf-custom-script'],
+							'type'         => 'toggle',
+							'label'        => __( 'Enable cart editing on checkout', 'cartflows' ),
+							'name'         => 'wcf-remove-product-field',
+							'value'        => $options['wcf-remove-product-field'],
+							'tooltip'      => __( 'Users will able to remove products from the checkout page.', 'cartflows' ),
+							'is_fullwidth' => true,
 						),
 					),
 				),
@@ -1250,31 +1015,36 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 
 	}
 
-		/**
-		 * Add custom meta fields
-		 *
-		 * @param int $post_id post id.
-		 */
+	/**
+	 * Add custom meta fields
+	 *
+	 * @param int $post_id post id.
+	 */
 	public function custom_fields_data( $post_id ) {
 
 		$billing_fields  = $this->get_field_settings( $post_id, 'billing', '' );
 		$shipping_fields = $this->get_field_settings( $post_id, 'shipping', '' );
 
-		$custom_fields = array(
-			'extra_fields'    => array(
-				'fields' => array(
+		$options = $this->get_data( $post_id );
 
+		$custom_fields = array(
+			'extra_fields'      => array(
+				'title'    => __( 'Form Settings', 'cartflows' ),
+				'priority' => 10,
+				'fields'   => array(
 					'enable-coupon-field'       => array(
-						'type'  => 'checkbox',
-						'label' => __( 'Enable Coupon Field', 'cartflows' ),
-						'name'  => 'wcf-show-coupon-field',
+						'type'         => 'toggle',
+						'label'        => __( 'Enable Coupon Field', 'cartflows' ),
+						'name'         => 'wcf-show-coupon-field',
+						'is_fullwidth' => true,
 					),
 					'collapse-coupon-field'     => array(
-						'type'        => 'checkbox',
-						'label'       => __( 'Collapsible Coupon Field', 'cartflows' ),
-						'name'        => 'wcf-optimize-coupon-field',
-						'child_class' => 'wcf-cfe-child',
-						'conditions'  => array(
+						'type'         => 'toggle',
+						'label'        => __( 'Collapsible Coupon Field', 'cartflows' ),
+						'name'         => 'wcf-optimize-coupon-field',
+						'child_class'  => 'wcf-cfe-child',
+						'is_fullwidth' => true,
+						'conditions'   => array(
 							'fields' => array(
 								array(
 									'name'     => 'wcf-show-coupon-field',
@@ -1285,16 +1055,18 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 						),
 					),
 					'enable-additional-field'   => array(
-						'type'  => 'checkbox',
-						'label' => __( 'Enable Additional Field', 'cartflows' ),
-						'name'  => 'wcf-checkout-additional-fields',
+						'type'         => 'toggle',
+						'label'        => __( 'Enable Additional Field', 'cartflows' ),
+						'name'         => 'wcf-checkout-additional-fields',
+						'is_fullwidth' => true,
 					),
 					'collapse-additional-field' => array(
-						'type'        => 'checkbox',
-						'label'       => __( 'Collapsible Additional Field', 'cartflows' ),
-						'name'        => 'wcf-optimize-order-note-field',
-						'child_class' => 'wcf-cfe-child',
-						'conditions'  => array(
+						'type'         => 'toggle',
+						'label'        => __( 'Collapsible Additional Field', 'cartflows' ),
+						'name'         => 'wcf-optimize-order-note-field',
+						'child_class'  => 'wcf-cfe-child',
+						'is_fullwidth' => true,
+						'conditions'   => array(
 							'fields' => array(
 								array(
 									'name'     => 'wcf-checkout-additional-fields',
@@ -1305,22 +1077,131 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 						),
 					),
 					'shipping-field'            => array(
-						'type'  => 'checkbox',
-						'label' => __( 'Enable Ship To Different Address', 'cartflows' ),
-						'name'  => 'wcf-shipto-diff-addr-fields',
+						'type'         => 'toggle',
+						'label'        => __( 'Enable Ship To Different Address', 'cartflows' ),
+						'name'         => 'wcf-shipto-diff-addr-fields',
+						'is_fullwidth' => true,
 					),
-					'custom-field-editor'       => array(
-						'type'  => 'checkbox',
-						'label' => __( 'Enable Custom Field Editor', 'cartflows' ),
-						'name'  => 'wcf-custom-checkout-fields',
+
+					'wcf-google-autoaddress'    => array(
+						'type'         => 'toggle',
+						'label'        => __( 'Enable Google Address Autocomplete', 'cartflows' ),
+						'name'         => 'wcf-google-autoaddress',
+						/* translators: %1$s: link html start, %2$s: link html end*/
+						'desc'         => __( 'Before enabling this option, make sure that you have added API key in Google Address Autocomplete Settings.', 'cartflows' ),
+						'is_fullwidth' => true,
 					),
 				),
 			),
-			'billing_fields'  => array(
+			'billing_fields'    => array(
 				'fields' => $billing_fields,
 			),
-			'shipping_fields' => array(
+			'shipping_fields'   => array(
 				'fields' => $shipping_fields,
+			),
+			// Checkout Fields.
+			'checkout_settings' => array(
+				'title'    => __( 'Form Headings', 'cartflows' ),
+				'slug'     => 'checkout_setting',
+				'priority' => 20,
+				'fields'   => array(
+
+					'wcf-billing-details-text'   => array(
+						'type'          => 'text',
+						'label'         => __( 'Billing Details', 'cartflows' ),
+						'name'          => 'wcf-checkout-billing-details-text',
+						'placeholder'   => __( 'Billing details', 'cartflows' ),
+						'display_align' => 'vertical',
+					),
+					'wcf-shipping-details-text'  => array(
+						'type'          => 'text',
+						'label'         => __( 'Shipping Details', 'cartflows' ),
+						'name'          => 'wcf-checkout-shipping-details-text',
+						'placeholder'   => __( 'Ship to a different address?', 'cartflows' ),
+						'display_align' => 'vertical',
+					),
+					'wcf-your-order-text'        => array(
+						'type'          => 'text',
+						'label'         => __( 'Your Order', 'cartflows' ),
+						'name'          => 'wcf-checkout-your-order-text',
+						'placeholder'   => __( 'Your order', 'cartflows' ),
+						'display_align' => 'vertical',
+					),
+					'wcf-customer-info-text'     => array(
+						'type'          => 'text',
+						'label'         => __( 'Customer Information', 'cartflows' ),
+						'name'          => 'wcf-checkout-customer-info-text',
+						'placeholder'   => __( 'Customer information', 'cartflows' ),
+						'tooltip'       => __( 'This heading will be displayed only on modern checkout style.', 'cartflows' ),
+						'display_align' => 'vertical',
+					),
+					'wcf-payment-text'           => array(
+						'type'          => 'text',
+						'label'         => __( 'Payment', 'cartflows' ),
+						'name'          => 'wcf-checkout-payment-text',
+						'placeholder'   => __( 'Payment', 'cartflows' ),
+						'tooltip'       => __( 'This heading will be displayed only on modern checkout style.', 'cartflows' ),
+						'display_align' => 'vertical',
+					),
+					'wcf-enable-validation-text' => array(
+						'type'         => 'toggle',
+						'label'        => __( 'Enable Field validation error message', 'cartflows' ),
+						'name'         => 'wcf-enable-checkout-field-validation-text',
+						'value'        => $options['wcf-enable-checkout-field-validation-text'],
+						'tooltip'      => __( 'This is the error message appended to the field name to form a error message.', 'cartflows' ),
+						'is_fullwidth' => true,
+					),
+					'wcf-field-validation-text'  => array(
+						'type'          => 'text',
+						'label'         => __( 'Validation error message', 'cartflows' ),
+						'name'          => 'wcf-checkout-field-validation-text',
+						'placeholder'   => __( 'is required', 'cartflows' ),
+						'display_align' => 'vertical',
+						'conditions'    => array(
+							'fields' => array(
+								array(
+									'name'     => 'wcf-enable-checkout-field-validation-text',
+									'operator' => '===',
+									'value'    => 'yes',
+								),
+							),
+						),
+					),
+				),
+			),
+			// Checkout Fields.
+			'button_settings'   => array(
+				'title'    => __( 'Place Order Button', 'cartflows' ),
+				'slug'     => 'button_settings',
+				'priority' => 20,
+				'fields'   => array(
+					'wcf-place-order-button-text'   => array(
+						'type'          => 'text',
+						'label'         => __( 'Button Text', 'cartflows' ),
+						'name'          => 'wcf-checkout-place-order-button-text',
+						'value'         => $options['wcf-checkout-place-order-button-text'],
+						'placeholder'   => __( 'Place Order', 'cartflows' ),
+						'tooltip'       => __( 'It will change the default Place Order Button text on checkout page.', 'cartflows' ),
+						'display_align' => 'vertical',
+					),
+					'wcf-place-order-button-icon'   => array(
+						'type'         => 'toggle',
+						'label'        => __( 'Enable Lock Icon', 'cartflows' ),
+						'name'         => 'wcf-checkout-place-order-button-lock',
+						'value'        => $options['wcf-checkout-place-order-button-lock'],
+						'tooltip'      => __( 'This will show the lock icon on the place order button on checkout page.', 'cartflows' ),
+						'is_fullwidth' => true,
+					),
+
+					'wcf-place-order-price-display' => array(
+						'type'         => 'toggle',
+						'label'        => __( 'Enable Price Display', 'cartflows' ),
+						'name'         => 'wcf-checkout-place-order-button-price-display',
+						'value'        => $options['wcf-checkout-place-order-button-price-display'],
+						'tooltip'      => __( 'This will show the cart total from the place order button.', 'cartflows' ),
+						'is_fullwidth' => true,
+					),
+				),
 			),
 		);
 
@@ -1329,13 +1210,13 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 		return $custom_fields;
 	}
 
-		/**
-		 * Add custom meta fields
-		 *
-		 * @param string $post_id post id.
-		 * @param array  $fields fields.
-		 * @param array  $new_fields new fields.
-		 */
+	/**
+	 * Add custom meta fields
+	 *
+	 * @param string $post_id post id.
+	 * @param array  $fields fields.
+	 * @param array  $new_fields new fields.
+	 */
 	public function get_field_settings( $post_id, $fields, $new_fields ) {
 
 		if ( 'billing' === $fields ) {
@@ -1368,167 +1249,18 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 				}
 			}
 
-			if ( 'billing' === $fields ) {
-				$name = 'wcf_field_order_billing[' . $key . ']';
-			} else {
-				$name = 'wcf_field_order_shipping[' . $key . ']';
-			}
-
-			$is_checkbox     = false;
-			$is_require      = false;
-			$is_radiobutton  = false;
-			$is_select       = false;
-			$display         = 'none';
-			$is_custom_field = false;
-
-			$type = $field_args['type'];
-
-			if ( 'checkbox' == $field_args['type'] ) {
-				$is_checkbox = true;
-			}
-
-			if ( 'yes' == $field_args['required'] ) {
-				$is_require = true;
-			}
-
-			if ( 'yes' == $field_args['optimized'] ) {
-				$is_optimized = true;
-			}
-
-			if ( 'select' == $field_args['type'] ) {
-				$is_select = true;
-				$display   = 'block';
-			}
-
-			if ( 'radio' == $field_args['type'] ) {
-				$is_radiobutton = true;
-			}
-
-			if ( isset( $field_args['custom'] ) && true === (bool) $field_args['custom'] ) {
-				$is_custom_field = true;
-			}
-
-			$data_array[ $key ]['field_options'] = array(
-				'enable-field'  => array(
-					'type'  => 'checkbox',
-					'label' => __( 'Enable Field', 'cartflows' ),
-					'name'  => $name . '[enabled]',
-					'value' => $field_args['enabled'],
-				),
-				'select-width'  => array(
-					'type'    => 'select',
-					'label'   => __( 'Field Width', 'cartflows' ),
-					'name'    => $name . '[width]',
-					'value'   => $field_args['width'],
-					'options' => array(
-						array(
-							'value' => '33',
-							'label' => esc_html__( '33%', 'cartflows' ),
-						),
-						array(
-							'value' => '50',
-							'label' => esc_html__( '50%', 'cartflows' ),
-						),
-						array(
-							'value' => '100',
-							'label' => esc_html__( '100%', 'cartflows' ),
-						),
-					),
-
-				),
-				'field-label'   => array(
-					'type'  => 'text',
-					'label' => __( 'Field Label', 'cartflows' ),
-					'name'  => $name . '[label]',
-					'value' => $field_args['label'],
-				),
-				'field-name'    => array(
-					'type'     => 'text',
-					'label'    => __( 'Field ID', 'cartflows' ),
-					'name'     => $name . '[key]',
-					'value'    => $field_args['key'],
-					'readonly' => true,
-					'tooltip'  => __( 'Copy this field id to use in Order Custom Field rule of dynamic offers.', 'cartflows' ),
-				),
-
-				'field-default' => $is_checkbox ?
-					array(
-						'type'    => 'select',
-						'label'   => __( 'Default', 'cartflows' ),
-						'name'    => $name . '[default]',
-						'value'   => $field_args['default'],
-						'options' => array(
-							array(
-								'value' => '1',
-								'label' => esc_html__( 'Checked', 'cartflows' ),
-							),
-							array(
-								'value' => '0',
-								'label' => esc_html__( 'Un-Checked', 'cartflows' ),
-							),
-						),
-					) :
-
-					array(
-						'type'  => 'text',
-						'label' => __( 'Default', 'cartflows' ),
-						'name'  => $name . '[default]',
-						'value' => $field_args['default'],
-					),
-			);
-
-			if ( $is_select || $is_radiobutton ) {
-
-				$data_array[ $key ]['field_options']['select-options'] = array(
-					'type'  => 'text',
-					'label' => __( 'Options', 'cartflows' ),
-					'name'  => $name . '[options]',
-					'value' => $field_args['options'],
-				);
-			}
-
-			if ( ! in_array( $type, array( 'checkbox', 'select', 'radio' ), true ) ) {
-				$data_array[ $key ]['field_options']['field-placeholder'] = array(
-					'type'  => 'text',
-					'label' => __( 'Placeholder', 'cartflows' ),
-					'name'  => $name . '[placeholder]',
-					'value' => $field_args['placeholder'],
-				);
-			}
-
-			if ( $is_custom_field ) {
-				$data_array[ $key ]['field_options']['show-in-email'] = array(
-					'type'  => 'checkbox',
-					'label' => __( 'Show In Email', 'cartflows' ),
-					'name'  => $name . '[show_in_email]',
-					'value' => $field_args['show_in_email'],
-				);
-			}
-
-			$data_array[ $key ]['field_options']['required-field'] = array(
-				'type'  => 'checkbox',
-				'label' => __( 'Required', 'cartflows' ),
-				'name'  => $name . '[required]',
-				'value' => $field_args['required'],
-			);
-
-			$data_array[ $key ]['field_options']['collapsed-field'] = array(
-				'type'  => 'checkbox',
-				'label' => __( 'Collapsible', 'cartflows' ),
-				'name'  => $name . '[optimized]',
-				'value' => $field_args['optimized'],
-			);
+			$data_array[ $key ] = Cartflows_Helper::get_instance()->prepare_custom_field_settings( $data_array[ $key ], $key, $field_args, $fields, 'checkout' );
 		}
 
 		return $data_array;
 	}
 
-		/**
-		 * Fetch default width of checkout fields by key.
-		 *
-		 * @param string $checkout_field_key field key.
-		 * @return int
-		 */
+	/**
+	 * Fetch default width of checkout fields by key.
+	 *
+	 * @param string $checkout_field_key field key.
+	 * @return int
+	 */
 	public function get_default_checkout_field_width( $checkout_field_key ) {
 
 		$default_width = 100;
@@ -1589,7 +1321,7 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 		}
 
 		if ( isset( $field_data['enabled'] ) ) {
-			$is_enabled = true === $field_data['enabled'] ? 'yes' : 'no';
+			$is_enabled = true === wc_string_to_bool( $field_data['enabled'] ) ? 'yes' : 'no';
 		} else {
 			$is_enabled = get_post_meta( $post_id, 'wcf-' . $field, true );
 
@@ -1599,38 +1331,25 @@ class Cartflows_Checkout_Meta_Data extends Cartflows_Step_Meta_Base {
 		}
 
 		$field_args = array(
-			'type'          => ( isset( $field_data['type'] ) && ! empty( $field_data['type'] ) ) ? $field_data['type'] : '',
-			'label'         => $field_name,
-			'key'           => $field,
-			'name'          => 'wcf-' . $field,
-			'placeholder'   => isset( $field_data['placeholder'] ) ? $field_data['placeholder'] : '',
-			'width'         => $width,
-			'enabled'       => $is_enabled,
-			'after'         => 'Enable',
-			'custom'        => isset( $field_data['custom'] ) ? $field_data['custom'] : false,
-			'section'       => $type,
-			'default'       => isset( $field_data['default'] ) ? $field_data['default'] : '',
-			'show_in_email' => ( isset( $field_data['show_in_email'] ) && true == $field_data['show_in_email'] ) ? 'yes' : 'no',
-			'required'      => ( isset( $field_data['required'] ) && true == $field_data['required'] ) ? 'yes' : 'no',
-			'optimized'     => ( isset( $field_data['optimized'] ) && true == $field_data['optimized'] ) ? 'yes' : 'no',
-			'options'       => ( isset( $field_data['options'] ) && ! empty( $field_data['options'] ) ) ? implode( '|', $field_data['options'] ) : '',
+			'type'              => ( isset( $field_data['type'] ) && ! empty( $field_data['type'] ) ) ? $field_data['type'] : '',
+			'label'             => $field_name,
+			'key'               => $field,
+			'name'              => 'wcf-' . $field,
+			'placeholder'       => isset( $field_data['placeholder'] ) ? $field_data['placeholder'] : '',
+			'width'             => $width,
+			'enabled'           => $is_enabled,
+			'after'             => 'Enable',
+			'custom'            => isset( $field_data['custom'] ) ? $field_data['custom'] : false,
+			'custom_attributes' => isset( $field_data['custom_attributes'] ) ? wc_clean( $field_data['custom_attributes'] ) : array(),
+			'section'           => $type,
+			'default'           => isset( $field_data['default'] ) ? $field_data['default'] : '',
+			'min'               => isset( $field_data['min'] ) ? $field_data['min'] : '',
+			'max'               => isset( $field_data['max'] ) ? $field_data['max'] : '',
+			'show_in_email'     => ( isset( $field_data['show_in_email'] ) && wc_string_to_bool( $field_data['show_in_email'] ) ) ? 'yes' : 'no',
+			'required'          => ( isset( $field_data['required'] ) && wc_string_to_bool( $field_data['required'] ) ) ? 'yes' : 'no',
+			'optimized'         => ( isset( $field_data['optimized'] ) && wc_string_to_bool( $field_data['optimized'] ) ) ? 'yes' : 'no',
+			'options'           => ( isset( $field_data['options'] ) && ! empty( $field_data['options'] ) ) ? implode( '|', $field_data['options'] ) : '',
 		);
-
-		if ( 'shipping' === $type ) {
-			if ( isset( $field_data['custom'] ) && $field_data['custom'] ) {
-				$field_args['after_html']  = '<span class="wcf-cpf-actions" data-type="shipping" data-key="' . $field . '"> | ';
-				$field_args['after_html'] .= '<a class="wcf-pro-custom-field-remove"><span class="dashicons dashicons-trash"></span></a>';
-				$field_args['after_html'] .= '</span>';
-			}
-		}
-
-		if ( 'billing' === $type ) {
-			if ( isset( $field_data['custom'] ) && $field_data['custom'] ) {
-				$field_args['after_html']  = '<span class="wcf-cpf-actions" data-type="billing" data-key="' . $field . '">';
-				$field_args['after_html'] .= '<a class="wcf-pro-custom-field-remove wp-ui-text-notification">' . __( 'Remove', 'cartflows' ) . '</a>';
-				$field_args['after_html'] .= '</span>';
-			}
-		}
 
 		return $field_args;
 	}

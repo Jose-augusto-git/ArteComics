@@ -207,7 +207,26 @@ if ( ! class_exists( 'CartFlows_Importer' ) ) :
 								continue;
 							}
 
-							$meta_value = maybe_unserialize( $mvalue[0] );
+							if ( is_serialized( $mvalue[0], true ) ) {
+								$meta_value = maybe_unserialize( stripslashes( $mvalue[0] ) );
+							} else {
+								$meta_value = $mvalue[0];
+							}
+
+							if ( '_elementor_data' === $meta_key ) {
+
+								if ( is_array( $meta_value ) ) {
+									$meta_value = wp_slash( wp_json_encode( $meta_value ) );
+								} else {
+									$meta_value = wp_slash( $meta_value );
+								}
+							}
+
+							/**
+							 * Commented the below code and added the above code check and convert the elementor data into the proper format.
+							 * Kept this code for future code reference. Remove it after two updates.
+							 * $meta_value = maybe_unserialize( $mvalue[0] );
+							 * */
 
 							$new_all_meta[ $meta_key ] = $meta_value;
 
@@ -220,7 +239,7 @@ if ( ! class_exists( 'CartFlows_Importer' ) ) :
 							'post_title'   => $step['title'],
 							'post_status'  => 'publish',
 							'meta_input'   => $new_all_meta,
-							'post_content' => isset( $step['post_content'] ) ? $step['post_content'] : '',
+							'post_content' => isset( $step['post_content'] ) ? wp_slash( wp_json_encode( $step['post_content'] ) ) : '',
 						)
 					);
 
@@ -273,7 +292,7 @@ if ( ! class_exists( 'CartFlows_Importer' ) ) :
 							wp_update_post(
 								array(
 									'ID'           => $new_step_id,
-									'post_content' => $content,
+									'post_content' => wp_slash( wp_json_encode( $content ) ),
 								)
 							);
 						}

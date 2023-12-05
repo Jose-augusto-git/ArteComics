@@ -20,41 +20,9 @@
 	.wcf-row {
 		@apply mx-auto max-w-md;
 	}
-
-	.wcf-pb-list-wrapper {
-		@apply flex justify-center;
-
-		.wcf-pb-list--option {
-			@apply relative mx-4 border rounded shadow-sm flex cursor-pointer h-[9rem] w-[130px] transition-all duration-300;
-
-			&:focus {
-				outline: none;
-			}
-			&:hover {
-				@apply drop-shadow-lg;
-			}
-		}
-	}
-
-	.wcf-input {
-		@apply p-3 shadow-sm block w-full text-sm border-gray-300 rounded placeholder-[#ADB2BD];
-
-		&:focus {
-			@apply ring-indigo-500 border-indigo-500;
-		}
-	}
 }
 
 .wcf-import-error-wrapper {
-	@apply flex flex-col bg-red-100 mb-5 py-5 px-5 rounded;
-
-	h3 {
-		@apply font-semibold text-red-700 text-base mb-2.5;
-	}
-	span {
-		@apply text-sm text-[#333];
-	}
-
 	a {
 		@apply inline-block py-1.5 px-2.5 text-xs text-white bg-red-500 mt-1 rounded mt-2.5;
 
@@ -64,10 +32,10 @@
 	}
 }
 .wcf-wizard--button {
-	@apply block rounded border border-transparent px-5 py-2.5 bg-[#f06434] cursor-pointer text-[15px] justify-center text-center font-medium text-white shadow flex-shrink-0 flex items-center;
+	@apply rounded border border-transparent px-5 py-2.5 bg-primary-500 cursor-pointer text-[15px] justify-center text-center font-medium text-white shadow flex-shrink-0 flex items-center;
 
 	&:hover {
-		@apply bg-[#ee4710];
+		@apply bg-primary-600;
 	}
 	&:focus {
 		@apply outline-none ring-2 ring-white ring-offset-2 ring-offset-orange-400;
@@ -87,26 +55,18 @@
 }
 
 .wcf-step-heading {
-	@apply text-center overflow-hidden text-3xl font-semibold text-[#1F2937];
+	@apply text-center text-4xl font-semibold text-slate-800;
 }
 
 .wcf-sidebar--header {
-	@apply px-6 py-3 mb-5 bg-white flex justify-between items-center border-b border-gray-600 border-b border-solid border-[#D1D5DB];
+	@apply px-6 py-3 bg-white flex justify-between items-center border-b border-gray-200;
 }
 
-.wcf-options--separator {
-	@apply border-b border-solid border-[#D1D5DB] my-2.5;
-}
+.wcf-inline-tooltip {
+	@apply after:absolute after:invisible after:bg-gray-700 after:content-[attr(data-tooltip)] after:py-1 after:px-2 after:rounded after:text-[11px] after:text-white after:whitespace-nowrap after:top-12 after:-left-1.5 after:z-10;
 
-.wcf-options--row {
-	@apply py-4 px-6 w-full;
-
-	.wcf-options--heading {
-		@apply text-xl mb-2.5 font-medium text-[#1f2937];
-	}
-
-	.wcf-options--description {
-		@apply text-[#4B5563];
+	&:hover {
+		@apply hover:after:visible  group-hover:after:block;
 	}
 }
 
@@ -115,7 +75,7 @@
 		@apply p-4;
 
 		.wcf-row {
-			@apply max-w-3xl max-w-4xl;
+			@apply max-w-4xl;
 		}
 
 		.wcf-pb-list-wrapper {

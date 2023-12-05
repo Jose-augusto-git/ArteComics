@@ -151,6 +151,17 @@ if ( ! class_exists( 'Cartflows_Update' ) ) :
 				}
 			}
 
+			// Set default page builder to "Other" for those who have set it as "DIVI".
+			if ( version_compare( $saved_version, '2.0.0', '<' ) ) {
+				$common_settings = get_option( '_cartflows_common', array() );
+
+				if ( is_array( $common_settings ) && 'divi' === $common_settings['default_page_builder'] ) {
+
+					$common_settings['default_page_builder'] = 'elementor';
+					update_option( '_cartflows_common', $common_settings );
+				}
+			}
+
 			// Update auto saved version number.
 			update_option( 'cartflows-version', CARTFLOWS_VER );
 

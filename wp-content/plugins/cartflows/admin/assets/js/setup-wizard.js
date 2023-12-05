@@ -272,7 +272,8 @@ const CartFlowsAjaxQueue = ( function () {
 					? form.find( '#cartflows_onboarding_name' ).val()
 					: '',
 				email_field = form.find( '#cartflows_onboarding_email' ),
-				reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,14})$/;
+				reg =
+					/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,14})$/;
 
 			if ( reg.test( email_field.val() ) === false ) {
 				email_field.addClass( 'wcf-error' );

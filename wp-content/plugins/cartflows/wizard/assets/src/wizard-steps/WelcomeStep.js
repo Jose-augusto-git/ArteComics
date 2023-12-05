@@ -2,7 +2,8 @@ import React, { useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { __ } from '@wordpress/i18n';
 import { useStateValue } from '../utils/StateProvider';
-import CartFlowsLogo from '@WizardImages/cartflows-logo.svg';
+// import CartFlowsLogo from '@WizardImages/cartflows-logo.svg';
+import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 function WelcomeStep() {
 	const history = useHistory();
@@ -19,7 +20,7 @@ function WelcomeStep() {
 		dispatch( {
 			status: 'SET_NEXT_STEP',
 			action_button: {
-				button_text: __( 'Start Setup', 'cartflows' ),
+				button_text: __( "Let's start", 'cartflows' ),
 				button_class: 'wcf-start-setup',
 			},
 		} );
@@ -43,23 +44,22 @@ function WelcomeStep() {
 	return (
 		<div className="wcf-container">
 			<div className="wcf-row mt-16">
-				<div className="bg-white rounded mx-auto px-11 py-14 drop-shadow-sm">
-					<h1 className="wcf-step-heading">
-						{ __( 'Welcome to', 'cartflows' ) }
+				<div className="bg-white rounded mx-auto px-11">
+					<span className="text-sm font-medium text-primary-600 mb-10 text-center block tracking-[.24em] uppercase">
+						{ __( 'Step 1 of 6', 'cartflows' ) }
+					</span>
+					<h1 className="wcf-step-heading mb-4">
+						{ __( 'Welcome to CartFlows', 'cartflows' ) }
 					</h1>
 
-					<div className="max-w-xs mx-auto p-5">
-						<img src={ CartFlowsLogo } alt="CartFlows Logo" />
-					</div>
-
-					<p className="text-center overflow-hidden max-w-xl mt-2.5 mx-auto text-base text-[#1F2937]">
+					<p className="text-center overflow-hidden max-w-2xl mb-10 mx-auto text-lg font-normal text-slate-500">
 						{ __(
 							"You're only minutes away from having a more profitable WooCommerce store! This short setup wizard will help you get started with CartFlows.",
 							'cartflows'
 						) }
 					</p>
 
-					<div className="mt-[40px] flex justify-center">
+					<div className="flex justify-center">
 						<div
 							className={ `wcf-wizard--button ${
 								action_button.button_class
@@ -68,20 +68,10 @@ function WelcomeStep() {
 							}` }
 						>
 							{ action_button.button_text }
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="w-5 mt-0.5 ml-1.5 fill-[#243c5a]"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-								strokeWidth={ 2 }
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									d="M17 8l4 4m0 0l-4 4m4-4H3"
-								/>
-							</svg>
+							<ArrowRightIcon
+								className="w-5 mt-0.5 ml-1.5 stroke-2"
+								aria-hidden="true"
+							/>
 						</div>
 					</div>
 				</div>

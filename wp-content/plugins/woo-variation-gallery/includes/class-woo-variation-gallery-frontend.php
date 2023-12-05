@@ -171,9 +171,7 @@ if ( ! class_exists( 'Woo_Variation_Gallery_Frontend' ) ):
 			$gallery_extra_small_device_width = absint( woo_variation_gallery()->get_option( 'extra_small_device_width', apply_filters( 'woo_variation_gallery_extra_small_device_width', 320 ), 'woo_variation_gallery_extra_small_device_width' ) );
 			$thumbnail_position               = sanitize_text_field( woo_variation_gallery()->get_option( 'position', 'bottom', 'woo_variation_gallery_thumbnail_position' ) );
 
-			$is_defer = is_wp_version_compatible( '6.3' ) ? array( 'strategy' => 'defer' ) : true;
-
-			wp_enqueue_script( 'woo-variation-gallery-slider', esc_url( woo_variation_gallery()->assets_url( "/js/slick{$suffix}.js" ) ), array( 'jquery' ), '1.8.1', $is_defer );
+			wp_enqueue_script( 'woo-variation-gallery-slider', esc_url( woo_variation_gallery()->assets_url( "/js/slick{$suffix}.js" ) ), array( 'jquery' ), '1.8.1', true );
 
 			wp_enqueue_style( 'woo-variation-gallery-slider', esc_url( woo_variation_gallery()->assets_url( "/css/slick{$suffix}.css" ) ), array(), '1.8.1' );
 
@@ -183,7 +181,7 @@ if ( ! class_exists( 'Woo_Variation_Gallery_Frontend' ) ):
 				'woo-variation-gallery-slider',
 				'imagesloaded',
 				'wc-add-to-cart-variation'
-			), woo_variation_gallery()->assets_version( "/js/frontend{$suffix}.js" ), $is_defer );
+			), woo_variation_gallery()->assets_version( "/js/frontend{$suffix}.js" ), true );
 
 			wp_localize_script( 'woo-variation-gallery', 'woo_variation_gallery_options', apply_filters( 'woo_variation_gallery_js_options', array(
 				'gallery_reset_on_variation_change' => wc_string_to_bool( woo_variation_gallery()->get_option( 'reset_on_variation_change', 'no', 'woo_variation_gallery_reset_on_variation_change' ) ),
@@ -794,6 +792,5 @@ if ( ! class_exists( 'Woo_Variation_Gallery_Frontend' ) ):
 
 			return apply_filters( 'woo_variation_gallery_gallery_template_part_override_location', $template, $slug, $old_template );
 		}
-
 	}
 endif;

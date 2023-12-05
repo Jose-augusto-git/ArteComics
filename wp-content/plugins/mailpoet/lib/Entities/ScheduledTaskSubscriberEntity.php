@@ -48,13 +48,13 @@ class ScheduledTaskSubscriberEntity {
   private $error;
 
   /**
-   * @ORM\Id @ORM\ManyToOne(targetEntity="MailPoet\Entities\ScheduledTaskEntity")
+   * @ORM\Id @ORM\ManyToOne(targetEntity="MailPoet\Entities\ScheduledTaskEntity", inversedBy="scheduledTaskSubscribers")
    * @var ScheduledTaskEntity|null
    */
   private $task;
 
   /**
-   * @ORM\Id @ORM\ManyToOne(targetEntity="MailPoet\Entities\SubscriberEntity")
+   * @ORM\Id @ORM\ManyToOne(targetEntity="MailPoet\Entities\SubscriberEntity", inversedBy="scheduledTaskSubscribers")
    * @var SubscriberEntity|null
    */
   private $subscriber;
@@ -121,6 +121,21 @@ class ScheduledTaskSubscriberEntity {
   public function getSubscriber() {
     $this->safelyLoadToOneAssociation('subscriber');
     return $this->subscriber;
+  }
+
+  /**
+   * Get the ID of the subscriber without querying wp_mailpoet_subscribers.
+   * $this->getSubscriber->getId() queries wp_mailpoet_subscribers because of
+   * the way the SafeToOneAssociationLoadTrait works.
+   *
+   * @return int|null
+   */
+  public function getSubscriberId() {
+    if ($this->subscriber instanceof SubscriberEntity) {
+      return $this->subscriber->getId();
+    }
+
+    return null;
   }
 
   public function setSubscriber(SubscriberEntity $subscriber) {

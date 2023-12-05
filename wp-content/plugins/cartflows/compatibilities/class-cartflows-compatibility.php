@@ -104,6 +104,16 @@ if ( ! class_exists( 'Cartflows_Compatibility' ) ) {
 			if ( defined( 'LEARNDASH_VERSION' ) ) {
 				require_once CARTFLOWS_DIR . 'compatibilities/plugins/class-cartflows-learndash-compatibility.php';
 			}
+
+			// Compatibility to allow of Modern Cart to redirect the user to flow from single product page.
+			if ( class_exists( 'ModernCart\Plugin_Loader' ) ) {
+				add_filter(
+					'moderncart_redirect_after_add_to_cart',
+					function( $allow ) {
+						return 'yes';
+					}
+				);
+			}
 		}
 
 		/**
@@ -413,6 +423,12 @@ if ( ! class_exists( 'Cartflows_Compatibility' ) ) {
 			}
 
 			global $post;
+
+			// Return if the Post object is empty. We don't want to throw any errors.
+			if ( empty( $post ) ) {
+				return;
+			}
+
 			$post_id   = $post->ID;
 			$post_type = get_post_type();
 

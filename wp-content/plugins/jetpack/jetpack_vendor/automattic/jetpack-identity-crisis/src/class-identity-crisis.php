@@ -27,7 +27,12 @@ class Identity_Crisis {
 	/**
 	 * Package Version
 	 */
-	const PACKAGE_VERSION = '0.10.6';
+	const PACKAGE_VERSION = '0.13.0';
+
+	/**
+	 * Persistent WPCOM blog ID that stays in the options after disconnect.
+	 */
+	const PERSISTENT_BLOG_ID_OPTION_NAME = 'jetpack_persistent_blog_id';
 
 	/**
 	 * Instance of the object.
@@ -88,6 +93,11 @@ class Identity_Crisis {
 
 		add_filter( 'jetpack_connection_validate_urls_for_idc_mitigation_response', array( static::class, 'add_secret_to_url_validation_response' ) );
 
+		add_filter( 'jetpack_options', array( static::class, 'reverse_wpcom_urls_for_idc' ) );
+
+		add_filter( 'jetpack_register_request_body', array( static::class, 'register_request_body' ) );
+		add_action( 'jetpack_site_registered', array( static::class, 'site_registered' ) );
+
 		$urls_in_crisis = self::check_identity_crisis();
 		if ( false === $urls_in_crisis ) {
 			return;
@@ -110,6 +120,8 @@ class Identity_Crisis {
 		} else {
 			$connection->disconnect_site( false );
 		}
+
+		delete_option( static::PERSISTENT_BLOG_ID_OPTION_NAME );
 
 		// Clear IDC options.
 		self::clear_all_idc_options();
@@ -211,6 +223,10 @@ class Identity_Crisis {
 			$query_args['migrate_for_idc'] = true;
 		}
 
+		if ( is_multisite() ) {
+			$query_args['multisite'] = true;
+		}
+
 		return add_query_arg( $query_args, $url );
 	}
 
@@ -285,7 +301,6 @@ class Identity_Crisis {
 		if ( ! $connection->is_connected() || ( new Status() )->is_offline_mode() || ! self::validate_sync_error_idc_option() ) {
 			return false;
 		}
-
 		return Jetpack_Options::get_option( 'sync_error_idc' );
 	}
 
@@ -336,7 +351,7 @@ class Identity_Crisis {
 			);
 
 			if ( in_array( $error_code, $allowed_idc_error_codes, true ) ) {
-				\Jetpack_Options::update_option(
+				Jetpack_Options::update_option(
 					'sync_error_idc',
 					self::get_sync_error_idc_option( $response )
 				);
@@ -438,6 +453,24 @@ class Identity_Crisis {
 	}
 
 	/**
+	 * Reverses WP.com URLs stored in sync_error_idc option.
+	 *
+	 * @param array $sync_error error option containing reversed URLs.
+	 * @return array
+	 */
+	public static function reverse_wpcom_urls_for_idc( $sync_error ) {
+		if ( isset( $sync_error['reversed_url'] ) ) {
+			if ( array_key_exists( 'wpcom_siteurl', $sync_error ) ) {
+				$sync_error['wpcom_siteurl'] = strrev( $sync_error['wpcom_siteurl'] );
+			}
+			if ( array_key_exists( 'wpcom_home', $sync_error ) ) {
+				$sync_error['wpcom_home'] = strrev( $sync_error['wpcom_home'] );
+			}
+		}
+		return $sync_error;
+	}
+
+	/**
 	 * Normalizes a url by doing three things:
 	 *  - Strips protocol
 	 *  - Strips www
@@ -505,6 +538,12 @@ class Identity_Crisis {
 			}
 
 			$returned_values[ $key ] = $normalized_url;
+		}
+		// We need to protect WPCOM URLs from search & replace by reversing them. See https://wp.me/pf5801-3R
+		// Add 'reversed_url' key for backward compatibility
+		if ( array_key_exists( 'wpcom_home', $returned_values ) && array_key_exists( 'wpcom_siteurl', $returned_values ) ) {
+			$returned_values['reversed_url'] = true;
+			$returned_values                 = self::reverse_wpcom_urls_for_idc( $returned_values );
 		}
 
 		return $returned_values;
@@ -1302,14 +1341,56 @@ class Identity_Crisis {
 			$secret = new URL_Secret();
 
 			$secret->create();
+
+			if ( $secret->exists() ) {
+				$response['url_secret'] = $secret->get_secret();
+			}
 		} catch ( Exception $e ) {
 			$response['url_secret_error'] = new WP_Error( 'unable_to_create_url_secret', $e->getMessage() );
 		}
 
-		if ( $secret->exists() ) {
-			$response['url_secret'] = $secret->get_secret();
+		return $response;
+	}
+
+	/**
+	 * Add IDC-related data to the registration query.
+	 *
+	 * @param array $params The existing query params.
+	 *
+	 * @return array
+	 */
+	public static function register_request_body( array $params ) {
+		$persistent_blog_id = get_option( static::PERSISTENT_BLOG_ID_OPTION_NAME );
+		if ( $persistent_blog_id ) {
+			$params['persistent_blog_id'] = $persistent_blog_id;
+
+			$hostname = wp_parse_url( Urls::site_url(), PHP_URL_HOST );
+			if ( filter_var( $hostname, FILTER_VALIDATE_IP ) !== false ) {
+				try {
+					$secret = new URL_Secret();
+					$secret->create();
+
+					if ( $secret->exists() ) {
+						$params['url_secret'] = $secret->get_secret();
+					}
+				} catch ( Exception $e ) {
+					// No need to stop the registration flow, just track the error and proceed.
+					( new Tracking() )->record_user_event( 'registration_request_url_secret_failed', array( 'current_url' => Urls::site_url() ) );
+				}
+			}
 		}
 
-		return $response;
+		return $params;
+	}
+
+	/**
+	 * Set the necessary options when site gets registered.
+	 *
+	 * @param int $blog_id The blog ID.
+	 *
+	 * @return void
+	 */
+	public static function site_registered( $blog_id ) {
+		update_option( static::PERSISTENT_BLOG_ID_OPTION_NAME, (int) $blog_id, false );
 	}
 }

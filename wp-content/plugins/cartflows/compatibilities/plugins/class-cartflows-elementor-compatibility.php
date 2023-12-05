@@ -56,7 +56,7 @@ class Cartflows_Elementor_Compatibility {
 	}
 
 	/**
-	 * Get page template fiter callback for elementor preview mode
+	 * Get page template filter callback for elementor preview mode
 	 *
 	 * @param string $template page template.
 	 * @return string

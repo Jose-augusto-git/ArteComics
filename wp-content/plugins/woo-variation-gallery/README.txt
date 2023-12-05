@@ -2,11 +2,11 @@
 Contributors: EmranAhmed, getwooplugins
 Tags: woocommerce variation image gallery, additional variation image gallery, product variation image gallery, product variation image, variation images gallery, additional image, additional variation image, WooCommerce variation product thumbnail gallery
 Requires PHP: 7.4
-Stable tag: 1.3.20
+Stable tag: 1.3.21
 Requires at least: 5.7
-Tested up to: 6.3
+Tested up to: 6.4
 WC requires at least: 5.8
-WC tested up to: 8.0
+WC tested up to: 8.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -377,10 +377,16 @@ Yes, it is.
 
 == Changelog ==
 
+= 1.3.21 - 21-11-2023 =
+
+* Add: twentytwentyfour theme support.
+* Add: WordPress 6.4+ compatibility.
+* Add: WooCommerce 8.3+ compatibility.
+
 = 1.3.20 - 07-09-2023 =
 
 * Add: twentytwentythree theme support.
-* Add: WordPress 6.3+ compatibility.
+* Add: WooCommerce 8.0+ compatibility.
 * Add: WordPress 6.3+ compatibility.
 
 = 1.3.19 - 18-06-2023 =

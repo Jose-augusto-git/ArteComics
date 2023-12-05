@@ -173,6 +173,10 @@ class MetaOps {
 
 									}
 
+									if ( ! empty( $value['custom_attributes'] ) ) {
+										$ordered_fields[ $field_key_name ]['custom_attributes'] = wc_clean( $value['custom_attributes'] );
+									}
+
 									if ( true === $is_custom_field ) {
 
 										$ordered_fields[ $field_key_name ]['show_in_email'] = isset( $value['show_in_email'] ) && 'yes' === $value['show_in_email'] ? true : false;
@@ -224,6 +228,10 @@ class MetaOps {
 										$options                                      = AdminHelper::sanitize_array_values( $options );
 										$ordered_fields[ $field_key_name ]['options'] = array_combine( array_keys( $options ), $options );
 
+									}
+
+									if ( ! empty( $value['custom_attributes'] ) ) {
+										$ordered_fields[ $field_key_name ]['custom_attributes'] = wc_clean( $value['custom_attributes'] );
 									}
 
 									if ( true === $is_custom_field ) {

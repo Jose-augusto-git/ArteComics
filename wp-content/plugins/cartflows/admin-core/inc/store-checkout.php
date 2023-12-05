@@ -43,7 +43,7 @@ class StoreCheckout {
 	 */
 	public function __construct() {
 		add_filter( 'cartflows_woo_active_steps_data', array( $this, 'store_checkout_import_steps' ) );
-		add_filter( 'cartflows_admin_get_step_actions', array( $this, 'store_checkout_get_step_actions' ), 10, 3 );
+		add_filter( 'cartflows_admin_updated_flow_steps', array( $this, 'update_flow_order' ), 10, 2 );
 		add_filter( 'cartflows_admin_action_slug', array( $this, 'store_action_slug' ), 10, 2 );
 		add_filter( 'cartflows_admin_required_meta_keys', array( $this, 'required_meta_keys' ), 10, 2 );
 		add_filter( 'cartflows_admin_flow_data', array( $this, 'modify_store_checkout_flow_data' ), 10, 2 );
@@ -71,36 +71,27 @@ class StoreCheckout {
 	}
 
 	/**
-	 * Returns action array for store checkout flow
+	 * Updates steps order in flow
 	 *
-	 * @param array $actions current actions.
+	 * @param array $flows array of updated flow.
 	 * @param int   $flow_id flow id.
-	 * @param int   $step_id step id.
 	 * @return array
 	 * @since X.X.X
 	 */
-	public static function store_checkout_get_step_actions( $actions, $flow_id, $step_id ) {
+	public function update_flow_order( $flows, $flow_id ) {
 		if ( absint( \Cartflows_Helper::get_global_setting( '_cartflows_store_checkout' ) ) !== $flow_id ) {
-			return $actions;
+			return $flows;
 		}
 
-		return array(
-			'view' => array(
-				'slug'       => 'view',
-				'class'      => 'wcf-step-view',
-				'icon_class' => 'dashicons dashicons-visibility',
-				'target'     => 'blank',
-				'text'       => __( 'View', 'cartflows' ),
-				'link'       => get_permalink( $step_id ),
-			),
-			'edit' => array(
-				'slug'       => 'edit',
-				'class'      => 'wcf-step-edit',
-				'icon_class' => 'dashicons dashicons-edit',
-				'text'       => __( 'Edit', 'cartflows' ),
-				'link'       => admin_url( 'admin.php?page=cartflows&action=wcf-edit-store-step&step_id=' . $step_id . '&flow_id=' . $flow_id ),
-			),
-		);
+		$key = array_search( 'thankyou', wp_list_pluck( $flows, 'type' ), true );
+		if ( ! $key ) {
+			return $flows;
+		}
+
+		$thankyou = array_splice( $flows, $key, 1 );
+		$flows[]  = $thankyou[0];
+
+		return $flows;
 	}
 
 	/**

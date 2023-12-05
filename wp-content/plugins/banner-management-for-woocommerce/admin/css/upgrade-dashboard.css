@@ -1,0 +1,55 @@
+/* Free User Upgrade Dashboard CSS */
+.dotstore-upgrade-dashboard{padding:18px 40px;text-align:center;}
+.dotstore-upgrade-dashboard,.dotstore-upgrade-dashboard *{-webkit-box-sizing:border-box;box-sizing:border-box;}
+.dots-settings-inner-main .dotstore-upgrade-dashboard .premium-benefits-section h2{font-size:25px;font-weight:600;color:#000;line-height:28px;text-decoration:none;display:inline-block;background-color:transparent;border:none;padding:0;margin:0;}
+.dotstore-upgrade-dashboard .premium-benefits-section p{font-size:18px;font-weight:600;color:#8C8F94;line-height:22px;margin:30px 0;}
+.dotstore-upgrade-dashboard .unlock-premium-features p span{position:relative;padding-right:20px;}
+.dotstore-upgrade-dashboard .unlock-premium-features p span::after{content:"";position:absolute;top:50%;right:0;display:inline-block;width:14px;height:13px;background-image:url("../images/pro-plugin-icon.svg");-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);}
+.dotstore-upgrade-dashboard .premium-features-boxes{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;width:100%;justify-content: center}
+.dotstore-upgrade-dashboard .unlock-premium-features .premium-features-boxes{position:relative;}
+.dotstore-upgrade-dashboard .feature-box{width:calc(33.33% - 20px);margin:10px;padding:40px 30px;background-color:#fff;border-radius:5px;-webkit-box-shadow:0 4px 10px rgb(0 0 0 / 8%);box-shadow:0 4px 10px rgb(0 0 0 / 8%);}
+.dotstore-upgrade-dashboard .unlock-premium-features .feature-box{cursor:pointer;}
+.dotstore-upgrade-dashboard .feature-box h3{font-size:18px;font-weight:600;line-height:25px;color:#8C8F94;margin:0 0 20px;}
+.dotstore-upgrade-dashboard .feature-box span:not(.dashicons){font-size:26px;font-weight:600;line-height:30px;color:#fff;background-color:var(--dotstore-primary);padding:15px 10px;border-radius:50%;margin-bottom:21px;display:inline-block;width:60px;height:60px;}
+.dotstore-upgrade-dashboard .unlock-premium-features .feature-box span:not(.dashicons){border-radius:5px;width:50px;height:50px;padding:10px 8px;}
+.dotstore-upgrade-dashboard .premium-features-boxes .feature-box p{font-size:14px;font-weight:400;line-height:20px;color:#4D5056;margin:0;}
+.dotstore-upgrade-dashboard .feature-explanation-popup-main{position:fixed;z-index:99999;top:0;left:0;height:100%;background:hsla(0,0%,0%,0.5);overflow:auto;padding:50px 20px;display:inline-block;width:100%;display:none;}
+.feature-explanation-popup-visible .feature-explanation-popup-main{display:block;}
+.dotstore-upgrade-dashboard .feature-explanation-popup-outer{width:100%;height:100%;display:table;}
+.dotstore-upgrade-dashboard .feature-explanation-popup-inner{display:table-cell;vertical-align:middle;}
+.dotstore-upgrade-dashboard .feature-explanation-popup{cursor:auto;max-width:1040px;z-index:999999;padding:60px 30px 50px;background-color:#fff;border-radius:5px;-webkit-box-shadow:0 4px 10px rgb(0 0 0 / 8%);box-shadow:0 4px 10px rgb(0 0 0 / 8%);display:none;position:relative;margin:0 auto;}
+.feature-explanation-popup-visible .feature-explanation-popup{display:block;}
+.dotstore-upgrade-dashboard .feature-explanation-popup .popup-close-btn{position:absolute;top:8px;right:8px;color:#000;font-size:28px;display:inline-block;line-height:33px;cursor:pointer;width:32px;height:32px;border-radius:5px;}
+.dotstore-upgrade-dashboard .feature-explanation-popup .popup-close-btn:hover{background-color:rgb(233 233 233 / 70%);}
+.dotstore-upgrade-dashboard .feature-explanation-popup .popup-body-content{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;text-align:left;}
+.dotstore-upgrade-dashboard .feature-explanation-popup .feature-image{width:59%;padding-right:0;}
+.dotstore-upgrade-dashboard .feature-explanation-popup .feature-content{width:41%;padding-left:30px;}
+.dotstore-upgrade-dashboard .feature-explanation-popup .feature-content p{margin-bottom:18px;}
+.dotstore-upgrade-dashboard .feature-explanation-popup img{width:100%;height:auto;}
+.dotstore-upgrade-dashboard .feature-box .feature-explanation-popup p,.dotstore-upgrade-dashboard .feature-box .feature-explanation-popup li{color:#000;font-size:16px;line-height:24px;font-weight:400;}
+.dotstore-upgrade-dashboard .feature-box .feature-explanation-popup li:last-child{margin-bottom:0}
+.dotstore-upgrade-dashboard .feature-explanation-popup ul{margin:28px 0 0;padding-left:16px;}
+.dotstore-upgrade-dashboard .feature-explanation-popup li{list-style-type:disc;position:relative;margin-bottom:15px;}
+.dotstore-upgrade-dashboard .feature-explanation-popup li::marker{color:var(--dotstore-primary);}
+.dotstore-upgrade-dashboard .upgrade-to-premium-btn a,.dotstore-upgrade-dashboard .upgrade-to-premium-btn a:hover,.dotstore-upgrade-dashboard .upgrade-to-premium-btn a:focus{position:relative;font-size:22px;line-height:28px;font-weight:500;padding:10px 40px 13px;margin-top:30px;}
+.dotstore-upgrade-dashboard .upgrade-to-premium-btn a svg{margin-bottom:-2px;margin-left:10px;}
+
+@media screen and (max-width:1180px){
+	.dotstore-upgrade-dashboard{padding:18px 0;}
+	.dotstore-upgrade-dashboard .premium-benefits-section a{font-size:16px;line-height:20px;}
+	.dotstore-upgrade-dashboard .premium-benefits-section p{font-size:16px;line-height:20px;margin:20px 0;}
+	.dotstore-upgrade-dashboard .feature-box{padding:30px 25px;}
+	.dotstore-upgrade-dashboard .feature-box .feature-explanation-popup p,.dotstore-upgrade-dashboard .feature-box .feature-explanation-popup li{font-size:14px;line-height:22px;}
+	.dotstore-upgrade-dashboard .feature-box span:not(.dashicons){font-size:20px;line-height:30px;}
+}
+@media screen and (max-width:991px){
+	.dotstore-upgrade-dashboard .feature-box{width:calc(50% - 20px);}
+}
+@media screen and (max-width:767px){
+	.dotstore-upgrade-dashboard .feature-box{width:100%;}
+	.dotstore-upgrade-dashboard .feature-explanation-popup{padding:50px 20px 30px;}
+	.dotstore-upgrade-dashboard .feature-explanation-popup .feature-image,.dotstore-upgrade-dashboard .feature-explanation-popup .feature-content{width:100%;padding:0;margin:10px 0;}
+	.dotstore-upgrade-dashboard .upgrade-to-premium-btn a,.dotstore-upgrade-dashboard .upgrade-to-premium-btn a:hover,.dotstore-upgrade-dashboard .upgrade-to-premium-btn a:focus{font-size:19px;line-height:26px;padding:10px 26px 11px;margin-top:22px;}
+	.dotstore-upgrade-dashboard .upgrade-to-premium-btn a svg{margin-left:8px;width:20px;height:18px;}
+	.dots-settings-inner-main .dotstore-upgrade-dashboard .premium-benefits-section h2{font-size:23px;line-height:32px;}
+}

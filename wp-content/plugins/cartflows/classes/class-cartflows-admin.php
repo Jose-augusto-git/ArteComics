@@ -61,13 +61,51 @@ class Cartflows_Admin {
 
 		add_filter( 'plugin_action_links_' . CARTFLOWS_BASE, array( $this, 'add_action_links' ) );
 
-		add_action( 'in_admin_header', array( $this, 'embed_page_header' ) );
-
 		add_action( 'admin_init', array( $this, 'flush_rules_after_save_permalinks' ) );
 
 		add_filter( 'post_row_actions', array( $this, 'remove_flow_actions' ), 99, 2 );
 
 		add_action( 'wp_dashboard_setup', array( $this, 'dashboard_widget' ) );
+
+		add_action( 'init', array( $this, 'run_scheduled_docs_job' ) );
+		add_action( 'cartflows_update_knowledge_base_data', array( $this, 'cartflows_update_knowledge_base_data' ) );
+
+		$this->do_not_cache_admin_pages_actions();
+	}
+
+	/**
+	 * Do not cache admin pages actions.
+	 *
+	 * @since 1.6.13
+	 * @return void
+	 */
+	public function do_not_cache_admin_pages_actions() {
+
+		add_action( 'admin_init', array( $this, 'add_admin_cache_restrict_const' ) );
+		add_action( 'admin_head', array( $this, 'add_admin_cache_restrict_meta' ) );
+	}
+
+	/**
+	 * Run scheduled job for CartFLows knowledge base data.
+	 *
+	 * @since 2.0.0
+	 * @return void
+	 */
+	public function run_scheduled_docs_job() {
+		if ( false === as_next_scheduled_action( 'cartflows_update_knowledge_base_data' ) && ! wp_installing() ) {
+			as_schedule_recurring_action( time(), WEEK_IN_SECONDS, 'cartflows_update_knowledge_base_data' );
+		}
+	}
+
+	/**
+	 * Cartflows's REST knowledge base data.
+	 *
+	 * @since 2.0.0
+	 * @return mixed
+	 */
+	public static function cartflows_update_knowledge_base_data() {
+		$docs_json = json_decode( wp_remote_retrieve_body( wp_remote_get( 'https://cartflows.com//wp-json/powerful-docs/v1/get-docs' ) ) );
+		Cartflows_Helper::update_admin_settings_option( 'cartflows_docs_data', $docs_json );
 	}
 
 	/**
@@ -188,18 +226,22 @@ class Cartflows_Admin {
 	 */
 	public function add_action_links( $links ) {
 
-		$default_url = add_query_arg(
-			array(
-				'page' => CARTFLOWS_SLUG,
-				'path' => 'settings',
-			),
-			admin_url()
-		);
-
 		$mylinks = array(
-			'<a href="' . $default_url . '">' . __( 'Settings', 'cartflows' ) . '</a>',
 			'<a target="_blank" href="' . esc_url( 'https://cartflows.com/docs/?utm_source=plugin-page&utm_medium=free-cartflows&utm_campaign=go-pro' ) . '">' . __( 'Docs', 'cartflows' ) . '</a>',
 		);
+
+		if ( current_user_can( 'cartflows_manage_settings' ) ) {
+
+			$default_url = add_query_arg(
+				array(
+					'page'     => CARTFLOWS_SLUG,
+					'settings' => true,
+				),
+				admin_url( 'admin.php' )
+			);
+
+			array_unshift( $mylinks, '<a href="' . esc_url( $default_url ) . '">' . __( 'Settings', 'cartflows' ) . '</a>' );
+		}
 
 		if ( ! _is_cartflows_pro() ) {
 			array_push( $mylinks, '<a style="color: #39b54a; font-weight: 700;" target="_blank" href="' . esc_url( 'https://cartflows.com/pricing/?utm_source=plugin-page&utm_medium=free-cartflows&utm_campaign=go-pro' ) . '"> Go Pro </a>' );
@@ -250,43 +292,6 @@ class Cartflows_Admin {
 	}
 
 	/**
-	 * Set up a div for the header embed to render into.
-	 * The initial contents here are meant as a place loader for when the PHP page initialy loads.
-	 */
-	public function embed_page_header() {
-
-		if ( ! $this->show_embed_header() ) {
-			return;
-		}
-
-		wp_enqueue_style( 'cartflows-admin-embed-header', CARTFLOWS_URL . 'admin/assets/css/admin-embed-header.css', array(), CARTFLOWS_VER );
-
-		include_once CARTFLOWS_DIR . 'includes/admin/cartflows-admin-header.php';
-	}
-
-	/**
-	 * Show embed header.
-	 *
-	 * @since 1.0.0
-	 */
-	public function show_embed_header() {
-
-		$current_screen = get_current_screen();
-
-		if (
-			is_object( $current_screen ) &&
-			isset( $current_screen->post_type ) &&
-			( CARTFLOWS_FLOW_POST_TYPE === $current_screen->post_type ) &&
-			isset( $current_screen->base ) &&
-			( 'post' === $current_screen->base || 'edit' === $current_screen->base )
-		) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Check allowed screen for notices.
 	 *
 	 * @since 1.0.0
@@ -297,10 +302,8 @@ class Cartflows_Admin {
 		$screen          = get_current_screen();
 		$screen_id       = $screen ? $screen->id : '';
 		$allowed_screens = array(
-			'cartflows_page_cartflows_settings',
+			'toplevel_page_cartflows',
 			'edit-cartflows_flow',
-			'dashboard',
-			'plugins',
 		);
 
 		if ( in_array( $screen_id, $allowed_screens, true ) ) {
@@ -308,6 +311,34 @@ class Cartflows_Admin {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Function to add the meta and headers for not to cache the CartFlows wp-admin page.
+	 *
+	 * @return void
+	 */
+	public function add_admin_cache_restrict_meta() {
+
+		if ( ! $this->allowed_screen_for_notices() ) {
+			return;
+		}
+
+		echo '<!-- Added by CartFlows -->';
+		echo '<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" /> <meta http-equiv="Pragma" content="no-cache" /> <meta http-equiv="Expires" content="0" />';
+		echo '<!-- Added by CartFlows -->';
+	}
+
+	/**
+	 * Function to add the Do Not Cache Constants on the CartFlows admin pages.
+	 *
+	 * @return void
+	 */
+	public function add_admin_cache_restrict_const() {
+		// Ignoring nonce verification as using SuperGlobal variables on WordPress hooks.
+		if ( isset( $_GET['page'] ) && ( 'cartflows' === sanitize_text_field( $_GET['page'] ) || false !== strpos( sanitize_text_field( $_GET['page'] ), 'cartflows_' ) ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			wcf()->utils->get_cache_headers();
+		}
 	}
 }
 

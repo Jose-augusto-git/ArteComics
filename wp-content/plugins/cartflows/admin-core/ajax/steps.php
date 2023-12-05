@@ -109,7 +109,7 @@ class Steps extends AjaxBase {
 		$result = array(
 			'status' => true,
 			/* translators: %s flow id */
-			'text'   => sprintf( __( 'Flow title updated - %s', 'cartflows' ), $step_id ),
+			'text'   => sprintf( __( 'Step title updated - %s', 'cartflows' ), $step_id ),
 		);
 
 		wp_send_json( $result );
@@ -448,7 +448,7 @@ class Steps extends AjaxBase {
 			'options'       => $meta_options,
 			'step_view_url' => get_the_permalink( $step_id ),
 			/* translators: %s flow id */
-			'text'          => sprintf( __( 'Data saved succesfully for step id %s', 'cartflows' ), $step_id ),
+			'text'          => sprintf( __( 'Data saved successfully for step id %s', 'cartflows' ), $step_id ),
 		);
 
 		wp_send_json( $result );

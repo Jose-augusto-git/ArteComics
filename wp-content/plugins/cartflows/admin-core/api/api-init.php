@@ -86,8 +86,7 @@ class ApiInit {
 		);
 
 		foreach ( $controllers as $controller ) {
-			$this->$controller = $controller::get_instance();
-			$this->$controller->register_routes();
+			$controller::get_instance()->register_routes();
 		}
 	}
 }

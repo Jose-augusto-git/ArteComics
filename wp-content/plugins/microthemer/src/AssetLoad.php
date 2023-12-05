@@ -285,6 +285,14 @@ if (!class_exists('\Microthemer\AssetLoad')){
 						$inline = empty($folder['css_external']);
 						$async = !empty($folder['css_async']);
 
+						//echo '$cssFile: ' . $url . $cssFileName . '?' . $this->cacheParam;
+
+						// force file_get_contents to get a non-cached version of the file
+						if ($inline){
+							touch($cssFile);
+							//echo 'touched $cssFile: ' . $url . $cssFileName . '?' . $this->cacheParam;
+						}
+
 						// load the CSS file
 						$this->enqueueOrAdd(
 							($add || $inline || $async),

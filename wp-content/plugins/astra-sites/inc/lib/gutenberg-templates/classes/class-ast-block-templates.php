@@ -472,7 +472,7 @@ if ( ! class_exists( 'Ast_Block_Templates' ) ) :
 						'wpforms_status'          => $this->get_plugin_status( 'wpforms-lite/wpforms.php' ),
 						'spectra_status'          => $this->get_plugin_status( 'ultimate-addons-for-gutenberg/ultimate-addons-for-gutenberg.php' ),
 						'_ajax_nonce'             => wp_create_nonce( 'ast-block-templates-ajax-nonce' ),
-						'button_text'             => esc_html__( 'Template Kits', 'ast-block-templates', 'astra-sites' ),
+						'button_text'             => esc_html__( 'Template Kits', 'ast-block-templates' ),
 						'display_button_logo'     => true,
 						'popup_logo_uri'          => AST_BLOCK_TEMPLATES_URI . 'dist/spectra-logo.svg',
 						'button_logo'             => AST_BLOCK_TEMPLATES_URI . 'dist/spectra.svg',

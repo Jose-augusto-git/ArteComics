@@ -74,13 +74,16 @@ class Extra_Checkout_Fields_For_Brazil_Customer {
 			$new_fields['billing']['fields']['billing_company'] = $fields['billing']['fields']['billing_company'];
 		}
 
-		if ( isset( $settings['birthdate_sex'] ) ) {
+		if ( isset( $settings['birthdate'] ) ) {
 			$new_fields['billing']['fields']['billing_birthdate'] = array(
 				'label'       => __( 'Birthdate', 'woocommerce-extra-checkout-fields-for-brazil' ),
 				'description' => '',
 			);
-			$new_fields['billing']['fields']['billing_sex']       = array(
-				'label'       => __( 'Sex', 'woocommerce-extra-checkout-fields-for-brazil' ),
+		}
+
+		if ( isset( $settings['gender'] ) ) {
+			$new_fields['billing']['fields']['billing_gender'] = array(
+				'label'       => __( 'Gender', 'woocommerce-extra-checkout-fields-for-brazil' ),
 				'description' => '',
 			);
 		}

@@ -387,6 +387,16 @@ class Cartflows_Utils {
 			return;
 		}
 
+		$this->get_cache_headers();
+	}
+
+	/**
+	 * Function to get/set the do not cache page constants.
+	 *
+	 * @return void
+	 */
+	public function get_cache_headers() {
+
 		wcf_maybe_define_constant( 'DONOTCACHEPAGE', true );
 		wcf_maybe_define_constant( 'DONOTCACHEOBJECT', true );
 		wcf_maybe_define_constant( 'DONOTCACHEDB', true );
@@ -623,6 +633,37 @@ class Cartflows_Utils {
 		if ( class_exists( '\Elementor\Plugin' ) ) {
 			Elementor\Plugin::$instance->files_manager->clear_cache();
 		}
+	}
+
+	/**
+	 * Append the query strings present in the URL to pass it to the next step URL.
+	 * This will carry-forward the passed query strings to the next step URL.
+	 *
+	 * @param array $original_query_strings Default query strings of CartFlows.
+	 * @return array $original_query_strings Modified query strings.
+	 */
+	public function may_be_append_query_string( $original_query_strings ) {
+
+		// Check if HTTP_REFERER is set and fetch its query strings.
+		if ( empty( $_SERVER['HTTP_REFERER'] ) ) {
+			return $original_query_strings;
+		}
+
+		// Get the current page URL and parse it to explode the URL in different URL components.
+		$url_params_components = wp_parse_url( esc_url_raw( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) );
+
+		// Process only if the URL components is not empty and query i:e query strings are not empty.
+		if ( is_array( $url_params_components ) && ! empty( $url_params_components['query'] ) ) {
+
+			// Convert the string query from string to array format.
+			parse_str( $url_params_components['query'], $parsed_query_string );
+
+			// Merge the new and already existing query strings.
+			$original_query_strings = array_merge( $original_query_strings, $parsed_query_string );
+		}
+
+		// Return the query strings.
+		return $original_query_strings;
 	}
 }
 

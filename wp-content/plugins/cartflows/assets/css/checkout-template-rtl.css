@@ -12,7 +12,13 @@
 	--wcf-field-bg-color: #fff; /* Used. */
 	--wcf-field-border-color: #d4d4d4; /* Used */
 	--wcf-field-text-color: #555; /* Used. */
+	--wcf-field-error-label-color: #e11e00; /* Used */
+	--wcf-field-error-border-color: #e11e00; /* Used */
 	--wcf-field-error-color: #e2401c; /* Used. */
+	--wcf-payment-section-label-color: var( --wcf-text-color );
+	--wcf-payment-section-desc-text-color: #515151;
+	--wcf-payment-section-desc-bg-color: #eaeaea;
+	--wcf-payment-section-bg-color: #f7f7f7;
 }
 
 /******************
@@ -192,14 +198,14 @@
 }
 
 .wcf-embed-checkout-form .woocommerce form .form-row.woocommerce-invalid label {
-	color: #e11e00;
+	color: var( --wcf-field-error-label-color ) !important;
 }
 
 .wcf-embed-checkout-form .woocommerce form .form-row.woocommerce-invalid .select2-container,
 .wcf-embed-checkout-form .woocommerce form .form-row.woocommerce-invalid input.input-text,
 .wcf-embed-checkout-form .woocommerce form .form-row.woocommerce-invalid select {
 	border-width: 1px;
-	border-color: var( --wcf-field-error-color );
+	border-color: var( --wcf-field-error-border-color );
 }
 
 .wcf-embed-checkout-form .woocommerce form .form-row.woocommerce-validated .select2-container,
@@ -213,7 +219,7 @@
 .wcf-embed-checkout-form .woocommerce form .form-row input.input-text.field-required,
 .wcf-embed-checkout-form .woocommerce form .form-row textarea.input-text.field-required,
 .wcf-embed-checkout-form .woocommerce #order_review .input-text.field-required {
-	border-color: var( --wcf-field-error-color );
+	border-color: var( --wcf-field-error-border-color );
 }
 
 .wcf-embed-checkout-form .woocommerce form .form-row input.field-validated {
@@ -243,6 +249,7 @@
 
 .wcf-embed-checkout-form .woocommerce #payment [type="radio"]:checked + label,
 .wcf-embed-checkout-form .woocommerce #payment [type="radio"]:not( :checked ) + label {
+	color: var( --wcf-payment-section-label-color );
 	padding: 0;
 }
 
@@ -417,7 +424,8 @@
 }
 
 .wcf-embed-checkout-form .woocommerce-checkout #payment div.payment_box {
-	background-color: #eaeaea;
+	background-color: var( --wcf-payment-section-desc-bg-color );
+	color: var( --wcf-payment-section-desc-text-color );
 	font-family: inherit;
 	font-weight: inherit;
 	margin-bottom: 0.5em;
@@ -432,7 +440,7 @@
 	border-left-color: transparent;
 	border-right-color: transparent;
 	border-top-color: transparent;
-	border-bottom-color: #eaeaea;
+	border-bottom-color: var( --wcf-payment-section-desc-bg-color );
 	position: absolute;
 	top: -0.75em;
 	right: 0;
@@ -716,7 +724,7 @@
 
 .wcf-embed-checkout-form .woocommerce-checkout #payment ul.payment_methods {
 	margin: 1em 0 0;
-	background-color: #f7f7f7;
+	background-color: var( --wcf-payment-section-bg-color );
 	padding: 15px;
 }
 
@@ -961,7 +969,8 @@
 }
 
 @media only screen and ( max-width: 768px ) {
-	.wcf-embed-checkout-form form .wcf-column-33 {
+	.wcf-embed-checkout-form .woocommerce form .wcf-column-33,
+	.wcf-embed-checkout-form .woocommerce form .wcf-column-50 {
 		width: 100%;
 	}
 	.wcf-embed-checkout-form .woocommerce-checkout #order_review_heading {
@@ -1399,7 +1408,13 @@ a.et_pb_more_button::after {
 	--wcf-field-bg-color: #fff; /* Used. */
 	--wcf-field-border-color: #d1d5db; /* Used */
 	--wcf-field-text-color: #333; /* Used. */
+	--wcf-field-error-label-color: #e11e00; /* Used */
+	--wcf-field-error-border-color: #e11e00; /* Used */
 	--wcf-field-error-color: #e2401c; /* Used. */
+	--wcf-payment-section-label-color: #555;
+	--wcf-payment-section-desc-text-color: #515151;
+	--wcf-payment-section-desc-bg-color: #f9f9f9;
+	--wcf-payment-section-bg-color: #fff;
 }
 
 /* New Conditional checkout style */
@@ -1581,7 +1596,7 @@ a.et_pb_more_button::after {
 .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce form .form-row input.input-text.field-required,
 .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce form .form-row textarea.input-text.field-required,
 .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce .input-text.field-required {
-	border-color: var( --wcf-field-error-color );
+	border-color: var( --wcf-field-error-border-color );
 }
 .wcf-embed-checkout-form .woocommerce .wcf-field-required-error {
 	color: var( --wcf-field-error-color );
@@ -1890,7 +1905,7 @@ body.cartflows_step-template .select2-container--default .select2-search--dropdo
 
 /* Payment Method */
 .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce-checkout #payment ul.payment_methods {
-	background: #fff;
+	background: var( --wcf-payment-section-bg-color );
 	padding: 0;
 	margin: 0 0 0.5em 0;
 	border: 1px solid #d6d7db;
@@ -1960,14 +1975,15 @@ body.cartflows_step-template .select2-container--default .select2-search--dropdo
 	font-weight: 500;
 	display: inline-block;
 	width: calc( 100% - 10% );
-	color: #555;
+	color: var( --wcf-payment-section-label-color );
 	font-size: 15px;
 }
 
 .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce-checkout #payment div.payment_box {
 	margin: 15px -15px 0 0;
 	border-top: 1px solid #e5e7eb;
-	background-color: #f9f9f9;
+	color: var( --wcf-payment-section-desc-text-color );
+	background-color: var( --wcf-payment-section-desc-bg-color );
 	padding: 20px;
 	width: calc( 100% + 30px );
 }
@@ -2464,13 +2480,18 @@ body.cartflows_step-template .select2-container--default .select2-search--dropdo
 * **********************************
 */
 
+:root > .wcf-field-modern-label {
+	--wcf-text-color: #737373; /* Used. */
+	--wcf-field-label-color: var( --wcf-text-color ); /* Used. */
+}
+
 /* Modern Floating Style */
 .wcf-embed-checkout-form.wcf-field-modern-label .woocommerce #customer_details .form-row:not( .wcf-anim-hidden-label ) label:not( .woocommerce-form__label-for-checkbox, .checkbox, .input-radio ) {
 	-webkit-user-select: none;
 	user-select: none;
 	pointer-events: none;
 	position: absolute;
-	color: #737373;
+	color: var( --wcf-field-label-color );
 	transition: all 0.2s ease-out;
 	font-size: 11px;
 	margin-top: 0.35em;

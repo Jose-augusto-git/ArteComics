@@ -737,6 +737,7 @@ class Cartflows_Helper {
 	 * @todo Remove this function in 1.6.18 as it is added in cartflows-tracking file.
 	 * @param int   $order_id order_id.
 	 * @param array $offer_data offer data.
+	 * @return void
 	 */
 	public static function send_fb_response_if_enabled( $order_id, $offer_data = array() ) {
 
@@ -1169,6 +1170,321 @@ class Cartflows_Helper {
 		return $flow_steps;
 	}
 
+	/**
+	 * Prepare cusom field settings array
+	 *
+	 * @param array  $data_array field array.
+	 * @param string $key field key.
+	 * @param array  $field_args field args.
+	 * @param array  $fields_type field type.
+	 * @param string $step_type step type.
+	 *
+	 * @return array field data array.
+	 */
+	public function prepare_custom_field_settings( $data_array, $key, $field_args, $fields_type, $step_type = 'checkout' ) {
 
+		if ( 'checkout' === $step_type ) {
+			$name = 'billing' === $fields_type ? 'wcf_field_order_billing[' . $key . ']' : 'wcf_field_order_shipping[' . $key . ']';
+		} else {
+			$name = 'wcf-optin-fields-billing[' . $key . ']';
+		}
+
+		$type            = $field_args['type'];
+		$is_checkbox     = 'checkbox' == $type ? true : false;
+		$is_radiobutton  = 'radio' == $type ? true : false;
+		$is_select       = 'select' == $type ? true : false;
+		$is_custom_field = isset( $field_args['custom'] ) && true === (bool) $field_args['custom'] ? true : false;
+
+		$data_array['field_options'] = array(
+			'enable-field'  => array(
+				'label' => __( 'Enable Field', 'cartflows' ),
+				'name'  => $name . '[enabled]',
+				'value' => $field_args['enabled'],
+			),
+			'select-width'  => array(
+				'type'    => 'select',
+				'label'   => __( 'Field Width', 'cartflows' ),
+				'name'    => $name . '[width]',
+				'value'   => $field_args['width'],
+				'options' => array(
+					array(
+						'value' => '33',
+						'label' => esc_html__( '33%', 'cartflows' ),
+					),
+					array(
+						'value' => '50',
+						'label' => esc_html__( '50%', 'cartflows' ),
+					),
+					array(
+						'value' => '100',
+						'label' => esc_html__( '100%', 'cartflows' ),
+					),
+				),
+
+			),
+			'field-label'   => array(
+				'type'  => 'text',
+				'label' => __( 'Field Label', 'cartflows' ),
+				'name'  => $name . '[label]',
+				'value' => $field_args['label'],
+			),
+			'field-name'    => array(
+				'label'    => __( 'Field ID', 'cartflows' ),
+				'name'     => $name . '[key]',
+				'value'    => $field_args['key'],
+				'readonly' => true,
+				'tooltip'  => __( 'Copy this field id to use in Order Custom Field rule of dynamic offers.', 'cartflows' ),
+			),
+
+			'field-default' => $is_checkbox ?
+				array(
+					'type'    => 'select',
+					'label'   => __( 'Default', 'cartflows' ),
+					'name'    => $name . '[default]',
+					'value'   => $field_args['default'],
+					'options' => array(
+						array(
+							'value' => '1',
+							'label' => esc_html__( 'Checked', 'cartflows' ),
+						),
+						array(
+							'value' => '0',
+							'label' => esc_html__( 'Un-Checked', 'cartflows' ),
+						),
+					),
+				) :
+
+				array(
+					'type'  => 'text',
+					'label' => __( 'Default', 'cartflows' ),
+					'name'  => $name . '[default]',
+					'value' => $field_args['default'],
+				),
+		);
+
+		if ( $is_select || $is_radiobutton ) {
+
+			$data_array['field_options']['select-options'] = array(
+				'type'  => 'text',
+				'label' => __( 'Options', 'cartflows' ),
+				'name'  => $name . '[options]',
+				'value' => $field_args['options'],
+			);
+		}
+
+		if ( in_array( $field_args['type'], array( 'datetime-local', 'date', 'time' ), true ) ) {
+
+			switch ( $field_args['type'] ) {
+				case 'datetime-local':
+					$date_placeholder = 'yyyy-mm-dd hh:mm';
+					break;
+				case 'date':
+					$date_placeholder = 'yyyy-mm-dd';
+					break;
+				case 'time':
+					$date_placeholder = 'hh:mm';
+					break;
+				default:
+					$date_placeholder = 'yyyy-mm-dd hh:mm';
+			}
+
+			$data_array['field_options']['field-min-date'] = array(
+				'type'        => 'text',
+				'label'       => __( 'Min Date', 'cartflows' ),
+				'name'        => $name . '[custom_attributes][min]',
+				'value'       => $field_args['custom_attributes']['min'],
+				'placeholder' => $date_placeholder,
+			);
+			$data_array['field_options']['field-max-date'] = array(
+				'type'        => 'text',
+				'label'       => __( 'Max Date', 'cartflows' ),
+				'name'        => $name . '[custom_attributes][max]',
+				'value'       => $field_args['custom_attributes']['max'],
+				'placeholder' => $date_placeholder,
+			);
+
+			$data_array['field_options']['field-default']['placeholder'] = $date_placeholder;
+		}
+
+		if ( ! in_array( $type, array( 'checkbox', 'select', 'radio', 'datetime-local', 'date', 'time', 'number' ), true ) ) {
+			$data_array['field_options']['field-placeholder'] = array(
+				'type'  => 'text',
+				'label' => __( 'Placeholder', 'cartflows' ),
+				'name'  => $name . '[placeholder]',
+				'value' => $field_args['placeholder'],
+			);
+		}
+
+		if ( 'number' === $type ) {
+			$data_array['field_options']['field-min'] = array(
+				'type'  => 'number',
+				'label' => __( 'Min Number', 'cartflows' ),
+				'name'  => $name . '[custom_attributes][min]',
+				'value' => $field_args['custom_attributes']['min'],
+			);
+			$data_array['field_options']['field-max'] = array(
+				'type'  => 'number',
+				'label' => __( 'Max Number', 'cartflows' ),
+				'name'  => $name . '[custom_attributes][max]',
+				'value' => $field_args['custom_attributes']['max'],
+			);
+		}
+
+		if ( $is_custom_field ) {
+			$data_array['field_options']['show-in-email'] = array(
+				'type'  => 'checkbox',
+				'label' => __( 'Show In Email', 'cartflows' ),
+				'name'  => $name . '[show_in_email]',
+				'value' => $field_args['show_in_email'],
+			);
+		}
+
+		$data_array['field_options']['required-field'] = array(
+			'label' => __( 'Required', 'cartflows' ),
+			'name'  => $name . '[required]',
+			'value' => $field_args['required'],
+		);
+
+		if ( 'checkout' === $step_type ) {
+			$data_array['field_options']['collapsed-field'] = array(
+				'type'  => 'checkbox',
+				'label' => __( 'Collapsible', 'cartflows' ),
+				'name'  => $name . '[optimized]',
+				'value' => $field_args['optimized'],
+			);
+		}
+
+		return $data_array;
+	}
+
+	/**
+	 * Get step edit link.
+	 *
+	 * @param int $step_id Step id.
+	 */
+	public static function get_page_builder_edit_link( $step_id ) {
+
+		$edit_step         = get_edit_post_link( $step_id, 'edit' );
+		$view_step         = get_permalink( $step_id );
+		$page_builder      = self::get_common_setting( 'default_page_builder' );
+		$page_builder_edit = $edit_step;
+
+		switch ( $page_builder ) {
+			case 'beaver-builder':
+				$page_builder_edit = strpos( $view_step, '?' ) ? $view_step . '&fl_builder' : $view_step . '?fl_builder';
+				break;
+			case 'elementor':
+				$page_builder_edit = admin_url( 'post.php?post=' . $step_id . '&action=elementor' );
+				break;
+		}
+
+		return $page_builder_edit;
+	}
+
+	/**
+	 * Get CartFlows Global Color Pallet CSS_Vars data.
+	 *
+	 * @since x.x.x.
+	 * @return array Array of GCP vars slugs and label,
+	 */
+	public static function get_gcp_vars() {
+		return array(
+			'wcf-gcp-primary-color'   => __( 'CartFlows Primary Color', 'cartflows' ),
+			'wcf-gcp-secondary-color' => __( 'CartFlows Secondary Color', 'cartflows' ),
+			'wcf-gcp-text-color'      => __( 'CartFlows Text Color', 'cartflows' ),
+			'wcf-gcp-accent-color'    => __( 'CartFlows Heading/Accent Color', 'cartflows' ),
+		);
+	}
+
+	/**
+	 * Generate GCP styles CSS and assign the colors to the GCP CSS VARs.
+	 *
+	 * @param int $flow_id The current flow ID.
+	 * @return array $gcp_vars Array of generated CSS.
+	 *
+	 * @since x.x.x
+	 */
+	public static function generate_gcp_css_style( $flow_id = 0 ) {
+
+		$gcp_vars = '';
+
+		if ( empty( $flow_id ) ) {
+			return $gcp_vars;
+		}
+
+		$gcp_vars_array = array_keys( self::get_gcp_vars() );
+
+		foreach ( $gcp_vars_array as $slug ) {
+			// Gather value of global color VAR.
+			$color_value = wcf()->options->get_flow_meta_value( $flow_id, $slug, '' );
+
+			if ( empty( $color_value ) ) {
+				continue;
+			}
+
+			// Convert it into the CSS var.
+			$gcp_vars .= '--' . $slug . ': ' . $color_value . '; ';
+		}
+
+		return $gcp_vars;
+	}
+
+	/**
+	 * Generate the array of CSS vars to add in the Gutenberg color pallet.
+	 *
+	 * @param int $flow_id The current Flow ID.
+	 * @return array $new_color_palette Prepared array of CSS vars.
+	 *
+	 * @since x.x.x
+	 */
+	public static function generate_css_var_array( $flow_id = 0 ) {
+
+		if ( empty( $flow_id ) ) {
+			$flow_id = wcf()->utils->get_flow_id();
+		}
+
+		// Default Color Pallet used as a separator.
+		$new_color_palette[] = array(
+			'name'  => 'CartFlows Separator',
+			'slug'  => 'wcf-gcp-separator',
+			'color' => '#ff0000',
+		);
+
+		$cf_gcp_data = self::get_gcp_vars();
+
+		// Prepare new colors css vars.
+		foreach ( $cf_gcp_data as $slug => $label ) {
+
+			$color_value = get_post_meta( $flow_id, $slug, true );
+
+			if ( empty( $color_value ) ) {
+				continue;
+			}
+
+			// Add CartFlows Global Color Pallets CSS vars options.
+			$new_color_palette[] = array(
+				'name'  => $label,
+				'slug'  => $slug,
+				'color' => 'var( --' . $slug . ')',
+			);
+		}
+
+		return $new_color_palette;
+	}
+
+	/**
+	 * Check is the Global Color pallet is enabled or not.
+	 *
+	 * @param int $flow_id Current flow id.
+	 * @return boolean
+	 */
+	public static function is_gcp_styling_enabled( $flow_id ) {
+
+		if ( empty( $flow_id ) ) {
+			return false;
+		}
+
+		return 'yes' === wcf()->options->get_flow_meta_value( $flow_id, 'wcf-enable-gcp-styling', 'no' );
+	}
 }
 

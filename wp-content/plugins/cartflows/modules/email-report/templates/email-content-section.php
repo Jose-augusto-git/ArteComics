@@ -44,8 +44,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 																'cartflows'
 															),
 															esc_attr( $store_name ),
-															wp_kses_post( wc_price( $total_revenue ) ),
-															wp_kses_post( wc_price( $last_month_revenue ) )
+															wp_kses_post( $total_revenue ),
+															wp_kses_post( $last_month_revenue )
 														);
 														?>
 													</p>
@@ -60,7 +60,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									<tr>
 										<td style="padding-bottom:10px;padding-top:60px;text-align:center;width:100%;">
 											<h1 style="margin: 0; color: #1f2937; direction: ltr; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; font-size: 32px; font-weight: 400; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0;">
-												<?php echo wp_kses_post( wc_price( $total_revenue ) ); ?>
+												<?php echo wp_kses_post( $total_revenue ); ?>
 											</h1>
 										</td>
 									</tr>
@@ -85,7 +85,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</p>
 													<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 16.8px;">&nbsp;</p>
 													<p style="margin: 0; font-size: 22px; text-align: center;">
-														<?php echo wp_kses_post( wc_price( $last_month_revenue ) ); ?>
+														<?php echo wp_kses_post( $last_month_revenue ); ?>
 													</p>
 													<p style="margin: 0; text-align: center;">
 														<span style="font-size:12px;">

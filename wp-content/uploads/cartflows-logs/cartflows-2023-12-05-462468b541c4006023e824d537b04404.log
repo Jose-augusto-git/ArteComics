@@ -1,0 +1,4 @@
+2023-12-05T20:14:15+00:00 INFO Start-Cartflows_Admin_Report_Emails::send_weekly_report_email
+2023-12-05T20:14:15+00:00 INFO Send weekly emails to joserock0001@gmail.com
+2023-12-05T20:14:15+00:00 INFO Total Revenue: <span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#82;&#36;</span>0,00</bdi></span>
+2023-12-05T20:14:17+00:00 INFO Email send status for email joserock0001@gmail.com is 

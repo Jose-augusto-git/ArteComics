@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { addFilter } from '@wordpress/hooks';
 import { sendPostMessage } from '@Utils/Helpers';
+import { PhotoIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 import { __ } from '@wordpress/i18n';
 import { useStateValue } from '../../utils/StateProvider';
 import { MediaUpload } from '@wordpress/media-utils';
-
-// SCSS.
-import './UploadSiteLogo.scss';
 
 function UploadSiteLogo( props ) {
 	const { defaultPageBuilder } = props;
@@ -95,23 +93,12 @@ function UploadSiteLogo( props ) {
 		}
 	};
 
-	console.log( site_logo );
-
+	const logo_btn_text =
+		'' === site_logo || undefined === site_logo.url
+			? __( 'Upload a Logo', 'cartflows' )
+			: __( 'Change a Logo', 'cartflows' );
 	return (
 		<>
-			<div className="wcf-options--row">
-				<h3 className="wcf-options--heading">
-					{ __( 'Customize', 'cartflows' ) }
-				</h3>
-				<p className="wcf-options--description">
-					{ __(
-						"Let's customize your new store checkout with your logo and brand color.",
-						'cartflows'
-					) }
-				</p>
-			</div>
-			<div className="wcf-options--separator"></div>
-
 			<div className="wcf-options--row">
 				<MediaUpload
 					onSelect={ ( media ) => onSelectImage( media ) }
@@ -120,53 +107,37 @@ function UploadSiteLogo( props ) {
 					// multiple={ false }
 					render={ ( { open } ) => (
 						<>
-							<div className="wcf-media-upload-wrapper">
+							<div className="wcf-media-upload-wrapper flex gap-4">
 								{ '' !== site_logo.url &&
 								undefined !== site_logo.url ? (
 									<div className="wcf-site-logo-wrapper">
 										<div className="wcf-media-upload--selected-image">
-											<div className="wcf-media-upload--preview">
+											<div
+												className="wcf-media-upload--preview relative wcf-inline-tooltip"
+												data-tooltip={ __(
+													'Remove logo',
+													'cartflows'
+												) }
+											>
 												<span
-													className="wcf-close-site-logo"
+													className="wcf-close-site-logo absolute p-0.5 -left-2.5 bg-white rounded-full border border-gray-300 -top-1.5 cursor-pointer"
 													onClick={ removeImage }
 												>
-													<svg
-														xmlns="http://www.w3.org/2000/svg"
-														width="8"
-														height="8"
-														viewBox="0 0 8 8"
-														fill="#333333"
-													>
-														<path
-															d="M8 0.7L7.3 0L4 3.3L0.7 0L0 0.7L3.3 4L0 7.3L0.7 8L4 4.7L7.3 8L8 7.3L4.7 4L8 0.7Z"
-															fill="#333333"
-														></path>
-													</svg>
+													<XMarkIcon
+														className="w-2.5 h-2.5 stroke-2 text-gray-600 hover:text-gray-800 "
+														aria-hidden="true"
+													/>
 												</span>
 												<img
 													src={ site_logo.url }
 													alt={
 														'wcf-selected-logo-preview'
 													}
-													className="wcf-selected-image"
+													className="wcf-selected-image w-11 h-11"
 													data-logo-data={ JSON.stringify(
 														site_logo
 													) }
 												/>
-												<div
-													onClick={ open }
-													className="wcf-change-logo-action--wrap"
-												>
-													<div
-														className="wcf-change-logo-action--button"
-														onClick={ open }
-													>
-														{ __(
-															'Change Logo',
-															'cartflows'
-														) }
-													</div>
-												</div>
 											</div>
 										</div>
 									</div>
@@ -174,47 +145,20 @@ function UploadSiteLogo( props ) {
 									''
 								) }
 
-								{ '' === site_logo ||
-								undefined === site_logo.url ? (
-									<div>
-										<button
-											className="wcf-media-upload-button"
-											onClick={ open }
-										>
-											<h5 className="wcf-media-upload--heading">
-												{ __(
-													'Upload File Here',
-													'cartflows'
-												) }
-											</h5>
-
-											<p className="text-xs text-[#4B5563]">
-												{ __(
-													'Suggested Dimensions: 180x60 pixels',
-													'cartflows'
-												) }
-											</p>
-										</button>
-									</div>
-								) : (
-									''
-								) }
-								{ '' === site_logo && (
-									<div className="wcf-media-upload--no-image">
-										<h5 className="wcf-media-upload--heading">
-											{ __(
-												"Don't have a logo? No problem!",
-												'cartflows'
-											) }
-										</h5>
-										<p className="text-sm text-[#4B5563] mt-1">
-											{ __(
-												'You can upload it later',
-												'cartflows'
-											) }
-										</p>
-									</div>
-								) }
+								<button
+									className="wcf-media-upload-button relative inline-flex justify-center items-center gap-1.5 rounded px-4 py-2.5 text-sm font-normal leading-4 shadow-sm cursor-pointer bg-primary-25 border border-primary-300 text-primary-500 focus:bg-primary-50 focus:text-primary-600 focus:ring-offset-2 focus:ring-2 focus:ring-primary-500 focus:outline-none wcf-inline-tooltip"
+									onClick={ open }
+									data-tooltip={ __(
+										'Suggested Dimensions: 180x60 pixels',
+										'cartflows'
+									) }
+								>
+									<PhotoIcon
+										className="w-5 h-5 stroke-2"
+										aria-hidden="true"
+									/>
+									{ logo_btn_text }
+								</button>
 							</div>
 						</>
 					) }

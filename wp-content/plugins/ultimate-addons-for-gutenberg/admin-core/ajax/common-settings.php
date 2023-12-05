@@ -15,6 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 use UagAdmin\Ajax\Ajax_Base;
 use UagAdmin\Inc\Admin_Helper;
 
+use \ZipAI\Classes\Helper as Zip_Ai_Helper;
+use \ZipAI\Classes\Module as Zip_Ai_Module;
+
 /**
  * Class Common_Settings.
  */
@@ -94,6 +97,8 @@ class Common_Settings extends Ajax_Base {
 			'insta_all_users_media',
 			'insta_refresh_all_tokens',
 			'btn_inherit_from_theme',
+			'zip_ai_module_status',
+			'zip_ai_verify_authenticity',
 		);
 
 		$this->init_ajax_events( $ajax_events );
@@ -789,7 +794,7 @@ class Common_Settings extends Ajax_Base {
 		}
 		wp_send_json_error( array( 'messsage' => __( 'Failed to refresh tokens', 'ultimate-addons-for-gutenberg' ) ) );
 	}
-	
+
 	/**
 	 * Save setting - Enables GBS extension.
 	 *
@@ -799,7 +804,7 @@ class Common_Settings extends Ajax_Base {
 	public function enable_gbs_extension() {
 		$this->check_permission_nonce( 'uag_enable_gbs_extension' );
 		$value = $this->check_post_value();
-		
+
 		$value = 'enabled' === $value ? 'enabled' : 'disabled';
 		$this->save_gbs_default_in_upload_folder( $value );
 
@@ -817,7 +822,7 @@ class Common_Settings extends Ajax_Base {
 	 */
 	public function save_gbs_default_in_upload_folder( $value ) {
 		$spectra_global_block_styles = get_option( 'spectra_global_block_styles', array() );
-				
+
 		if ( empty( $spectra_global_block_styles ) || ! is_array( $spectra_global_block_styles ) ) {
 			return;
 		}
@@ -829,7 +834,7 @@ class Common_Settings extends Ajax_Base {
 				continue;
 			}
 
-			$create_block_array[ $styles['blockName'] ] = true; 
+			$create_block_array[ $styles['blockName'] ] = true;
 		}
 
 		// Remove assets if css available.
@@ -863,14 +868,14 @@ class Common_Settings extends Ajax_Base {
 			if ( ! is_string( $block_name ) || 0 !== strpos( $block_name, 'uagb/' ) ) {
 				continue;
 			}
-			
+
 			$_block_slug = str_replace( 'uagb/', '', $block_name );
 
 			// This is class name and file name.
 			$class_name = 'uagb-gbs-default-' . $_block_slug;
 
 			$wp_upload_dir = \UAGB_Helper::get_uag_upload_dir_path();
-			
+
 			$path_and_file_name = $wp_upload_dir . $class_name . '.css';
 
 			// If $value is enabled then only remove css default files.
@@ -887,7 +892,7 @@ class Common_Settings extends Ajax_Base {
 			$tab_styling_css = '';
 			$mob_styling_css = '';
 			$desktop         = $_block_css['desktop'];
-			
+
 			if ( ! empty( $_block_css['tablet'] ) ) {
 				$tab_styling_css .= '@media only screen and (max-width: ' . UAGB_TABLET_BREAKPOINT . 'px) {';
 				$tab_styling_css .= $_block_css['tablet'];
@@ -900,9 +905,108 @@ class Common_Settings extends Ajax_Base {
 				$mob_styling_css .= '}';
 			}
 			$_block_css = $desktop . $tab_styling_css . $mob_styling_css;
-			
+
 			$wp_filesystem = uagb_filesystem();
 			$wp_filesystem->put_contents( $path_and_file_name, $_block_css, FS_CHMOD_FILE );
+		}
+	}
+
+	/**
+	 * Save setting - Enables or Disables the given Zip AI Module.
+	 *
+	 * @since 2.10.2
+	 * @return void
+	 */
+	public function zip_ai_module_status() {
+		// Check permission.
+		$this->check_permission_nonce( 'uag_zip_ai_module_status' );
+		// Check the post value.
+		$value = $this->check_post_value();
+		// Check the post module.
+		$module = $this->check_post_value( 'module' );
+
+		// If module is not a string, then abandon ship.
+		if ( ! is_string( $module ) ) {
+			// Since the module was not a string, set it to a blank string and send an error message as the response.
+			$module = '';
+			wp_send_json_error( array( 'messsage' => __( 'Module not found!', 'ultimate-addons-for-gutenberg' ) ) );
+		}
+
+		// Sanitize the module.
+		$module = sanitize_text_field( $module );
+
+		// Replace the underscores in the module name with spaces, make the word AI capital, and capitalize the first letter of each word.
+		$module_name = ucwords( str_replace( '_', ' ', str_replace( 'ai', 'AI', $module ) ) );
+
+		// Check if the Zip AI Module is available.
+		if ( class_exists( '\ZipAI\Classes\Module' ) ) {
+			// If the value is 'disabled', disable the Zip AI Module - else enable it.
+			if ( 'disabled' === $value ) {
+				if ( Zip_Ai_Module::disable( $module ) ) {
+					wp_send_json_success(
+						array(
+							'messsage' => sprintf(
+							// Translators: %s is the module name.
+								__( '%s disabled!', 'ultimate-addons-for-gutenberg' ),
+								$module_name
+							),
+						) 
+					);
+				} else {
+					wp_send_json_error(
+						array(
+							'messsage' => sprintf(
+							// Translators: %s is the module name.
+								__( 'Unable to disable %s', 'ultimate-addons-for-gutenberg' ),
+								$module_name
+							),
+						) 
+					);
+				}
+			} else {
+				if ( Zip_Ai_Module::enable( $module ) ) {
+					wp_send_json_success(
+						array(
+							'messsage' => sprintf(
+							// Translators: %s is the module name.
+								__( '%s enabled!', 'ultimate-addons-for-gutenberg' ),
+								$module_name
+							),
+						) 
+					);
+				} else {
+					wp_send_json_error(
+						array(
+							'messsage' => sprintf(
+							// Translators: %s is the module name.
+								__( 'Unable to enable %s', 'ultimate-addons-for-gutenberg' ),
+								$module_name
+							),
+						) 
+					);
+				}
+			}
+		} else {
+			wp_send_json_error( array( 'messsage' => __( 'Unable to save setting.', 'ultimate-addons-for-gutenberg' ) ) );
+		}
+	}
+
+	/**
+	 * Ajax Request - Verify if Zip AI is authorized.
+	 *
+	 * @since 2.10.2
+	 * @return void
+	 */
+	public function zip_ai_verify_authenticity() {
+		// Check permission.
+		$this->check_permission_nonce( 'uag_zip_ai_verify_authenticity' );
+
+		// If the Zip AI Helper Class exists, return a success based on the authorizatoin status, else return an error.
+		if ( class_exists( '\ZipAI\Classes\Helper' ) ) {
+			// Send a boolean based on whether the auth token has been added.
+			wp_send_json_success( array( 'is_authorized' => Zip_Ai_Helper::is_authorized() ) );
+		} else {
+			wp_send_json_error( array( 'messsage' => __( 'Unable to verify authenticity.', 'ultimate-addons-for-gutenberg' ) ) );
 		}
 	}
 }

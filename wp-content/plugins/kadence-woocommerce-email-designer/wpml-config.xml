@@ -38,6 +38,12 @@
 			<key name="customer_renewal_invoice_body_failed" />
 			<key name="cancelled_subscription_body" />
 			<key name="woocommerce_waitlist_mailout_body" />
+			<key name="footer_social_repeater">
+			   <key name="*">
+                    <key name="link" />
+                    <key name="title" />
+                </key>
+			</key>
 		</key>
 	</admin-texts>
 </wpml-config>

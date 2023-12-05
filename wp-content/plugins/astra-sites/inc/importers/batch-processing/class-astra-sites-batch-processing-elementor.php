@@ -149,7 +149,10 @@ class Astra_Sites_Batch_Processing_Elementor extends Source_Local {
 			}
 
 			// Clean the post excerpt.
-			astra_sites_empty_post_excerpt( $post_id );
+			$clean_post_excerpt = apply_filters( 'astra_sites_pre_process_post_empty_excerpt', true );
+			if ( $clean_post_excerpt ) {
+				astra_sites_empty_post_excerpt( $post_id );
+			}
 		}
 	}
 }

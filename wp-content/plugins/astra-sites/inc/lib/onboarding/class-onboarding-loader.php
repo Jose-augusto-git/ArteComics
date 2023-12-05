@@ -215,6 +215,7 @@ class Intelligent_Starter_Templates_Loader {
 			'firstImportStatus' => get_option( 'astra_sites_import_complete', false ),
 			'supportLink' => 'https://wpastra.com/starter-templates-support/?ip=' . Astra_Sites_Helper::get_client_ip(),
 			'isBrizyEnabled'=> get_option( 'st-brizy-builder-flag'),
+			'isElementorDisabled'=> get_option( 'st-elementor-builder-flag'),
 			'analytics' => get_site_option( 'bsf_analytics_optin', false ),
 			'phpVersion' => PHP_VERSION,
 			'reportError' => $this->should_report_error(),
@@ -270,6 +271,7 @@ class Intelligent_Starter_Templates_Loader {
 	 */
 	public function st_brizy_flag_field() {
 		register_setting( 'general', 'st-brizy-builder-flag', 'esc_attr' );
+		register_setting( 'general', 'st-elementor-builder-flag', 'esc_attr' );
 		add_settings_field('st-brizy-builder-flag', '<label for="st-brizy-builder-flag">'. 'Starter Templates' . '</label>' , array($this, 'st_brizy_flag') , 'general' );
 	}
 
@@ -280,12 +282,19 @@ class Intelligent_Starter_Templates_Loader {
 	 */
 	public function st_brizy_flag() {
 		$value = get_option( 'st-brizy-builder-flag');
+		$elementor_value = get_option( 'st-elementor-builder-flag');
 		ob_start();
 		?>
-			<label>
-				<input id='st-brizy-builder-flag' type='checkbox' name='st-brizy-builder-flag' value='1' <?php checked(1, $value, true); ?>>
-				<?php _e('Enable Brizy Page Builder Templates in Starter Templates','astra-sites'); ?>
-			</label>
+			<div style="display:flex;flex-direction:column;gap:15px;padding:10px;">
+				<label>
+					<input id='st-brizy-builder-flag' type='checkbox' name='st-brizy-builder-flag' value='1' <?php checked(1, $value, true); ?>>
+					<?php _e('Enable Brizy Page Builder Templates in Starter Templates','astra-sites'); ?>
+				</label>
+				<label>
+					<input id='st-elementor-builder-flag' type='checkbox' name='st-elementor-builder-flag' value='1' <?php checked(1, $elementor_value, true); ?>>
+					<?php _e('Disable Elementor Page Builder Templates in Starter Templates','astra-sites'); ?>
+				</label>
+			</div>	
 		<?php
 		echo ob_get_clean();
 	}

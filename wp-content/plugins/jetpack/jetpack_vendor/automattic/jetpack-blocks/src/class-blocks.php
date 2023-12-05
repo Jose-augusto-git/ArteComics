@@ -43,25 +43,18 @@ class Blocks {
 	public static function jetpack_register_block( $slug, $args = array() ) {
 		// Slug doesn't start with `jetpack/`, isn't an absolute path, or doesn't contain a slash
 		// (synonym of a namespace) at all.
-		if ( 0 !== strpos( $slug, 'jetpack/' ) && ! path_is_absolute( $slug ) && ! strpos( $slug, '/' ) ) {
+		if ( ! str_starts_with( $slug, 'jetpack/' ) && ! path_is_absolute( $slug ) && ! strpos( $slug, '/' ) ) {
 			_doing_it_wrong( 'jetpack_register_block', 'Prefix the block with jetpack/ ', 'Jetpack 9.0.0' );
 			$slug = 'jetpack/' . $slug;
 		}
 
 		$block_type = $slug;
 
-		// If a path is passed, find the slug in the file then create a block type object to register
-		// the block.
-		// Note: passing the path directly to register_block_type seems to loose the interactivity of
-		// the block once in the editor once it's out of focus.
+		// If a path is passed, make sure to get the block.json file from the build directory and get
+		// the block name from that file.
 		if ( path_is_absolute( $slug ) ) {
-			$metadata = self::get_block_metadata_from_file( self::get_path_to_block_metadata( $slug ) );
-			$name     = self::get_block_name_from_metadata( $metadata );
-
-			if ( ! empty( $name ) ) {
-				$slug       = $name;
-				$block_type = new \WP_Block_Type( $slug, array_merge( $metadata, $args ) );
-			}
+			$block_type = self::get_path_to_block_metadata( $slug );
+			$slug       = self::get_block_name( $block_type );
 		}
 
 		if (
@@ -239,7 +232,7 @@ class Blocks {
 	 * @return string The unprefixed extension name.
 	 */
 	public static function remove_extension_prefix( $extension_name ) {
-		if ( 0 === strpos( $extension_name, 'jetpack/' ) || 0 === strpos( $extension_name, 'jetpack-' ) ) {
+		if ( str_starts_with( $extension_name, 'jetpack/' ) || str_starts_with( $extension_name, 'jetpack-' ) ) {
 			return substr( $extension_name, strlen( 'jetpack/' ) );
 		}
 		return $extension_name;

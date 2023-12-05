@@ -72,9 +72,10 @@ class Cartflows_Optin_Meta_Data extends Cartflows_Step_Meta_Base {
 			'extra_fields'   => array(
 				'fields' => array(
 					'enable-optin-field-editor' => array(
-						'type'  => 'checkbox',
-						'label' => __( 'Enable Custom Field Editor', 'cartflows' ),
-						'name'  => 'wcf-optin-enable-custom-fields',
+						'type'         => 'checkbox',
+						'label'        => __( 'Enable Custom Field Editor', 'cartflows' ),
+						'name'         => 'wcf-optin-enable-custom-fields',
+						'is_fullwidth' => true,
 					),
 				),
 			),
@@ -124,125 +125,7 @@ class Cartflows_Optin_Meta_Data extends Cartflows_Step_Meta_Base {
 				}
 			}
 
-			$name = 'wcf-optin-fields-billing[' . $key . ']';
-
-			$is_checkbox = false;
-			$is_require  = false;
-			$is_select   = false;
-			$display     = 'none';
-
-			if ( 'checkbox' == $field_args['type'] ) {
-				$is_checkbox = true;
-			}
-
-			if ( 'yes' == $field_args['required'] ) {
-				$is_require = true;
-			}
-
-			if ( 'yes' == $field_args['optimized'] ) {
-				$is_optimized = true;
-			}
-
-			if ( 'select' == $field_args['type'] ) {
-				$is_select = true;
-				$display   = 'block';
-			}
-
-			$data_array[ $key ]['field_options'] = array(
-				'enable-field'  => array(
-					'type'  => 'checkbox',
-					'label' => __( 'Enable Field', 'cartflows' ),
-					'name'  => $name . '[enabled]',
-					'value' => $field_args['enabled'],
-				),
-				'select-width'  => array(
-					'type'    => 'select',
-					'label'   => __( 'Field Width', 'cartflows' ),
-					'name'    => $name . '[width]',
-					'value'   => $field_args['width'],
-					'options' => array(
-						array(
-							'value' => '33',
-							'label' => esc_html__( '33%', 'cartflows' ),
-						),
-						array(
-							'value' => '50',
-							'label' => esc_html__( '50%', 'cartflows' ),
-						),
-						array(
-							'value' => '100',
-							'label' => esc_html__( '100%', 'cartflows' ),
-						),
-					),
-
-				),
-				'field-label'   => array(
-					'type'  => 'text',
-					'label' => __( 'Field Label', 'cartflows' ),
-					'name'  => $name . '[label]',
-					'value' => $field_args['label'],
-				),
-
-				'field-name'    => array(
-					'type'     => 'text',
-					'label'    => __( 'Field ID', 'cartflows' ),
-					'name'     => $name . '[key]',
-					'value'    => $field_args['key'],
-					'readonly' => true,
-				),
-
-				'field-default' => $is_checkbox ?
-					array(
-						'type'    => 'checkbox',
-						'label'   => __( 'Default', 'cartflows' ),
-						'name'    => $name . '[default]',
-						'value'   => $field_args['default'],
-						'options' => array(
-							array(
-								'value' => '1',
-								'label' => esc_html__( 'Checked', 'cartflows' ),
-							),
-							array(
-								'value' => '0',
-								'label' => esc_html__( 'Un-Checked', 'cartflows' ),
-							),
-						),
-					) :
-
-					array(
-						'type'  => 'text',
-						'label' => __( 'Default', 'cartflows' ),
-						'name'  => $name . '[default]',
-						'value' => $field_args['default'],
-					),
-			);
-
-			if ( $is_select ) {
-
-				$data_array[ $key ]['field_options']['select-options'] = array(
-					'type'  => 'text',
-					'label' => __( 'Options', 'cartflows' ),
-					'name'  => $name . '[options]',
-					'value' => $field_args['options'],
-				);
-			}
-
-			if ( false == $is_checkbox || false == $is_select ) {
-				$data_array[ $key ]['field_options']['field-placeholder'] = array(
-					'type'  => 'text',
-					'label' => __( 'Placeholder', 'cartflows' ),
-					'name'  => $name . '[placeholder]',
-					'value' => $field_args['placeholder'],
-				);
-			}
-
-			$data_array[ $key ]['field_options']['required-field'] = array(
-				'type'  => 'checkbox',
-				'label' => __( 'Required', 'cartflows' ),
-				'name'  => $name . '[required]',
-				'value' => $field_args['required'],
-			);
-
+			$data_array[ $key ] = Cartflows_Helper::get_instance()->prepare_custom_field_settings( $data_array[ $key ], $key, $field_args, $fields, 'optin' );
 		}
 
 		return $data_array;
@@ -284,9 +167,6 @@ class Cartflows_Optin_Meta_Data extends Cartflows_Step_Meta_Base {
 	 */
 	public function get_settings( $step_id, $options = array() ) {
 
-		$this->step_id = $step_id;
-		$this->options = $options;
-
 		$common_tabs = $this->common_tabs();
 		$add_tabs    = array(
 			'products'          => array(
@@ -297,7 +177,7 @@ class Cartflows_Optin_Meta_Data extends Cartflows_Step_Meta_Base {
 				'priority' => 20,
 			),
 			'optin_form_fields' => array(
-				'title'    => __( 'Form Fields', 'cartflows' ),
+				'title'    => __( 'Optin Form', 'cartflows' ),
 				'id'       => 'optin_form_fields',
 				'class'    => '',
 				'icon'     => 'dashicons-format-aside',
@@ -379,35 +259,57 @@ class Cartflows_Optin_Meta_Data extends Cartflows_Step_Meta_Base {
 
 		$settings = array(
 			'settings' => array(
+				'shortcode'      => array(
+					'title'    => __( 'Shortcode', 'cartflows' ),
+					'slug'     => 'shortcodes',
+					'priority' => 10,
+					'fields'   => array(
+						'optin-shortcode' => array(
+							'type'          => 'text',
+							'name'          => 'optin-shortcode',
+							'label'         => __( 'Optin Form', 'cartflows' ),
+							'value'         => '[cartflows_optin]',
+							'help'          => esc_html__( 'Add this shortcode to your optin page', 'cartflows' ),
+							'readonly'      => true,
+							'display_align' => 'vertical',
+						),
+					),
+				),
+
 				'global'         => array(
-					'title'  => __( 'Global Settings', 'cartflows' ),
-					'slug'   => 'global_settings',
-					'fields' => array(
+					'title'    => __( 'Global Settings', 'cartflows' ),
+					'slug'     => 'global_settings',
+					'priority' => 20,
+					'fields'   => array(
 						'primary-color'       => array(
-							'type'  => 'color-picker',
-							'name'  => 'wcf-primary-color',
-							'label' => __( 'Primary Color', 'cartflows' ),
-							'value' => $options['wcf-primary-color'],
+							'type'   => 'color-picker',
+							'name'   => 'wcf-primary-color',
+							'label'  => __( 'Primary Color', 'cartflows' ),
+							'value'  => $options['wcf-primary-color'],
+							'withBg' => true,
 						),
 						'heading-font-family' => array(
-							'type'  => 'font-family',
-							'name'  => 'wcf-base-font-family',
-							'label' => __( 'Font Family', 'cartflows' ),
-							'value' => $options['wcf-base-font-family'],
+							'type'          => 'font-family',
+							'name'          => 'wcf-base-font-family',
+							'label'         => __( 'Font Family', 'cartflows' ),
+							'value'         => $options['wcf-base-font-family'],
+							'display_align' => 'vertical',
 						),
 					),
 				),
 
 				'input-fields'   => array(
-					'title'  => __( 'Input Fields', 'cartflows' ),
-					'slug'   => 'input_fields',
-					'fields' => array(
+					'title'    => __( 'Input Fields', 'cartflows' ),
+					'slug'     => 'input_fields',
+					'priority' => 30,
+					'fields'   => array(
 						'style'              => array(
-							'type'    => 'select',
-							'label'   => __( 'Style', 'cartflows' ),
-							'name'    => 'wcf-input-fields-skins',
-							'value'   => $options['wcf-input-fields-skins'],
-							'options' => array(
+							'type'          => 'select',
+							'label'         => __( 'Style', 'cartflows' ),
+							'name'          => 'wcf-input-fields-skins',
+							'value'         => $options['wcf-input-fields-skins'],
+							'display_align' => 'vertical',
+							'options'       => array(
 								array(
 									'value' => 'default',
 									'label' => esc_html__( 'Default', 'cartflows' ),
@@ -428,14 +330,16 @@ class Cartflows_Optin_Meta_Data extends Cartflows_Step_Meta_Base {
 							'font_weight_name'  => 'wcf-input-font-weight',
 							'font_weight_value' => $options['wcf-input-font-weight'],
 							'font_weight_for'   => 'wcf-input',
+							'display_align'     => 'vertical',
 						),
 
 						'input-font-size'    => array(
-							'type'    => 'select',
-							'label'   => __( 'Size', 'cartflows' ),
-							'name'    => 'wcf-input-field-size',
-							'value'   => $options['wcf-input-field-size'],
-							'options' => array(
+							'type'          => 'select',
+							'label'         => __( 'Size', 'cartflows' ),
+							'name'          => 'wcf-input-field-size',
+							'value'         => $options['wcf-input-field-size'],
+							'display_align' => 'vertical',
+							'options'       => array(
 								array(
 									'value' => '33px',
 									'label' => esc_html__( 'Extra Small', 'cartflows' ),
@@ -463,56 +367,64 @@ class Cartflows_Optin_Meta_Data extends Cartflows_Step_Meta_Base {
 							),
 						),
 						'input-bottom-space' => array(
-							'type'  => 'number',
-							'label' => __( 'Top Bottom Spacing', 'cartflows' ),
-							'name'  => 'wcf-field-tb-padding',
-							'value' => $options['wcf-field-tb-padding'],
+							'type'          => 'number',
+							'label'         => __( 'Top Bottom Spacing', 'cartflows' ),
+							'name'          => 'wcf-field-tb-padding',
+							'value'         => $options['wcf-field-tb-padding'],
+							'display_align' => 'vertical',
 						),
 						'input-left-space'   => array(
-							'type'  => 'number',
-							'label' => __( 'Left Right Spacing', 'cartflows' ),
-							'name'  => 'wcf-field-lr-padding',
-							'value' => $options['wcf-field-lr-padding'],
+							'type'          => 'number',
+							'label'         => __( 'Left Right Spacing', 'cartflows' ),
+							'name'          => 'wcf-field-lr-padding',
+							'value'         => $options['wcf-field-lr-padding'],
+							'display_align' => 'vertical',
 						),
 						'input-label-color'  => array(
-							'type'  => 'color-picker',
-							'label' => __( 'Label Color', 'cartflows' ),
-							'name'  => 'wcf-field-label-color',
-							'value' => $options['wcf-field-label-color'],
+							'type'   => 'color-picker',
+							'label'  => __( 'Label Color', 'cartflows' ),
+							'name'   => 'wcf-field-label-color',
+							'value'  => $options['wcf-field-label-color'],
+							'withBg' => true,
 						),
 						'input-text-color'   => array(
-							'type'  => 'color-picker',
-							'label' => __( 'Text / Placeholder Color', 'cartflows' ),
-							'name'  => 'wcf-field-color',
-							'value' => $options['wcf-field-color'],
+							'type'   => 'color-picker',
+							'label'  => __( 'Text / Placeholder Color', 'cartflows' ),
+							'name'   => 'wcf-field-color',
+							'value'  => $options['wcf-field-color'],
+							'withBg' => true,
 						),
 						'input-bg-color'     => array(
-							'type'  => 'color-picker',
-							'label' => __( 'Background Color', 'cartflows' ),
-							'name'  => 'wcf-field-bg-color',
-							'value' => $options['wcf-field-bg-color'],
+							'type'   => 'color-picker',
+							'label'  => __( 'Background Color', 'cartflows' ),
+							'name'   => 'wcf-field-bg-color',
+							'value'  => $options['wcf-field-bg-color'],
+							'withBg' => true,
 						),
 						'input-border-color' => array(
-							'type'  => 'color-picker',
-							'label' => __( 'Border Color', 'cartflows' ),
-							'name'  => 'wcf-field-border-color',
-							'value' => $options['wcf-field-border-color'],
+							'type'   => 'color-picker',
+							'label'  => __( 'Border Color', 'cartflows' ),
+							'name'   => 'wcf-field-border-color',
+							'value'  => $options['wcf-field-border-color'],
+							'withBg' => true,
 						),
 
 					),
 				),
 
 				'button-options' => array(
-					'title'  => __( 'Submit Button', 'cartflows' ),
-					'slug'   => 'button_options',
-					'fields' => array(
-						'buttom-font-size'          => array(
-							'type'  => 'number',
-							'label' => __( 'Font Size', 'cartflows' ),
-							'name'  => 'wcf-submit-font-size',
-							'value' => $options['wcf-submit-font-size'],
+					'title'    => __( 'Submit Button', 'cartflows' ),
+					'slug'     => 'button_options',
+					'priority' => 40,
+					'fields'   => array(
+						'button-font-size'          => array(
+							'type'          => 'number',
+							'label'         => __( 'Font Size', 'cartflows' ),
+							'name'          => 'wcf-submit-font-size',
+							'value'         => $options['wcf-submit-font-size'],
+							'display_align' => 'vertical',
 						),
-						'buttom-font-family'        => array(
+						'button-font-family'        => array(
 							'type'              => 'font-family',
 							'for'               => 'wcf-button',
 							'label'             => esc_html__( 'Font Family', 'cartflows' ),
@@ -521,15 +433,17 @@ class Cartflows_Optin_Meta_Data extends Cartflows_Step_Meta_Base {
 							'font_weight_name'  => 'wcf-button-font-weight',
 							'font_weight_value' => $options['wcf-button-font-weight'],
 							'font_weight_for'   => 'wcf-button',
+							'display_align'     => 'vertical',
 
 						),
 
-						'buttom-bottom-space'       => array(
-							'type'    => 'select',
-							'label'   => __( 'Size', 'cartflows' ),
-							'name'    => 'wcf-submit-button-size',
-							'value'   => $options['wcf-submit-button-size'],
-							'options' => array(
+						'button-bottom-space'       => array(
+							'type'          => 'select',
+							'label'         => __( 'Size', 'cartflows' ),
+							'name'          => 'wcf-submit-button-size',
+							'value'         => $options['wcf-submit-button-size'],
+							'display_align' => 'vertical',
+							'options'       => array(
 								array(
 									'value' => '33px',
 									'label' => esc_html__( 'Extra Small', 'cartflows' ),
@@ -556,24 +470,27 @@ class Cartflows_Optin_Meta_Data extends Cartflows_Step_Meta_Base {
 								),
 							),
 						),
-						'buttom-top-space'          => array(
-							'type'  => 'number',
-							'label' => __( 'Top Bottom Spacing', 'cartflows' ),
-							'name'  => 'wcf-submit-tb-padding',
-							'value' => $options['wcf-submit-tb-padding'],
+						'button-top-space'          => array(
+							'type'          => 'number',
+							'label'         => __( 'Top Bottom Spacing', 'cartflows' ),
+							'name'          => 'wcf-submit-tb-padding',
+							'value'         => $options['wcf-submit-tb-padding'],
+							'display_align' => 'vertical',
 						),
-						'buttom-left-color'         => array(
-							'type'  => 'number',
-							'label' => __( 'Left Right Spacing', 'cartflows' ),
-							'name'  => 'wcf-submit-lr-padding',
-							'value' => $options['wcf-submit-lr-padding'],
+						'button-left-space'         => array(
+							'type'          => 'number',
+							'label'         => __( 'Left Right Spacing', 'cartflows' ),
+							'name'          => 'wcf-submit-lr-padding',
+							'value'         => $options['wcf-submit-lr-padding'],
+							'display_align' => 'vertical',
 						),
-						'buttom-text-position'      => array(
-							'type'    => 'select',
-							'label'   => __( 'Position', 'cartflows' ),
-							'name'    => 'wcf-submit-button-position',
-							'value'   => $options['wcf-submit-button-position'],
-							'options' => array(
+						'button-text-position'      => array(
+							'type'          => 'select',
+							'label'         => __( 'Position', 'cartflows' ),
+							'name'          => 'wcf-submit-button-position',
+							'value'         => $options['wcf-submit-button-position'],
+							'display_align' => 'vertical',
+							'options'       => array(
 								array(
 									'value' => 'left',
 									'label' => esc_html__( 'Left', 'cartflows' ),
@@ -588,41 +505,47 @@ class Cartflows_Optin_Meta_Data extends Cartflows_Step_Meta_Base {
 								),
 							),
 						),
-						'buttom-bg-color'           => array(
-							'type'  => 'color-picker',
-							'label' => __( 'Text Color', 'cartflows' ),
-							'name'  => 'wcf-submit-color',
-							'value' => $options['wcf-submit-color'],
+						'button-bg-color'           => array(
+							'type'   => 'color-picker',
+							'label'  => __( 'Text Color', 'cartflows' ),
+							'name'   => 'wcf-submit-color',
+							'value'  => $options['wcf-submit-color'],
+							'withBg' => true,
 						),
-						'buttom-text-hover-color'   => array(
-							'type'  => 'color-picker',
-							'label' => __( 'Text Hover Color', 'cartflows' ),
-							'name'  => 'wcf-submit-hover-color',
-							'value' => $options['wcf-submit-hover-color'],
+						'button-text-hover-color'   => array(
+							'type'   => 'color-picker',
+							'label'  => __( 'Text Hover Color', 'cartflows' ),
+							'name'   => 'wcf-submit-hover-color',
+							'value'  => $options['wcf-submit-hover-color'],
+							'withBg' => true,
 						),
-						'buttom-bg-color'           => array(
-							'type'  => 'color-picker',
-							'label' => __( 'Background Color', 'cartflows' ),
-							'name'  => 'wcf-submit-bg-color',
-							'value' => $options['wcf-submit-bg-color'],
+						'button-bg-color'           => array(
+							'type'   => 'color-picker',
+							'label'  => __( 'Background Color', 'cartflows' ),
+							'name'   => 'wcf-submit-bg-color',
+							'value'  => $options['wcf-submit-bg-color'],
+							'withBg' => true,
 						),
-						'buttom-bg-hover-color'     => array(
-							'type'  => 'color-picker',
-							'label' => __( 'Background Hover Color', 'cartflows' ),
-							'name'  => 'wcf-submit-bg-hover-color',
-							'value' => $options['wcf-submit-bg-hover-color'],
+						'button-bg-hover-color'     => array(
+							'type'   => 'color-picker',
+							'label'  => __( 'Background Hover Color', 'cartflows' ),
+							'name'   => 'wcf-submit-bg-hover-color',
+							'value'  => $options['wcf-submit-bg-hover-color'],
+							'withBg' => true,
 						),
-						'buttom-border-color'       => array(
-							'type'  => 'color-picker',
-							'label' => __( 'Border Color', 'cartflows' ),
-							'name'  => 'wcf-submit-border-color',
-							'value' => $options['wcf-submit-border-color'],
+						'button-border-color'       => array(
+							'type'   => 'color-picker',
+							'label'  => __( 'Border Color', 'cartflows' ),
+							'name'   => 'wcf-submit-border-color',
+							'value'  => $options['wcf-submit-border-color'],
+							'withBg' => true,
 						),
-						'buttom-border-hover-color' => array(
-							'type'  => 'color-picker',
-							'label' => __( 'Border Hover Color', 'cartflows' ),
-							'name'  => 'wcf-submit-border-hover-color',
-							'value' => $options['wcf-submit-border-hover-color'],
+						'button-border-hover-color' => array(
+							'type'   => 'color-picker',
+							'label'  => __( 'Border Hover Color', 'cartflows' ),
+							'name'   => 'wcf-submit-border-hover-color',
+							'value'  => $options['wcf-submit-border-hover-color'],
+							'withBg' => true,
 						),
 					),
 
@@ -644,72 +567,70 @@ class Cartflows_Optin_Meta_Data extends Cartflows_Step_Meta_Base {
 
 		$settings = array(
 			'settings' => array(
-				'shortcodes'    => array(
-					'title'    => __( 'Shortcodes', 'cartflows' ),
-					'slug'     => 'shortcodes',
-					'priority' => 30,
-					'fields'   => array(
-						'optin-shortcode' => array(
-							'type'     => 'text',
-							'name'     => 'optin-shortcode',
-							'label'    => __( 'Optin Form', 'cartflows' ),
-							'value'    => '[cartflows_optin]',
-							'help'     => esc_html__( 'Add this shortcode to your optin page', 'cartflows' ),
-							'readonly' => true,
-						),
-					),
-				),
-				'general'       => array(
+				'general'  => array(
 					'title'    => __( 'General', 'cartflows' ),
 					'slug'     => 'general',
-					'priority' => 20,
+					'priority' => 10,
 					'fields'   => array(
-						'slug'      => array(
-							'type'  => 'text',
-							'name'  => 'post_name',
-							'label' => __( 'Step Slug', 'cartflows' ),
-							'value' => get_post_field( 'post_name', $step_id ),
+						'slug'                    => array(
+							'type'          => 'text',
+							'name'          => 'post_name',
+							'label'         => __( 'Step Slug', 'cartflows' ),
+							'value'         => get_post_field( 'post_name', $step_id ),
+							'display_align' => 'vertical',
 						),
-						'step-note' => array(
-							'type'  => 'textarea',
-							'name'  => 'wcf-step-note',
-							'label' => __( 'Step Note', 'cartflows' ),
-							'value' => get_post_meta( $step_id, 'wcf-step-note', true ),
-							'rows'  => 2,
-							'cols'  => 38,
+						'step-note'               => array(
+							'type'          => 'textarea',
+							'name'          => 'wcf-step-note',
+							'label'         => __( 'Step Note', 'cartflows' ),
+							'value'         => get_post_meta( $step_id, 'wcf-step-note', true ),
+							'rows'          => 2,
+							'cols'          => 38,
+							'display_align' => 'vertical',
+						),
+						'wcf-optin-custom-script' => array(
+							'type'          => 'textarea',
+							'label'         => __( 'Custom Script', 'cartflows' ),
+							'name'          => 'wcf-custom-script',
+							'value'         => $options['wcf-custom-script'],
+							'tooltip'       => __( 'Enter custom JS/CSS. Wrap your custom CSS in style tag.', 'cartflows' ),
+							'display_align' => 'vertical',
 						),
 					),
 				),
 
-				'settings'      => array(
+				'settings' => array(
 					'title'    => __( 'Optin Settings', 'cartflows' ),
 					'slug'     => 'fields_settings',
-					'priority' => 10,
+					'priority' => 20,
 					'fields'   => array(
 						'button-text'                => array(
-							'type'        => 'text',
-							'label'       => __( 'Button Text', 'cartflows' ),
-							'name'        => 'wcf-submit-button-text',
-							'value'       => $options['wcf-submit-button-text'],
-							'placeholder' => __( 'Submit', 'cartflows' ),
+							'type'          => 'text',
+							'label'         => __( 'Button Text', 'cartflows' ),
+							'name'          => 'wcf-submit-button-text',
+							'value'         => $options['wcf-submit-button-text'],
+							'placeholder'   => __( 'Submit', 'cartflows' ),
+							'display_align' => 'vertical',
 						),
 						'optin-pass-fields'          => array(
-							'type'  => 'checkbox',
-							'label' => __( 'Pass Fields as URL Parameters', 'cartflows' ),
-							'name'  => 'wcf-optin-pass-fields',
-							'value' => $options['wcf-optin-pass-fields'],
-							'help'  => __( 'You can pass specific fields from the form to next step as URL query parameters.', 'cartflows' ),
+							'type'         => 'toggle',
+							'label'        => __( 'Pass Fields as URL Parameters', 'cartflows' ),
+							'name'         => 'wcf-optin-pass-fields',
+							'value'        => $options['wcf-optin-pass-fields'],
+							'help'         => __( 'You can pass specific fields from the form to next step as URL query parameters.', 'cartflows' ),
+							'is_fullwidth' => true,
 						),
 						'optin-pass-specific-fields' => array(
-							'type'        => 'text',
-							'label'       => __( 'Enter form field', 'cartflows' ),
-							'name'        => 'wcf-optin-pass-specific-fields',
-							'value'       => $options['wcf-optin-pass-specific-fields'],
-							'help'        => __( 'Enter comma seprated field name. E.g. first_name, last_name', 'cartflows' ),
-							'placeholder' => __( 'Fields to pass, separated by commas', 'cartflows' ),
+							'type'          => 'text',
+							'label'         => __( 'Enter form field', 'cartflows' ),
+							'name'          => 'wcf-optin-pass-specific-fields',
+							'value'         => $options['wcf-optin-pass-specific-fields'],
+							'help'          => __( 'Enter comma seprated field name. E.g. first_name, last_name', 'cartflows' ),
+							'placeholder'   => __( 'Fields to pass, separated by commas', 'cartflows' ),
 							/* translators: %s: link */
-							'desc'        => sprintf( __( 'You can pass field value as a URL parameter to the next step. %1$sLearn More >>%2$s', 'cartflows' ), '<a href="https://cartflows.com/docs/pass-variable-as-query-parameters-to-url/?utm_source=dashboard&utm_medium=free-cartflows&utm_campaign=docs" target="_blank">', '</a>' ),
-							'conditions'  => array(
+							'desc'          => sprintf( __( 'You can pass field value as a URL parameter to the next step. %1$sLearn More >>%2$s', 'cartflows' ), '<a href="https://cartflows.com/docs/pass-variable-as-query-parameters-to-url/" target="_blank">', '</a>' ),
+							'display_align' => 'vertical',
+							'conditions'    => array(
 								'fields' => array(
 									array(
 										'name'     => 'wcf-optin-pass-fields',
@@ -720,19 +641,6 @@ class Cartflows_Optin_Meta_Data extends Cartflows_Step_Meta_Base {
 							),
 						),
 
-					),
-				),
-				'optin-scripts' => array(
-					'title'    => __( 'Custom Script', 'cartflows' ),
-					'slug'     => 'custom_script',
-					'priority' => 40,
-					'fields'   => array(
-						'wcf-optin-custom-script' => array(
-							'type'  => 'textarea',
-							'label' => __( 'Custom Script', 'cartflows' ),
-							'name'  => 'wcf-custom-script',
-							'value' => $options['wcf-custom-script'],
-						),
 					),
 				),
 			),
@@ -793,29 +701,25 @@ class Cartflows_Optin_Meta_Data extends Cartflows_Step_Meta_Base {
 		}
 
 		$field_args = array(
-			'type'          => ( isset( $field_data['type'] ) && ! empty( $field_data['type'] ) ) ? $field_data['type'] : '',
-			'label'         => $field_name,
-			'name'          => 'wcf-' . $field,
-			'key'           => $field,
-			'placeholder'   => isset( $field_data['placeholder'] ) ? $field_data['placeholder'] : '',
-			'width'         => $width,
-			'enabled'       => $is_enabled,
-			'after'         => 'Enable',
-			'section'       => $type,
-			'default'       => isset( $field_data['default'] ) ? $field_data['default'] : '',
-			'required'      => ( isset( $field_data['required'] ) && true == $field_data['required'] ) ? 'yes' : 'no',
-			'optimized'     => ( isset( $field_data['optimized'] ) && true == $field_data['optimized'] ) ? 'yes' : 'no',
-			'options'       => ( isset( $field_data['options'] ) && ! empty( $field_data['options'] ) ) ? implode( ',', $field_data['options'] ) : '',
-			'show_in_email' => ( isset( $field_data['show_in_email'] ) && true == $field_data['show_in_email'] ) ? 'yes' : 'no',
+			'type'              => ( isset( $field_data['type'] ) && ! empty( $field_data['type'] ) ) ? $field_data['type'] : '',
+			'label'             => $field_name,
+			'name'              => 'wcf-' . $field,
+			'key'               => $field,
+			'placeholder'       => isset( $field_data['placeholder'] ) ? $field_data['placeholder'] : '',
+			'min'               => isset( $field_data['min'] ) ? $field_data['min'] : '',
+			'max'               => isset( $field_data['max'] ) ? $field_data['max'] : '',
+			'width'             => $width,
+			'enabled'           => $is_enabled,
+			'after'             => 'Enable',
+			'section'           => $type,
+			'custom'            => isset( $field_data['custom'] ) ? $field_data['custom'] : false,
+			'custom_attributes' => isset( $field_data['custom_attributes'] ) ? wc_clean( $field_data['custom_attributes'] ) : array(),
+			'default'           => isset( $field_data['default'] ) ? $field_data['default'] : '',
+			'required'          => ( isset( $field_data['required'] ) && true == $field_data['required'] ) ? 'yes' : 'no',
+			'optimized'         => ( isset( $field_data['optimized'] ) && true == $field_data['optimized'] ) ? 'yes' : 'no',
+			'options'           => ( isset( $field_data['options'] ) && ! empty( $field_data['options'] ) ) ? implode( ',', $field_data['options'] ) : '',
+			'show_in_email'     => ( isset( $field_data['show_in_email'] ) && true == $field_data['show_in_email'] ) ? 'yes' : 'no',
 		);
-
-		if ( 'billing' === $type ) {
-			if ( isset( $field_data['custom'] ) && $field_data['custom'] ) {
-				$field_args['after_html']  = '<span class="wcf-cpf-actions" data-type="billing" data-key="' . $field . '">';
-				$field_args['after_html'] .= '<a class="wcf-pro-custom-field-remove wp-ui-text-notification">' . __( 'Remove', 'cartflows' ) . '</a>';
-				$field_args['after_html'] .= '</span>';
-			}
-		}
 
 		return $field_args;
 	}

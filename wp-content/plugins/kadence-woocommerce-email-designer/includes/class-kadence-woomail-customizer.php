@@ -371,6 +371,10 @@ if ( ! class_exists( 'Kadence_Woomail_Customizer' ) ) {
 				'kt_woomail',
 				array(
 					'ajax_url'             => admin_url( 'admin-ajax.php' ),
+					'nonce'          => array(
+						'reset'  => wp_create_nonce( 'kadence-woocommerce-email-reseting' ),
+						'email' => wp_create_nonce( 'kadence-woocommerce-emailing' ),
+					),
 					'customizer_url'       => self::get_customizer_url(),
 					'responsive_mode'       => self::opt( 'responsive_mode' ),
 					'labels'                => array(
@@ -1015,6 +1019,10 @@ if ( ! class_exists( 'Kadence_Woomail_Customizer' ) ) {
 				exit;
 			}
 
+			if ( ! wp_verify_nonce( $_REQUEST['security'], 'kadence-woocommerce-emailing' ) ) {
+				exit;
+			}
+
 			// Check if user is allowed to send email
 			if ( ! Kadence_Woomail_Designer::is_admin() ) {
 				exit;
@@ -1035,6 +1043,10 @@ if ( ! class_exists( 'Kadence_Woomail_Customizer' ) ) {
 		public function ajax_reset() {
 			// Check request
 			if ( empty( $_REQUEST['wp_customize'] ) || $_REQUEST['wp_customize'] !== 'on' || empty( $_REQUEST['action'] ) || $_REQUEST['action'] !== 'kt_woomail_reset' ) {
+				exit;
+			}
+
+			if ( ! wp_verify_nonce( $_REQUEST['security'], 'kadence-woocommerce-email-reseting' ) ) {
 				exit;
 			}
 

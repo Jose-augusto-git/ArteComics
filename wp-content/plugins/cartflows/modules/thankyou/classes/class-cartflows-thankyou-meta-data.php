@@ -88,15 +88,33 @@ class Cartflows_Thankyou_Meta_Data extends Cartflows_Step_Meta_Base {
 
 		$settings = array(
 			'settings' => array(
+				'shortcode'        => array(
+					'title'    => __( 'Shortcode', 'cartflows' ),
+					'slug'     => 'shortcode',
+					'priority' => 10,
+					'fields'   => array(
+						'thankyou-shortcode' => array(
+							'type'          => 'text',
+							'name'          => 'thankyou-shortcode',
+							'label'         => __( 'Order Details', 'cartflows' ),
+							'value'         => '[cartflows_order_details]',
+							'help'          => esc_html__( 'Add this shortcode to your optin page', 'cartflows' ),
+							'readonly'      => true,
+							'display_align' => 'vertical',
+						),
+					),
+				),
+
 				'heading'          => array(
 					'title'  => __( 'Heading', 'cartflows' ),
 					'slug'   => 'heading',
 					'fields' => array(
 						'heading-color'       => array(
-							'type'  => 'color-picker',
-							'name'  => 'wcf-tq-heading-color',
-							'label' => __( 'Color', 'cartflows' ),
-							'value' => $options['wcf-tq-heading-color'],
+							'type'   => 'color-picker',
+							'name'   => 'wcf-tq-heading-color',
+							'label'  => __( 'Color', 'cartflows' ),
+							'value'  => $options['wcf-tq-heading-color'],
+							'withBg' => true,
 						),
 						'heading-font-family' => array(
 							'type'              => 'font-family',
@@ -106,6 +124,7 @@ class Cartflows_Thankyou_Meta_Data extends Cartflows_Step_Meta_Base {
 							'font_weight_name'  => 'wcf-tq-heading-font-wt',
 							'font_weight_value' => $options['wcf-tq-heading-font-wt'],
 							'for'               => '',
+							'display_align'     => 'vertical',
 						),
 					),
 				),
@@ -115,22 +134,25 @@ class Cartflows_Thankyou_Meta_Data extends Cartflows_Step_Meta_Base {
 					'slug'   => 'text',
 					'fields' => array(
 						'text-color'       => array(
-							'type'  => 'color-picker',
-							'name'  => 'wcf-tq-text-color',
-							'label' => __( 'Color', 'cartflows' ),
-							'value' => $options['wcf-tq-text-color'],
+							'type'   => 'color-picker',
+							'name'   => 'wcf-tq-text-color',
+							'label'  => __( 'Color', 'cartflows' ),
+							'value'  => $options['wcf-tq-text-color'],
+							'withBg' => true,
 						),
 						'text-font-family' => array(
-							'type'  => 'font-family',
-							'name'  => 'wcf-tq-font-family',
-							'label' => __( 'Font Family', 'cartflows' ),
-							'value' => $options['wcf-tq-font-family'],
+							'type'          => 'font-family',
+							'name'          => 'wcf-tq-font-family',
+							'label'         => __( 'Font Family', 'cartflows' ),
+							'value'         => $options['wcf-tq-font-family'],
+							'display_align' => 'vertical',
 						),
 						'text-font-size'   => array(
-							'type'  => 'number',
-							'name'  => 'wcf-tq-font-size',
-							'label' => __( 'Font Size', 'cartflows' ),
-							'value' => $options['wcf-tq-font-size'],
+							'type'          => 'number',
+							'name'          => 'wcf-tq-font-size',
+							'label'         => __( 'Font Size (In px)', 'cartflows' ),
+							'value'         => $options['wcf-tq-font-size'],
+							'display_align' => 'vertical',
 						),
 					),
 				),
@@ -140,17 +162,19 @@ class Cartflows_Thankyou_Meta_Data extends Cartflows_Step_Meta_Base {
 					'slug'   => 'advanced_options',
 					'fields' => array(
 						'wcf-tq-advance-options-fields' => array(
-							'type'  => 'checkbox',
-							'label' => __( 'Enable Advanced Options', 'cartflows' ),
-							'name'  => 'wcf-tq-advance-options-fields',
-							'value' => $options['wcf-tq-advance-options-fields'],
+							'type'         => 'toggle',
+							'label'        => __( 'Enable Advanced Options', 'cartflows' ),
+							'name'         => 'wcf-tq-advance-options-fields',
+							'value'        => $options['wcf-tq-advance-options-fields'],
+							'is_fullwidth' => true,
 						),
 						'wcf-show-details-section'      => array(
-							'type'       => 'number',
-							'label'      => __( 'Container Width (In px)', 'cartflows' ),
-							'name'       => 'wcf-tq-container-width',
-							'value'      => $options['wcf-tq-container-width'],
-							'conditions' => array(
+							'type'          => 'number',
+							'label'         => __( 'Container Width (In px)', 'cartflows' ),
+							'name'          => 'wcf-tq-container-width',
+							'value'         => $options['wcf-tq-container-width'],
+							'display_align' => 'vertical',
+							'conditions'    => array(
 								'fields' => array(
 									array(
 										'name'     => 'wcf-tq-advance-options-fields',
@@ -165,6 +189,7 @@ class Cartflows_Thankyou_Meta_Data extends Cartflows_Step_Meta_Base {
 							'name'       => 'wcf-tq-section-bg-color',
 							'label'      => __( 'Section Background Color', 'cartflows' ),
 							'value'      => $options['wcf-tq-section-bg-color'],
+							'withBg'     => true,
 							'conditions' => array(
 								'fields' => array(
 									array(
@@ -196,100 +221,102 @@ class Cartflows_Thankyou_Meta_Data extends Cartflows_Step_Meta_Base {
 
 		$settings = array(
 			'settings' => array(
-				'shortcode'       => array(
-					'title'    => __( 'Shortcode', 'cartflows' ),
-					'slug'     => 'shortcode',
-					'priority' => 40,
-					'fields'   => array(
-						'thankyou-shortcode' => array(
-							'type'     => 'text',
-							'name'     => 'thankyou-shortcode',
-							'label'    => __( 'Order Details', 'cartflows' ),
-							'value'    => '[cartflows_order_details]',
-							'help'     => esc_html__( 'Add this shortcode to your optin page', 'cartflows' ),
-							'readonly' => true,
-						),
-					),
-				),
 				'general'         => array(
 					'title'    => __( 'General', 'cartflows' ),
 					'slug'     => 'general',
-					'priority' => 10,
+					'priority' => 20,
 					'fields'   => array(
-						'slug'      => array(
-							'type'  => 'text',
-							'name'  => 'post_name',
-							'label' => __( 'Step Slug', 'cartflows' ),
-							'value' => get_post_field( 'post_name', $step_id ),
+						'slug'                     => array(
+							'type'          => 'text',
+							'name'          => 'post_name',
+							'label'         => __( 'Step Slug', 'cartflows' ),
+							'value'         => get_post_field( 'post_name', $step_id ),
+							'display_align' => 'vertical',
 						),
-						'step-note' => array(
-							'type'  => 'textarea',
-							'name'  => 'wcf-step-note',
-							'label' => __( 'Step Note', 'cartflows' ),
-							'value' => get_post_meta( $step_id, 'wcf-step-note', true ),
-							'rows'  => 2,
-							'cols'  => 38,
+						'step-note'                => array(
+							'type'          => 'textarea',
+							'name'          => 'wcf-step-note',
+							'label'         => __( 'Step Note', 'cartflows' ),
+							'value'         => get_post_meta( $step_id, 'wcf-step-note', true ),
+							'rows'          => 2,
+							'cols'          => 38,
+							'display_align' => 'vertical',
+						),
+						'wcf-thanku-custom-script' => array(
+							'type'          => 'textarea',
+							'label'         => __( 'Custom Script', 'cartflows' ),
+							'name'          => 'wcf-custom-script',
+							'value'         => $options['wcf-custom-script'],
+							'tooltip'       => __( 'Enter custom JS/CSS. Wrap your custom CSS in style tag.', 'cartflows' ),
+							'display_align' => 'vertical',
 						),
 					),
 				),
 				'thankyou_fields' => array(
-					'title'    => __( 'Fields Settings', 'cartflows' ),
+					'title'    => __( 'Options', 'cartflows' ),
 					'slug'     => 'thankyou_fields',
-					'priority' => 30,
+					'priority' => 10,
 					'fields'   => array(
 						'wcf-show-overview-section' => array(
-							'type'  => 'checkbox',
-							'label' => __( 'Enable Order Overview', 'cartflows' ),
-							'name'  => 'wcf-show-overview-section',
-							'value' => $options['wcf-show-overview-section'],
+							'type'         => 'toggle',
+							'label'        => __( 'Enable Order Overview', 'cartflows' ),
+							'name'         => 'wcf-show-overview-section',
+							'value'        => $options['wcf-show-overview-section'],
+							'is_fullwidth' => true,
 						),
 						'wcf-show-details-section'  => array(
-							'type'  => 'checkbox',
-							'label' => __( 'Enable Order Details', 'cartflows' ),
-							'name'  => 'wcf-show-details-section',
-							'value' => $options['wcf-show-details-section'],
+							'type'         => 'toggle',
+							'label'        => __( 'Enable Order Details', 'cartflows' ),
+							'name'         => 'wcf-show-details-section',
+							'value'        => $options['wcf-show-details-section'],
+							'is_fullwidth' => true,
 						),
 						'wcf-show-billing-section'  => array(
-							'type'  => 'checkbox',
-							'label' => __( 'Enable Billing Details', 'cartflows' ),
-							'name'  => 'wcf-show-billing-section',
-							'value' => $options['wcf-show-billing-section'],
+							'type'         => 'toggle',
+							'label'        => __( 'Enable Billing Details', 'cartflows' ),
+							'name'         => 'wcf-show-billing-section',
+							'value'        => $options['wcf-show-billing-section'],
+							'is_fullwidth' => true,
 						),
 						'wcf-show-shipping-section' => array(
-							'type'  => 'checkbox',
-							'label' => __( 'Enable Shipping Details', 'cartflows' ),
-							'name'  => 'wcf-show-shipping-section',
-							'value' => $options['wcf-show-shipping-section'],
+							'type'         => 'toggle',
+							'label'        => __( 'Enable Shipping Details', 'cartflows' ),
+							'name'         => 'wcf-show-shipping-section',
+							'value'        => $options['wcf-show-shipping-section'],
+							'is_fullwidth' => true,
 						),
 					),
 				),
 
 				'settings'        => array(
-					'title'    => __( 'Advanced Settings', 'cartflows' ),
+					'title'    => __( 'Advanced', 'cartflows' ),
 					'slug'     => 'advanced_setting',
 					'priority' => 30,
 					'fields'   => array(
 						'wcf-tq-text'                  => array(
-							'type'        => 'text',
-							'label'       => __( 'Thank You Page Text', 'cartflows' ),
-							'name'        => 'wcf-tq-text',
-							'value'       => $options['wcf-tq-text'],
-							'placeholder' => __( 'Thank you. Your order has been received.', 'cartflows' ),
+							'type'          => 'text',
+							'label'         => __( 'Thank You Page Text', 'cartflows' ),
+							'name'          => 'wcf-tq-text',
+							'value'         => $options['wcf-tq-text'],
+							'placeholder'   => __( 'Thank you. Your order has been received.', 'cartflows' ),
+							'display_align' => 'vertical',
 						),
 						'wcf-show-tq-redirect-section' => array(
-							'type'  => 'checkbox',
-							'label' => __( 'Redirect After Purchase', 'cartflows' ),
-							'name'  => 'wcf-show-tq-redirect-section',
-							'value' => $options['wcf-show-tq-redirect-section'],
-							'help'  => __( 'Enter comma seprated field name. E.g. first_name, last_name', 'cartflows' ),
+							'type'         => 'toggle',
+							'label'        => __( 'Redirect After Purchase', 'cartflows' ),
+							'name'         => 'wcf-show-tq-redirect-section',
+							'value'        => $options['wcf-show-tq-redirect-section'],
+							'help'         => __( 'Enter comma seprated field name. E.g. first_name, last_name', 'cartflows' ),
+							'is_fullwidth' => true,
 						),
 						'wcf-tq-redirect-link'         => array(
-							'type'        => 'text',
-							'label'       => __( 'Redirect Link', 'cartflows' ),
-							'name'        => 'wcf-tq-redirect-link',
-							'value'       => $options['wcf-tq-redirect-link'],
-							'placeholder' => __( 'https://', 'cartflows' ),
-							'conditions'  => array(
+							'type'          => 'text',
+							'label'         => __( 'Redirect Link', 'cartflows' ),
+							'name'          => 'wcf-tq-redirect-link',
+							'value'         => $options['wcf-tq-redirect-link'],
+							'placeholder'   => __( 'https://', 'cartflows' ),
+							'tooltip'       => __( 'Users will be redirected to this URL instead of thank you page.', 'cartflows' ),
+							'conditions'    => array(
 								'fields' => array(
 									array(
 										'name'     => 'wcf-show-tq-redirect-section',
@@ -298,23 +325,11 @@ class Cartflows_Thankyou_Meta_Data extends Cartflows_Step_Meta_Base {
 									),
 								),
 							),
+							'display_align' => 'vertical',
 						),
 					),
 				),
 
-				'thanku-scripts'  => array(
-					'title'    => __( 'Custom Script', 'cartflows' ),
-					'slug'     => 'custom_script',
-					'priority' => 50,
-					'fields'   => array(
-						'wcf-thanku-custom-script' => array(
-							'type'  => 'textarea',
-							'label' => __( 'Custom Script', 'cartflows' ),
-							'name'  => 'wcf-custom-script',
-							'value' => $options['wcf-custom-script'],
-						),
-					),
-				),
 			),
 		);
 

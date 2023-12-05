@@ -127,7 +127,7 @@ if ( _is_cartflows_pro() ) {
 										<tr>
 											<td style="text-align:center;width:100%;padding-top:5px;">
 												<h1 style="margin: 0; color: #1f2937; direction: ltr; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; font-size: 30px; font-weight: 400; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0;">
-													<?php echo wp_kses_post( wc_price( $order_bump_revenue ) ); ?></h1>
+													<?php echo wp_kses_post( $order_bump_revenue ); ?></h1>
 											</td>
 										</tr>
 									</table>
@@ -157,7 +157,7 @@ if ( _is_cartflows_pro() ) {
 										<tr>
 											<td style="text-align:center;width:100%;padding-top:5px;">
 												<h1 style="margin: 0; color: #1f2937; direction: ltr; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; font-size: 30px; font-weight: 400; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0;">
-													<?php echo wp_kses_post( wc_price( $offers_revenue ) ); ?></h1>
+													<?php echo wp_kses_post( $offers_revenue ); ?></h1>
 											</td>
 										</tr>
 									</table>

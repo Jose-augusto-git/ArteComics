@@ -104,14 +104,14 @@ class Importer extends AjaxBase {
 		if ( ! empty( $flows ) && is_array( $flows ) && count( $flows ) > 0 ) {
 
 			$response_data = array(
-				'message' => __( 'Flows exported successfully', 'cartflows' ),
+				'message' => __( 'Funnel exported successfully', 'cartflows' ),
 				'flows'   => $flows,
 				'export'  => true,
 			);
 
 		} else {
 			$response_data = array(
-				'message' => __( 'No flows to export', 'cartflows' ),
+				'message' => __( 'No Funnels to export', 'cartflows' ),
 				'flows'   => $flows,
 				'export'  => false,
 			);
@@ -147,7 +147,7 @@ class Importer extends AjaxBase {
 		$flow_data = ( isset( $_POST['flow_data'] ) ) ? json_decode( stripslashes( $_POST['flow_data'] ), true ) : array(); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 		$response_data = array(
-			'message'      => 'Error occured. Flow not imported.',
+			'message'      => 'Error occured. Funnel not imported.',
 			'flow_data'    => $flow_data,
 			'redirect_url' => admin_url( 'admin.php?page=' . CARTFLOWS_SLUG ),
 		);
@@ -155,7 +155,7 @@ class Importer extends AjaxBase {
 		if ( is_array( $flow_data ) ) {
 			$imported_flow = \CartFlows_Importer::get_instance()->import_from_json_data( $flow_data );
 
-			$response_data['message']      = 'Flows Imported successfully';
+			$response_data['message']      = 'Funnel Imported successfully';
 			$response_data['redirect_url'] = admin_url( 'admin.php?page=' . CARTFLOWS_SLUG . '&path=flows' );
 
 		}
@@ -201,9 +201,9 @@ class Importer extends AjaxBase {
 		$flows[] = \CartFlows_Importer::get_instance()->get_flow_export_data( $flow_id );
 
 		$response_data = array(
-			'message'   => __( 'Flow exported successfully', 'cartflows' ),
+			'message'   => __( 'Funnel exported successfully', 'cartflows' ),
 			'flow_name' => sanitize_title( get_the_title( $flow_id ) ),
-			'flows'     => $flows,
+			'flows'     => wp_json_encode( $flows ),
 		);
 		wp_send_json_success( $response_data );
 
@@ -381,7 +381,7 @@ class Importer extends AjaxBase {
 				array(
 					array(
 						'status'  => false,
-						'message' => __( 'Invalid Flow Id has been provided.', 'cartflows' ),
+						'message' => __( 'Invalid Funnel Id has been provided.', 'cartflows' ),
 					),
 				)
 			);
@@ -598,7 +598,7 @@ class Importer extends AjaxBase {
 		 * Redirect to the new flow edit screen
 		 */
 		$response_data = array(
-			'message'      => __( 'Successfully created the Flow!', 'cartflows' ),
+			'message'      => __( 'Successfully created the Funnel!', 'cartflows' ),
 			'redirect_url' => admin_url( 'post.php?action=edit&post=' . $flow_id ),
 			'flow_id'      => $flow_id,
 		);
@@ -681,7 +681,7 @@ class Importer extends AjaxBase {
 		}
 
 		if ( empty( $flow ) ) {
-			$response_data = array( 'message' => __( 'Flows data not found.', 'cartflows' ) );
+			$response_data = array( 'message' => __( 'Funnel data not found.', 'cartflows' ) );
 			wp_send_json_error( $response_data );
 		}
 
@@ -785,12 +785,23 @@ class Importer extends AjaxBase {
 
 		// $_POST['step'] is the JSON, There is nothing to sanitize JSON as it is data format not data type. Hence sanitizing decoded array below.
 		$step = isset( $_POST['step'] ) ? json_decode( stripslashes( $_POST['step'] ), true ) : array(); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+		// Return if step data not found in the import request.
+		if ( empty( $step ) ) {
+			wp_send_json_error( array( 'message' => __( 'Step data ID not found for import.', 'cartflows' ) ) );
+		}
+
 		// Sanitizing decoded array.
 		$step = array_map( 'sanitize_text_field', $step );
 
 		$flow_id = isset( $_POST['flow_id'] ) ? absint( $_POST['flow_id'] ) : 0;
 
 		$remote_flow_id = isset( $_POST['remote_flow_id'] ) ? absint( $_POST['remote_flow_id'] ) : 0;
+
+		// Return if the remote flow ID is blank or not found in the request.
+		if ( empty( $remote_flow_id ) || empty( $flow_id ) ) {
+			wp_send_json_error( array( 'message' => __( 'Funnel ID not found in the request.', 'cartflows' ) ) );
+		}
 
 		// Get single step Rest API response.
 		$response = \CartFlows_API::get_instance()->get_flow( $remote_flow_id );
@@ -815,30 +826,31 @@ class Importer extends AjaxBase {
 
 			$cf_pro_status = AdminMenu::get_instance()->get_plugin_status( 'cartflows-pro/cartflows-pro.php' );
 
+			$msg = '';
 			$cta = '';
 			if ( 'not-installed' === $cf_pro_status ) {
 				/* translators: %1$s: link html start, %2$s: link html end*/
-				$cta = sprintf( __( 'Upgrade to %1$sCartFlows Pro.%2$s', 'cartflows' ), '<a target="_blanks" href="https://cartflows.com/">', '</a>' );
+				$cta = sprintf( __( '%1$sUpgrade to CartFlows Pro.%2$s', 'cartflows' ), '<a target="_blanks" class="wcf-button wcf-primary-button" href="https://cartflows.com/">', '</a>' );
+				$msg = __( 'To import the premium step, please upgrade to CartFlows Pro', 'cartflows' );
 			} elseif ( 'inactive' === $cf_pro_status ) {
 				/* translators: %1$s: link html start, %2$s: link html end*/
-				$cta = sprintf( __( '%1$sActivate CartFlows Pro%2$s', 'cartflows' ), '<a target="_blank" href="' . admin_url( 'plugins.php?plugin_status=search&paged=1&s=CartFlows+Pro' ) . '">', '</a>' );
+				$cta = sprintf( __( '%1$sActivate CartFlows Pro%2$s', 'cartflows' ), '<a target="_blank" class="wcf-button wcf-primary-button" href="' . admin_url( 'plugins.php?plugin_status=search&paged=1&s=CartFlows+Pro' ) . '">', '</a>' );
+				$msg = __( 'To import the premium step activate Cartflows Pro and validate the license key.', 'cartflows' );
 			} elseif ( 'active' === $cf_pro_status ) {
 				/* translators: %1$s: link html start, %2$s: link html end*/
-				$cta = sprintf( __( 'CartFlows Pro license is not active. Activate %1$sCartFlows Pro License %2$s', 'cartflows' ), '<a target="_blank" href="' . admin_url( 'plugins.php?cartflows-license-popup' ) . '">', '</a>' );
+				$cta = sprintf( __( '%1$sActivate CartFlows Pro License %2$s', 'cartflows' ), '<a target="_blank" class="wcf-button wcf-primary-button" href="' . admin_url( 'plugins.php?cartflows-license-popup' ) . '">', '</a>' );
+				$msg = __( 'To import the premium step activate the CartFlows Pro.', 'cartflows' );
 			}
 
 			wp_send_json_error(
 				array(
-					'message' => \ucfirst( $license_status ) . ' license key! ' . $cta,
-					'data'    => $response,
+					'message'        => \ucfirst( $license_status ) . ' license key! ' . $msg,
+					'call_to_action' => $cta,
+					'data'           => $response,
 				)
 			);
 		}
 
-		if ( empty( $remote_flow_id ) ) {
-			$response_data = array( 'message' => __( 'Flows data not found.', 'cartflows' ) );
-			wp_send_json_error( $response_data );
-		}
 		$step['title'] = isset( $_POST['step_name'] ) && ! empty( $_POST['step_name'] ) ? sanitize_text_field( wp_unslash( $_POST['step_name'] ) ) : $step['title'];
 		// Create steps.
 		$this->import_single_step(
@@ -952,7 +964,7 @@ class Importer extends AjaxBase {
 		}
 
 		if ( empty( $remote_flow_id ) ) {
-			$response_data = array( 'message' => __( 'Flows data not found.', 'cartflows' ) );
+			$response_data = array( 'message' => __( 'Funnel data not found.', 'cartflows' ) );
 			wp_send_json_error( $response_data );
 		}
 		$step['title'] = isset( $_POST['step_name'] ) && ! empty( $_POST['step_name'] ) ? sanitize_text_field( wp_unslash( $_POST['step_name'] ) ) : $step['title'];
@@ -1103,6 +1115,22 @@ class Importer extends AjaxBase {
 		$response = \CartFlows_API::get_instance()->get_template( $step_id );
 
 		wcf()->logger->import_log( wp_json_encode( $response ) );
+
+		// Return if there is an error while importing the step template.
+		if ( ! $response['success'] ) {
+			$response_data = $response['data'];
+			$error_code    = wp_remote_retrieve_response_code( $response_data );
+			$error_msge    = json_decode( wp_remote_retrieve_body( $response_data ) );
+
+			wp_send_json_error(
+				array(
+					'error_code' => $error_code,
+					'message'    => $error_msge->message,
+					'data'       => $response['data'],
+					'success'    => $response['success'],
+				)
+			);
+		}
 
 		if ( 'divi' === \Cartflows_Helper::get_common_setting( 'default_page_builder' ) ) {
 			if ( isset( $response['data']['divi_content'] ) && ! empty( $response['data']['divi_content'] ) ) {

@@ -326,7 +326,7 @@ const CartFlowsAjaxQueue = ( function () {
 			} )
 				.success( function ( res ) {
 					if ( res.success && true === res.data.success ) {
-						console.log( 'Flow imported successfully.' );
+						console.log( 'Funnels imported successfully.' );
 
 						document.dispatchEvent(
 							new Event( 'wcf-store-checkout-import-success' )

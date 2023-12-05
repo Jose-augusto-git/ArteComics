@@ -118,12 +118,56 @@ class Cartflows_Checkout_Form extends Widget_Base {
 	}
 
 	/**
+	 * Global Primary Color
+	 *
+	 * @since x.x.x
+	 * @access public
+	 *
+	 * @var string $gcp_primary_theme_color Primary Color.
+	 * @return string $gcp_primary_theme_color Primary Color.
+	 */
+	public static $gcp_primary_theme_color = '';
+
+	/**
+	 * Global Primary Text Color
+	 *
+	 * @since x.x.x
+	 * @access public
+	 *
+	 * @var string string $gcp_primary_text_color Primary Text Color.
+	 * @return string $gcp_primary_text_color Primary Text Color.
+	 */
+	public static $gcp_primary_text_color = '';
+
+	/**
+	 * Global Secondary Color
+	 *
+	 * @since x.x.x
+	 * @access public
+	 *
+	 * @var string $gcp_secondary_theme_color Secondary Color.
+	 * @return string $gcp_secondary_theme_color Secondary Color.
+	 */
+	public static $gcp_secondary_theme_color = '';
+
+	/**
 	 * Register cart controls controls.
 	 *
 	 * @since 1.6.15
 	 * @access protected
 	 */
 	protected function register_controls() {
+
+		// Assign global colors to the global vars.
+		$flow_id                         = wcf()->utils->get_flow_id();
+		self::$gcp_primary_theme_color   = ! empty( $flow_id ) ? get_post_meta( $flow_id, 'wcf-gcp-primary-color', true ) : '';
+		self::$gcp_secondary_theme_color = ! empty( $flow_id ) ? get_post_meta( $flow_id, 'wcf-gcp-secondary-color', true ) : '';
+		self::$gcp_primary_text_color    = ! empty( $flow_id ) ? get_post_meta( $flow_id, 'wcf-gcp-primary-text-color', true ) : '';
+
+		/**
+		 * Self::$gcp_primary_font_family   = !empty( $flow_id ) ? get_post_meta( $flow_id, 'wcf-gcp-primary-base-font-family', true ) : '';
+		 * self::$gcp_primary_font_family   = ! empty( $gcp_primary_font_family ) ? str_replace("'", "", explode( ',', $gcp_primary_font_family, 2 )[0] ) : '';
+		*/
 
 		// Content Tab.
 		$this->register_general_content_controls();
@@ -251,53 +295,10 @@ class Cartflows_Checkout_Form extends Widget_Base {
 				array(
 					'label'     => __( 'Primary Color', 'cartflows' ),
 					'type'      => Controls_Manager::COLOR,
-					'default'   => '',
+					'default'   => self::$gcp_primary_theme_color,
 					'selectors' => array(
-						'{{WRAPPER}} .wcf-embed-checkout-form .woocommerce a:not(.wcf-checkout-breadcrumb a),
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .woocommerce-checkout .product-name .remove:hover,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce-info::before,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce-message::before,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce input[type="checkbox"]:checked::before,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce #order_review input[type="checkbox"]:checked::before,
-						{{WRAPPER}} .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce input[type="checkbox"]:checked::before,
-						{{WRAPPER}} .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce #order_review input[type="checkbox"]:checked::before,
-						{{WRAPPER}} .wcf-embed-checkout-form-two-step .wcf-embed-checkout-form-steps .wcf-current .step-name,
-						{{WRAPPER}} .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .wcf-multistep-checkout-breadcrumb a.wcf-current-step,
-						body .wcf-pre-checkout-offer-wrapper .wcf-content-main-head .wcf-content-modal-title .wcf_first_name' => 'color: {{VALUE}};',
-
-						'{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .woocommerce-checkout .product-name .remove:hover,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .woocommerce-checkout input[type="radio"]:focus,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .woocommerce-checkout input[type="radio"]:checked:focus,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .woocommerce-checkout input[type="radio"]:not(:checked):focus,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .woocommerce-checkout input[type="checkbox"]:focus,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .woocommerce-checkout #order_review input[type="checkbox"]:checked:focus,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .woocommerce-checkout input[type="checkbox"]:checked:focus,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .woocommerce-checkout input[type="checkbox"]:not(:checked):focus,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form.woocommerce-form-login input[type="checkbox"]:focus,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form.woocommerce-form-login input[type="checkbox"]:checked:focus,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form.woocommerce-form-login input[type="checkbox"]:not(:checked):focus,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form .form-row input.input-text:focus,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form .form-row textarea:focus,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form #order_review .wcf-custom-coupon-field input.input-text:focus,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .woocommerce-checkout #payment button,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .woocommerce-checkout #payment button:hover,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .wcf-customer-login-section__login-button,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .wcf-customer-login-section__login-button:hover,
-						{{WRAPPER}} .wcf-embed-checkout-form .wcf-custom-coupon-field button.wcf-submit-coupon,
-						{{WRAPPER}} .wcf-embed-checkout-form .wcf-custom-coupon-field button.wcf-submit-coupon:hover,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce #order_review button.wcf-btn-small,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce #order_review button.wcf-btn-small:hover,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .woocommerce-checkout form.woocommerce-form-login .button,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .woocommerce-checkout form.woocommerce-form-login .button:hover,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .woocommerce-checkout form.checkout_coupon .button,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .woocommerce-checkout form.checkout_coupon .button:hover,
-						{{WRAPPER}} .wcf-embed-checkout-form-two-step .wcf-embed-checkout-form-note,
-						{{WRAPPER}} .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns .wcf-next-button,
-
-						{{WRAPPER}} .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn,
-						{{WRAPPER}} .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn:hover,
-
-						body .wcf-pre-checkout-offer-wrapper #wcf-pre-checkout-offer-content button.wcf-pre-checkout-offer-btn' => 'border-color: {{VALUE}};',
+						'{{WRAPPER}} .wcf-embed-checkout-form,
+						{{WRAPPER}} .wcf-embed-checkout-form-modern-checkout' => '--wcf-primary-color: {{VALUE}};',
 
 						/* Only Modern Checkout related CSS */
 						'{{WRAPPER}} .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce form .form-row input.input-text:focus,
@@ -305,30 +306,6 @@ class Cartflows_Checkout_Form extends Widget_Base {
 						{{WRAPPER}} .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce #order_review .wcf-custom-coupon-field input.input-text:focus' => 'box-shadow: 0 0 0 1px {{VALUE}};',
 
 						/* Only Modern Checkout related CSS */
-
-						'{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .woocommerce-checkout input[type="radio"]:checked:before,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .woocommerce-checkout #payment input[type="radio"]:checked:before,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .woocommerce-checkout #payment button,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .woocommerce-checkout #payment button:hover,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .wcf-customer-login-section__login-button,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .wcf-customer-login-section__login-button:hover,
-						{{WRAPPER}} .wcf-embed-checkout-form .wcf-custom-coupon-field button.wcf-submit-coupon,
-						{{WRAPPER}} .wcf-embed-checkout-form .wcf-custom-coupon-field button.wcf-submit-coupon:hover,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce #order_review button.wcf-btn-small,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce #order_review button.wcf-btn-small:hover,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form.woocommerce-form-login .form-row button,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form.woocommerce-form-login .form-row button:hover,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce-checkout form.checkout_coupon .button,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce-checkout form.checkout_coupon .button:hover,
-						{{WRAPPER}} .wcf-embed-checkout-form-two-step .wcf-embed-checkout-form-steps .steps.wcf-current:before,
-						{{WRAPPER}} .wcf-embed-checkout-form-two-step .wcf-embed-checkout-form-note,
-
-						{{WRAPPER}} .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn,
-						{{WRAPPER}} .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn:hover,
-
-						body .wcf-pre-checkout-offer-wrapper .wcf-nav-bar-step.active .wcf-progress-nav-step,
-						body .wcf-pre-checkout-offer-wrapper .wcf-nav-bar-step.active .wcf-nav-bar-step-line:before,
-						body .wcf-pre-checkout-offer-wrapper .wcf-nav-bar-step.active .wcf-nav-bar-step-line:after' => 'background-color: {{VALUE}};',
 
 						'{{WRAPPER}} .wcf-embed-checkout-form-two-step .wcf-embed-checkout-form-note:before' => 'border-top-color: {{VALUE}};',
 
@@ -344,10 +321,10 @@ class Cartflows_Checkout_Form extends Widget_Base {
 				array(
 					'label'     => __( 'Text Color', 'cartflows' ),
 					'type'      => Controls_Manager::COLOR,
-					'default'   => '',
+					'default'   => self::$gcp_primary_text_color,
 					'selectors' => array(
 						'{{WRAPPER}} .wcf-embed-checkout-form,
-						{{WRAPPER}} .wcf-embed-checkout-form #payment .woocommerce-privacy-policy-text p' => 'color: {{VALUE}};',
+						{{WRAPPER}} .wcf-embed-checkout-form-modern-checkout' => '--wcf-text-color: {{VALUE}}; --wcf-link-color: {{VALUE}};',
 					),
 				)
 			);
@@ -357,6 +334,7 @@ class Cartflows_Checkout_Form extends Widget_Base {
 				array(
 					'name'     => 'global_typography',
 					'label'    => 'Typography',
+					'default'  => '',
 					'selector' => '{{WRAPPER}} .cartflows-elementor__checkout-form .wcf-embed-checkout-form',
 				)
 			);
@@ -384,12 +362,9 @@ class Cartflows_Checkout_Form extends Widget_Base {
 				array(
 					'label'     => __( 'Color', 'cartflows' ),
 					'type'      => Controls_Manager::COLOR,
-					'default'   => '',
+					'default'   => self::$gcp_secondary_theme_color,
 					'selectors' => array(
-						'{{WRAPPER}} .cartflows-elementor__checkout-form .wcf-embed-checkout-form .woocommerce h3,
-						{{WRAPPER}} .cartflows-elementor__checkout-form .wcf-embed-checkout-form .woocommerce h3 span,
-						{{WRAPPER}} .cartflows-elementor__checkout-form .wcf-embed-checkout-form .woocommerce-checkout #order_review_heading,
-						{{WRAPPER}} .cartflows-elementor__checkout-form .wcf-embed-checkout-form-two-step .wcf-embed-checkout-form-steps .wcf-current .step-name' => 'color: {{VALUE}};',
+						'{{WRAPPER}} .wcf-embed-checkout-form, {{WRAPPER}} .wcf-embed-checkout-form-modern-checkout' => '--wcf-heading-color: {{VALUE}};',
 					),
 				)
 			);
@@ -460,8 +435,7 @@ class Cartflows_Checkout_Form extends Widget_Base {
 					'label'     => __( 'Label Color', 'cartflows' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array(
-						'{{WRAPPER}} .wcf-embed-checkout-form .woocommerce-checkout label,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form p.form-row label' => 'color: {{VALUE}};',
+						'{{WRAPPER}} .wcf-embed-checkout-form .woocommerce-checkout, {{WRAPPER}} .wcf-embed-checkout-form-modern-checkout' => '--wcf-field-label-color: {{VALUE}};',
 					),
 				)
 			);
@@ -472,12 +446,7 @@ class Cartflows_Checkout_Form extends Widget_Base {
 					'label'     => __( 'Field Background Color', 'cartflows' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array(
-						'{{WRAPPER}} .wcf-embed-checkout-form #order_review .wcf-custom-coupon-field input[type="text"],
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form .form-row input.input-text,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form .form-row textarea,
-						{{WRAPPER}} .wcf-embed-checkout-form .select2-container--default .select2-selection--single,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form .form-row select.select,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form .form-row select' => 'background-color: {{VALUE}};',
+						'{{WRAPPER}} .wcf-embed-checkout-form, {{WRAPPER}} .wcf-embed-checkout-form-modern-checkout' => '--wcf-field-bg-color: {{VALUE}};',
 					),
 				)
 			);
@@ -488,14 +457,7 @@ class Cartflows_Checkout_Form extends Widget_Base {
 					'label'     => __( 'Input Text / Placeholder Color', 'cartflows' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array(
-						'{{WRAPPER}} .cartflows-elementor__checkout-form .wcf-embed-checkout-form #order_review .wcf-custom-coupon-field input[type="text"],
-						{{WRAPPER}} .cartflows-elementor__checkout-form .wcf-embed-checkout-form .woocommerce form .form-row input.input-text,
-						{{WRAPPER}} .cartflows-elementor__checkout-form .wcf-embed-checkout-form .woocommerce form .form-row textarea,
-						{{WRAPPER}} .cartflows-elementor__checkout-form .wcf-embed-checkout-form .select2-container--default .select2-selection--single,
-						{{WRAPPER}} .cartflows-elementor__checkout-form .wcf-embed-checkout-form .woocommerce form .form-row select,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form .form-row select,
-						{{WRAPPER}} .cartflows-elementor__checkout-form .wcf-embed-checkout-form ::placeholder,
-						{{WRAPPER}} .cartflows-elementor__checkout-form .wcf-embed-checkout-form ::-webkit-input-placeholder' => 'color: {{VALUE}} !important;',
+						'{{WRAPPER}} .wcf-embed-checkout-form, {{WRAPPER}} .wcf-embed-checkout-form-modern-checkout' => '--wcf-field-text-color: {{VALUE}};',
 					),
 				)
 			);
@@ -547,12 +509,7 @@ class Cartflows_Checkout_Form extends Widget_Base {
 					'label'     => __( 'Border Color', 'cartflows' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array(
-						'{{WRAPPER}} .wcf-embed-checkout-form #order_review .wcf-custom-coupon-field input[type="text"],
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form .form-row input.input-text,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form .form-row textarea,
-						{{WRAPPER}} .wcf-embed-checkout-form .select2-container--default .select2-selection--single,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form .form-row select.select,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form .form-row select' => 'border-color: {{VALUE}};',
+						'{{WRAPPER}} .wcf-embed-checkout-form, {{WRAPPER}} .wcf-embed-checkout-form-modern-checkout' => '--wcf-field-border-color: {{VALUE}};',
 					),
 				)
 			);
@@ -628,16 +585,7 @@ class Cartflows_Checkout_Form extends Widget_Base {
 							'type'      => Controls_Manager::COLOR,
 							'default'   => '',
 							'selectors' => array(
-								'{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .woocommerce-checkout #payment button,
-								{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .wcf-customer-login-section__login-button,
-								{{WRAPPER}} .wcf-embed-checkout-form .woocommerce #order_review button,
-								{{WRAPPER}} .wcf-embed-checkout-form .woocommerce #order_review button.wcf-btn-small,
-								{{WRAPPER}} .wcf-embed-checkout-form .wcf-custom-coupon-field button.wcf-submit-coupon,
-								{{WRAPPER}} .wcf-embed-checkout-form .woocommerce-checkout form.woocommerce-form-login .button,
-								{{WRAPPER}} .wcf-embed-checkout-form .woocommerce-checkout form.checkout_coupon .button,
-								{{WRAPPER}} .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns .wcf-next-button,
-								{{WRAPPER}} .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn,
-								body .wcf-pre-checkout-offer-wrapper #wcf-pre-checkout-offer-content button.wcf-pre-checkout-offer-btn' => 'color: {{VALUE}};',
+								'{{WRAPPER}} .wcf-embed-checkout-form, {{WRAPPER}} .wcf-embed-checkout-form-modern-checkout' => '--wcf-btn-text-color: {{VALUE}};',
 							),
 						)
 					);
@@ -732,16 +680,9 @@ class Cartflows_Checkout_Form extends Widget_Base {
 							'label'     => __( 'Text Color', 'cartflows' ),
 							'type'      => Controls_Manager::COLOR,
 							'selectors' => array(
-								'{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .woocommerce-checkout #payment button:hover,
-								{{WRAPPER}} .wcf-embed-checkout-form .woocommerce .wcf-customer-login-section__login-button:hover,
-								{{WRAPPER}} .wcf-embed-checkout-form .woocommerce #order_review button:hover,
-								{{WRAPPER}} .wcf-embed-checkout-form .woocommerce #order_review button.wcf-btn-small:hover,
-								{{WRAPPER}} .wcf-embed-checkout-form .wcf-custom-coupon-field button.wcf-submit-coupon:hover,
-								{{WRAPPER}} .wcf-embed-checkout-form .woocommerce-checkout form.woocommerce-form-login .button:hover,
-								{{WRAPPER}} .wcf-embed-checkout-form .woocommerce-checkout form.checkout_coupon .button:hover,
-								{{WRAPPER}} .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns .wcf-next-button:hover,
-								{{WRAPPER}} .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn:hover,
-								body .wcf-pre-checkout-offer-wrapper #wcf-pre-checkout-offer-content button.wcf-pre-checkout-offer-btn:hover' => 'color: {{VALUE}};',
+								'{{WRAPPER}} .wcf-embed-checkout-form,
+								{{WRAPPER}} .wcf-embed-checkout-form-modern-checkout' => '--wcf-btn-hover-text-color: {{VALUE}};',
+								'body .wcf-pre-checkout-offer-wrapper #wcf-pre-checkout-offer-content button.wcf-pre-checkout-offer-btn:hover' => 'color: {{VALUE}};',
 							),
 						)
 					);
@@ -813,9 +754,8 @@ class Cartflows_Checkout_Form extends Widget_Base {
 					'type'      => Controls_Manager::COLOR,
 					'default'   => '',
 					'selectors' => array(
-						'{{WRAPPER}} .wcf-embed-checkout-form .woocommerce-checkout .wc_payment_methods,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce-checkout #payment label,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce-checkout .wc_payment_methods label a' => 'color: {{VALUE}};',
+						'{{WRAPPER}} .wcf-embed-checkout-form,
+						{{WRAPPER}} .wcf-embed-checkout-form-modern-checkout' => '--wcf-payment-section-label-color: {{VALUE}};',
 					),
 				)
 			);
@@ -827,8 +767,8 @@ class Cartflows_Checkout_Form extends Widget_Base {
 					'type'      => Controls_Manager::COLOR,
 					'default'   => '',
 					'selectors' => array(
-						'{{WRAPPER}} .wcf-embed-checkout-form .woocommerce-checkout #payment div.payment_box,
-						 {{WRAPPER}} .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce-checkout #payment div.payment_box' => 'color: {{VALUE}};',
+						'{{WRAPPER}} .wcf-embed-checkout-form,
+						 {{WRAPPER}} .wcf-embed-checkout-form-modern-checkout' => '--wcf-payment-section-desc-text-color: {{VALUE}};',
 					),
 				)
 			);
@@ -839,7 +779,8 @@ class Cartflows_Checkout_Form extends Widget_Base {
 					'label'     => __( 'Section Background Color', 'cartflows' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array(
-						'{{WRAPPER}} .wcf-embed-checkout-form .woocommerce-checkout #payment ul.payment_methods' => 'background-color: {{VALUE}};',
+						'{{WRAPPER}} .wcf-embed-checkout-form,
+						{{WRAPPER}} .wcf-embed-checkout-form-modern-checkout' => '--wcf-payment-section-bg-color: {{VALUE}};',
 					),
 					'separator' => 'before',
 				)
@@ -851,10 +792,8 @@ class Cartflows_Checkout_Form extends Widget_Base {
 					'label'     => __( 'Information Background Color', 'cartflows' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array(
-						'{{WRAPPER}} .wcf-embed-checkout-form .woocommerce-checkout #payment div.payment_box' => 'background-color: {{VALUE}};',
-						'{{WRAPPER}} .wcf-embed-checkout-form #add_payment_method #payment div.payment_box::before,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce-cart #payment div.payment_box::before,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce-checkout #payment div.payment_box::before' => 'border-bottom-color: {{VALUE}};',
+						'{{WRAPPER}} .wcf-embed-checkout-form,
+						{{WRAPPER}} .wcf-embed-checkout-form-modern-checkout' => '--wcf-payment-section-desc-bg-color: {{VALUE}};',
 					),
 				)
 			);
@@ -930,7 +869,7 @@ class Cartflows_Checkout_Form extends Widget_Base {
 					'type'      => Controls_Manager::COLOR,
 					'default'   => '',
 					'selectors' => array(
-						'{{WRAPPER}} .woocommerce form .form-row.woocommerce-invalid label' => 'color: {{VALUE}};',
+						'{{WRAPPER}} .woocommerce form .form-row.woocommerce-invalid label' => '--wcf-field-error-label-color: {{VALUE}};',
 					),
 				)
 			);
@@ -941,13 +880,8 @@ class Cartflows_Checkout_Form extends Widget_Base {
 					'label'     => __( 'Field Border Color', 'cartflows' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array(
-						'{{WRAPPER}} .wcf-embed-checkout-form .select2-container--default.field-required .select2-selection--single,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form .form-row input.input-text.field-required,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form .form-row textarea.input-text.field-required,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce #order_review .input-text.field-required
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form .form-row.woocommerce-invalid .select2-container,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form .form-row.woocommerce-invalid input.input-text,
-						{{WRAPPER}} .wcf-embed-checkout-form .woocommerce form .form-row.woocommerce-invalid select' => 'border-color: {{VALUE}};',
+						'{{WRAPPER}} .wcf-embed-checkout-form,
+						{{WRAPPER}} .wcf-embed-checkout-form-modern-checkout' => '--wcf-field-error-border-color: {{VALUE}};',
 
 					),
 					'separator' => 'after',

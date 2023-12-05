@@ -515,7 +515,11 @@ if ( ! class_exists( 'Cartflows_Gb_Helper' ) ) {
 							continue;
 						}
 
-						if ( ! empty( $val ) || 0 === $val ) {
+						if ( ! empty( $val ) && is_array( $val ) ) {
+							foreach ( $val as $key => $css_value ) {
+								$css .= $key . ': ' . $css_value . ';';
+							}
+						} elseif ( ! empty( $val ) || 0 === $val ) {
 							if ( 'font-family' === $j ) {
 								$css .= $j . ': "' . $val . '";';
 							} else {

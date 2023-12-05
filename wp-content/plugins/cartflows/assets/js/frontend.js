@@ -106,8 +106,52 @@
 		}
 	};
 
-	$( function () {
-		/* Assign the class & link to specific button */
+	/**
+	 *
+	 * @param {string} next_step_url
+	 * @return {string} next_step_url Modified string if query string is present.
+	 */
+	const may_be_append_query_string = function ( next_step_url ) {
+		// Get the URL parameters.
+		const urlParams = new URLSearchParams( window.location.search );
+
+		// Return the URL if no query string is present.
+		if ( urlParams.length <= 0 ) {
+			return next_step_url;
+		}
+
+		// Get all URL parameter keys.
+		const keys = urlParams.keys();
+
+		// Store all parameters temporary.
+		const params = {};
+
+		// Loop through all parameter as keys to make key-value pair array/object.
+		for ( const key of keys ) {
+			params[ key ] = urlParams.get( key );
+		}
+
+		// Convert the object to a query string.
+		const queryString = new URLSearchParams( params ).toString();
+
+		/**
+		 * Append the query string to the URL
+		 * If: No question mark is in the URL then: add the question mark before query string.
+		 * Else: Question mark is found then: add '&' before query string..
+		 */
+		if ( next_step_url.indexOf( '?' ) === -1 ) {
+			next_step_url = next_step_url + '?' + queryString;
+		} else {
+			next_step_url = next_step_url + '&' + queryString;
+		}
+
+		return next_step_url;
+	};
+
+	/**
+	 * Assign the class & link to specific button
+	 */
+	const setup_next_step_url = function () {
 		const next_links = $( 'a[href*="wcf-next-step"]' );
 
 		if (
@@ -115,8 +159,15 @@
 			'undefined' !== typeof cartflows.next_step
 		) {
 			next_links.addClass( 'wcf-next-step-link' );
-			next_links.attr( 'href', cartflows.next_step );
+			next_links.attr(
+				'href',
+				may_be_append_query_string( cartflows.next_step )
+			);
 		}
+	};
+
+	$( function () {
+		setup_next_step_url();
 		remove_oceanwp_custom_style();
 		if ( '1' !== cartflows.is_pb_preview ) {
 			trigger_facebook_events();

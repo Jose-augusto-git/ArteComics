@@ -170,6 +170,11 @@ class SendingQueuesRepository extends Repository {
       ->setParameter('task', $scheduledTask)
       ->getQuery()
       ->execute();
+
+    // delete was done via DQL, make sure the entities are also detached from the entity manager
+    $this->detachAll(function (SendingQueueEntity $entity) use ($scheduledTask) {
+      return $entity->getTask() === $scheduledTask;
+    });
   }
 
   public function saveCampaignId(SendingQueueEntity $queue, string $campaignId): void {
@@ -207,5 +212,22 @@ class SendingQueuesRepository extends Repository {
     ];
     $queue->setMeta($meta);
     $this->flush();
+  }
+
+  public function updateCounts(SendingQueueEntity $queue, ?int $count = null): void {
+    if ($count) {
+      // increment/decrement counts based on known subscriber count, don't exceed the bounds
+      $queue->setCountProcessed(min($queue->getCountProcessed() + $count, $queue->getCountTotal()));
+      $queue->setCountToProcess(max($queue->getCountToProcess() - $count, 0));
+    } else {
+      // query DB to update counts, slower but more accurate, to be used if count isn't known
+      $task = $queue->getTask();
+      $processed = $task ? $this->scheduledTaskSubscribersRepository->countProcessed($task) : 0;
+      $unprocessed = $task ? $this->scheduledTaskSubscribersRepository->countUnprocessed($task) : 0;
+      $queue->setCountProcessed($processed);
+      $queue->setCountToProcess($unprocessed);
+      $queue->setCountTotal($processed + $unprocessed);
+    }
+    $this->entityManager->flush();
   }
 }

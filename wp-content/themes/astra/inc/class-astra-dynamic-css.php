@@ -3575,10 +3575,10 @@ if ( ! class_exists( 'Astra_Dynamic_CSS' ) ) {
 				),
 
 				'.ast-desktop .main-header-menu.submenu-with-border .sub-menu' => array(
-					'border-top-width'    => astra_get_css_value( $submenu_border['top'], 'px' ),
-					'border-right-width'  => astra_get_css_value( $submenu_border['right'], 'px' ),
-					'border-left-width'   => astra_get_css_value( $submenu_border['left'], 'px' ),
-					'border-bottom-width' => astra_get_css_value( $submenu_border['bottom'], 'px' ),
+					'border-top-width'    => ! empty( $submenu_border['top'] ) ? astra_get_css_value( $submenu_border['top'], 'px' ) : '',
+					'border-right-width'  => ! empty( $submenu_border['right'] ) ? astra_get_css_value( $submenu_border['right'], 'px' ) : '',
+					'border-left-width'   => ! empty( $submenu_border['left'] ) ? astra_get_css_value( $submenu_border['left'], 'px' ) : '',
+					'border-bottom-width' => ! empty( $submenu_border['bottom'] ) ? astra_get_css_value( $submenu_border['bottom'], 'px' ) : '',
 					'border-style'        => 'solid',
 				),
 				'.ast-desktop .main-header-menu.submenu-with-border .sub-menu .sub-menu' => array(
@@ -5229,6 +5229,18 @@ if ( ! class_exists( 'Astra_Dynamic_CSS' ) ) {
 			$astra_settings                           = get_option( ASTRA_THEME_SETTINGS );
 			$astra_settings['v4-4-0-backward-option'] = isset( $astra_settings['v4-4-0-backward-option'] ) ? false : true;
 			return apply_filters( 'astra_addon_upgrade_fullscreen_search_submit_style', $astra_settings['v4-4-0-backward-option'] );
+		}
+
+		/**
+		 * Check version 4.5.0 backward compatibility.
+		 *
+		 * @since 4.5.0
+		 * @return boolean false if it is an existing user, true if not.
+		 */
+		public static function astra_4_5_0_compatibility() {
+			$astra_settings                           = get_option( ASTRA_THEME_SETTINGS );
+			$astra_settings['v4-5-0-backward-option'] = isset( $astra_settings['v4-5-0-backward-option'] ) ? false : true;
+			return apply_filters( 'astra_upgrade_color_styles', $astra_settings['v4-5-0-backward-option'] );
 		}
 	}
 }

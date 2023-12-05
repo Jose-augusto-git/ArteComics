@@ -74,11 +74,11 @@ class AjaxInit {
 			'CartflowsAdmin\AdminCore\Ajax\FlowsStats',
 			'CartflowsAdmin\AdminCore\Ajax\AbSteps',
 			'CartflowsAdmin\AdminCore\Ajax\SetupPage',
+			'CartflowsAdmin\AdminCore\Ajax\Debugger',
 		);
 
 		foreach ( $controllers as $controller ) {
-			$this->$controller = $controller::get_instance();
-			$this->$controller->register_ajax_events();
+			$controller::get_instance()->register_ajax_events();
 		}
 	}
 }

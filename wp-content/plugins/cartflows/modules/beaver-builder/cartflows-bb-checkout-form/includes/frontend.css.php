@@ -16,98 +16,38 @@ global $post;
 	color: #0086b0;
 }
 
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce .woocommerce-checkout .product-name .remove:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #payment input[type=checkbox]:checked:before,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce .woocommerce-shipping-fields [type="checkbox"]:checked:before,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-info::before,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-message::before,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce a:not(.wcf-checkout-breadcrumb a),
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form-two-step .wcf-embed-checkout-form-steps .wcf-current .step-name,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .wcf-multistep-checkout-breadcrumb a.wcf-current-step,
-body .wcf-pre-checkout-offer-wrapper .wcf-content-main-head .wcf-content-modal-title .wcf_first_name {
-	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->global_primary_color ); ?>;
-}
+.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form,
+.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form-modern-checkout,
+body .wcf-pre-checkout-offer-wrapper{
+	<?php echo ( '' !== FLBuilderColor::hex_or_rgb( $settings->global_primary_color ) ? '--wcf-primary-color:' . FLBuilderColor::hex_or_rgb( $settings->global_primary_color ) . ';' : '' ); ?>
+	<?php echo ( '' !== FLBuilderColor::hex_or_rgb( $settings->global_text_color ) ? '--wcf-text-color:' . FLBuilderColor::hex_or_rgb( $settings->global_text_color ) . ';' : '' ); ?>
+	<?php echo ( '' !== FLBuilderColor::hex_or_rgb( $settings->heading_color ) ? '--wcf-heading-color:' . FLBuilderColor::hex_or_rgb( $settings->heading_color ) . ';' : '' ); ?>
+	<?php echo ( '' !== FLBuilderColor::hex_or_rgb( $settings->label_color ) ? '--wcf-field-label-color:' . FLBuilderColor::hex_or_rgb( $settings->label_color ) . ';' : '' ); ?>
+	<?php echo ( '' !== FLBuilderColor::hex_or_rgb( $settings->input_bgcolor ) ? '--wcf-field-bg-color:' . FLBuilderColor::hex_or_rgb( $settings->input_bgcolor ) . ';' : '' ); ?>
+	<?php echo ( '' !== FLBuilderColor::hex_or_rgb( $settings->input_color ) ? '--wcf-field-text-color:' . FLBuilderColor::hex_or_rgb( $settings->input_color ) . ';' : '' ); ?>
+	<?php echo ( '' !== FLBuilderColor::hex_or_rgb( $settings->input_border_color ) ? '--wcf-field-border-color:' . FLBuilderColor::hex_or_rgb( $settings->input_border_color ) . ';' : '' ); ?>
+	<?php echo ( '' !== FLBuilderColor::hex_or_rgb( $settings->button_text_color ) ? '--wcf-btn-text-color:' . FLBuilderColor::hex_or_rgb( $settings->button_text_color ) . ';' : '' ); ?>
+	<?php echo ( '' !== FLBuilderColor::hex_or_rgb( $settings->button_text_hover_color ) ? '--wcf-btn-hover-text-color:' . FLBuilderColor::hex_or_rgb( $settings->button_text_hover_color ) . ';' : '' ); ?>
+	<?php echo ( '' !== FLBuilderColor::hex_or_rgb( $settings->button_bg_color ) ? '--wcf-btn-bg-color:' . FLBuilderColor::hex_or_rgb( $settings->button_bg_color ) . ';' : '' ); ?>
+	<?php echo ( '' !== FLBuilderColor::hex_or_rgb( $settings->button_bg_hover_color ) ? '--wcf-btn-bg-hover-color:' . FLBuilderColor::hex_or_rgb( $settings->button_bg_hover_color ) . ';' : '' ); ?>
+	<?php echo ( '' !== FLBuilderColor::hex_or_rgb( $settings->field_label_color ) ? '--wcf-field-error-label-color:' . FLBuilderColor::hex_or_rgb( $settings->field_label_color ) . ';' : '' ); ?>
+	<?php echo ( '' !== FLBuilderColor::hex_or_rgb( $settings->error_field_border_color ) ? '--wcf-field-error-border-color:' . FLBuilderColor::hex_or_rgb( $settings->error_field_border_color ) . ';' : '' ); ?>
+	<?php echo ( '' !== FLBuilderColor::hex_or_rgb( $settings->payment_section_text_color ) ? '--wcf-payment-section-label-color:' . FLBuilderColor::hex_or_rgb( $settings->payment_section_text_color ) . ';' : '' ); ?>
+	<?php echo ( '' !== FLBuilderColor::hex_or_rgb( $settings->payment_section_desc_color ) ? '--wcf-payment-section-desc-text-color:' . FLBuilderColor::hex_or_rgb( $settings->payment_section_desc_color ) . ';' : '' ); ?>
+	<?php echo ( '' !== FLBuilderColor::hex_or_rgb( $settings->payment_info_bg_color ) ? '--wcf-payment-section-desc-bg-color:' . FLBuilderColor::hex_or_rgb( $settings->payment_info_bg_color ) . ';' : '' ); ?>
+	<?php echo ( '' !== FLBuilderColor::hex_or_rgb( $settings->payment_section_bg_color ) ? '--wcf-payment-section-bg-color:' . FLBuilderColor::hex_or_rgb( $settings->payment_section_bg_color ) . ';' : '' ); ?>
 
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce .woocommerce-checkout .product-name .remove:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #payment input[type=checkbox]:focus,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce .woocommerce-shipping-fields [type="checkbox"]:focus,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #payment input[type=radio]:checked:focus,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #payment input[type=radio]:not(:checked):focus,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form .form-row input.input-text:focus,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form .form-row textarea:focus,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form #order_review .wcf-custom-coupon-field input.input-text:focus,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #order_review button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form.woocommerce-form-login .form-row button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #order_review button.wcf-btn-small,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .wcf-custom-coupon-field button.wcf-submit-coupon,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout form.woocommerce-form-login .button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout form.checkout_coupon .button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout form.login .button:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout form.checkout_coupon .button:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #payment #place_order:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #order_review button.wcf-btn-small:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .wcf-custom-coupon-field button.wcf-submit-coupon:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns .wcf-next-button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form-two-step .wcf-embed-checkout-form-note,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn:hover,
-body .wcf-pre-checkout-offer-wrapper #wcf-pre-checkout-offer-content button.wcf-pre-checkout-offer-btn {
-	border-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->global_primary_color ); ?>;
-}
-
-<?php /* Only Modern Checkout related CSS */ ?>
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce form .form-row input.input-text:focus,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce form .form-row textarea:focus,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce #order_review .wcf-custom-coupon-field input.input-text:focus {
-	border-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->global_primary_color ); ?>;
-	box-shadow: 0 0 0 1px <?php echo FLBuilderColor::hex_or_rgb( $settings->global_primary_color ); ?>;
-}
-<?php /* Only Modern Checkout related CSS */ ?>
-
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #payment input[type=radio]:checked:before,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #order_review button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce .wcf-customer-login-section__login-button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce .wcf-customer-login-section__login-button:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #payment #place_order,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form.woocommerce-form-login .form-row button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #order_review button.wcf-btn-small,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .wcf-custom-coupon-field button.wcf-submit-coupon,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout form.woocommerce-form-login .button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout form.checkout_coupon .button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout form.login .button:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout form.checkout_coupon .button:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #payment #place_order:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #order_review button.wcf-btn-small:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .wcf-custom-coupon-field button.wcf-submit-coupon:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form-two-step  .wcf-embed-checkout-form-steps .step-one.wcf-current:before,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form-two-step  .wcf-embed-checkout-form-steps .step-two.wcf-current:before,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form-two-step .wcf-embed-checkout-form-steps .steps.wcf-current:before,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form-two-step .wcf-embed-checkout-form-note,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn:hover,
-body .wcf-pre-checkout-offer-wrapper .wcf-nav-bar-step.active .wcf-progress-nav-step,
-body .wcf-pre-checkout-offer-wrapper .wcf-nav-bar-step.active .wcf-nav-bar-step-line:before,
-body .wcf-pre-checkout-offer-wrapper .wcf-nav-bar-step.active .wcf-nav-bar-step-line:after {
-	background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->global_primary_color ); ?>;
 }
 
 .fl-node-<?php echo $id; ?> .wcf-embed-checkout-form-two-step .wcf-embed-checkout-form-note:before {
-	border-top-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->global_primary_color ); ?>;
+	border-top-color: <?php echo ( '' !== FLBuilderColor::hex_or_rgb( $settings->global_primary_color ) ? FLBuilderColor::hex_or_rgb( $settings->global_primary_color ) . ';' : '' ); ?>
 }
 
 .fl-node-<?php echo $id; ?> .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns .wcf-next-button,
 .fl-node-<?php echo $id; ?> .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns a.wcf-next-button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form form.checkout_coupon .button,
 body .wcf-pre-checkout-offer-wrapper #wcf-pre-checkout-offer-content button.wcf-pre-checkout-offer-btn {
-	background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->global_primary_color ); ?>;
+	background-color: <?php echo ( '' !== FLBuilderColor::hex_or_rgb( $settings->global_primary_color ) ? FLBuilderColor::hex_or_rgb( $settings->global_primary_color ) . ';' : '' ); ?>
 	color: #fff;
-}
-
-
-
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form #payment .woocommerce-privacy-policy-text p {
-	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->global_text_color ); ?>;
 }
 
 <?php
@@ -121,13 +61,6 @@ if ( class_exists( 'FLBuilderCSS' ) ) {
 	);
 }
 ?>
-
-.fl-node-<?php echo $id; ?> .cartflows-bb__checkout-form .wcf-embed-checkout-form .woocommerce h3,
-.fl-node-<?php echo $id; ?> .cartflows-bb__checkout-form .wcf-embed-checkout-form .woocommerce h3 span,
-.fl-node-<?php echo $id; ?> .cartflows-bb__checkout-form .wcf-embed-checkout-form .woocommerce-checkout #order_review_heading,
-.fl-node-<?php echo $id; ?> .cartflows-bb__checkout-form .wcf-embed-checkout-form-two-step .wcf-embed-checkout-form-steps .wcf-current .step-name {
-	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->heading_color ); ?>;
-}
 
 <?php
 if ( class_exists( 'FLBuilderCSS' ) ) {
@@ -167,31 +100,6 @@ if ( class_exists( 'FLBuilderCSS' ) ) {
 }
 ?>
 
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout label,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form p.form-row label {
-	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->label_color ); ?>;
-}
-
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form #order_review .wcf-custom-coupon-field input[type="text"],
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form .form-row input.input-text,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form .form-row textarea,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .select2-container--default .select2-selection--single,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form .form-row select.select,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form .form-row select {
-	background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->input_bgcolor ); ?>;
-}
-
-.fl-node-<?php echo $id; ?> .cartflows-bb__checkout-form .wcf-embed-checkout-form #order_review .wcf-custom-coupon-field input[type="text"],
-.fl-node-<?php echo $id; ?> .cartflows-bb__checkout-form .wcf-embed-checkout-form .woocommerce form .form-row input.input-text,
-.fl-node-<?php echo $id; ?> .cartflows-bb__checkout-form .wcf-embed-checkout-form .woocommerce form .form-row textarea,
-.fl-node-<?php echo $id; ?> .cartflows-bb__checkout-form .wcf-embed-checkout-form .select2-container--default .select2-selection--single,
-.fl-node-<?php echo $id; ?> .cartflows-bb__checkout-form .wcf-embed-checkout-form .woocommerce form .form-row select,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form .form-row select,
-.fl-node-<?php echo $id; ?> .cartflows-bb__checkout-form .wcf-embed-checkout-form ::placeholder,
-.fl-node-<?php echo $id; ?> .cartflows-bb__checkout-form .wcf-embed-checkout-form ::-webkit-input-placeholder {
-	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->input_color ); ?> !important;
-}
-
 .fl-node-<?php echo $id; ?> .wcf-embed-checkout-form #order_review .wcf-custom-coupon-field input[type="text"],
 .fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form .form-row input.input-text,
 .fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form .form-row textarea,
@@ -210,7 +118,6 @@ if ( class_exists( 'FLBuilderCSS' ) ) {
 	.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form .form-row select {
 		border-style: <?php echo ( '' != $settings->input_border_style ) ? $settings->input_border_style : 'solid'; ?>;
 		border-width: <?php echo ( '' != $settings->input_border_width ) ? $settings->input_border_width : '1'; ?>px;
-		border-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->input_border_color ); ?>;
 	}
 
 <?php } ?>
@@ -236,65 +143,18 @@ if ( class_exists( 'FLBuilderCSS' ) ) {
 }
 ?>
 
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #order_review button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce .wcf-customer-login-section__login-button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #payment #place_order,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form.woocommerce-form-login .form-row button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #order_review button.wcf-btn-small,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .wcf-custom-coupon-field button.wcf-submit-coupon,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout form.woocommerce-form-login .button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout form.checkout_coupon .button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form form.checkout_coupon .button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns .wcf-next-button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns a.wcf-next-button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn,
 body .wcf-pre-checkout-offer-wrapper #wcf-pre-checkout-offer-content button.wcf-pre-checkout-offer-btn {
 	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->button_text_color ); ?>;
 }
 
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #order_review button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce .wcf-customer-login-section__login-button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #payment #place_order,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form.woocommerce-form-login .form-row button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #order_review button.wcf-btn-small,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .wcf-custom-coupon-field button.wcf-submit-coupon,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout form.woocommerce-form-login .button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout form.checkout_coupon .button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form form.checkout_coupon .button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns .wcf-next-button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns a.wcf-next-button,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn,
 body .wcf-pre-checkout-offer-wrapper #wcf-pre-checkout-offer-content button.wcf-pre-checkout-offer-btn {
 	background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->button_bg_color ); ?>;
 }
 
 <?php // Button text hover color. ?>
 
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout form.login .button:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce .wcf-customer-login-section__login-button:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout form.checkout_coupon .button:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #payment #place_order:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #order_review button.wcf-btn-small:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .wcf-custom-coupon-field button.wcf-submit-coupon:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form form.checkout_coupon .button:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns .wcf-next-button:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns a.wcf-next-button:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn:hover,
 body .wcf-pre-checkout-offer-wrapper #wcf-pre-checkout-offer-content button.wcf-pre-checkout-offer-btn:hover {
 	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->button_text_hover_color ); ?>;
-}
-
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout form.login .button:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce .wcf-customer-login-section__login-button:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout form.checkout_coupon .button:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #payment #place_order:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #order_review button.wcf-btn-small:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .wcf-custom-coupon-field button.wcf-submit-coupon:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form form.checkout_coupon .button:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns .wcf-next-button:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns a.wcf-next-button:hover,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn:hover,
-body .wcf-pre-checkout-offer-wrapper #wcf-pre-checkout-offer-content button.wcf-pre-checkout-offer-btn:hover {
 	background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->button_bg_hover_color ); ?>;
 	border-color:  <?php echo FLBuilderColor::hex_or_rgb( $settings->button_border_hover_color ); ?>;
 }
@@ -315,17 +175,6 @@ body .wcf-pre-checkout-offer-wrapper #wcf-pre-checkout-offer-content button.wcf-
 
 <?php if ( 'none' != $settings->button_border_style ) { ?>
 
-	.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #order_review button,
-	.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce .wcf-customer-login-section__login-button,
-	.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #payment #place_order,
-	.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form.woocommerce-form-login .form-row button,
-	.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #order_review button.wcf-btn-small,
-	.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .wcf-custom-coupon-field button.wcf-submit-coupon,
-	.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout form.woocommerce-form-login .button,
-	.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout form.checkout_coupon .button,
-	.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form form.checkout_coupon .button,
-	.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns .wcf-next-button,
-	.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn,
 	body .wcf-pre-checkout-offer-wrapper #wcf-pre-checkout-offer-content button.wcf-pre-checkout-offer-btn {
 		border-style: <?php echo ( '' != $settings->button_border_style ) ? $settings->button_border_style : 'solid'; ?>;
 		border-width: <?php echo ( '' != $settings->button_border_width ) ? $settings->button_border_width : '0'; ?>px;
@@ -351,30 +200,6 @@ body .wcf-pre-checkout-offer-wrapper #wcf-pre-checkout-offer-content button.wcf-
 
 <?php } ?>
 
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout #payment,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout #payment label,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout #payment label a {
-	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->payment_section_text_color ); ?>;
-}
-
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout #payment div.payment_box {
-	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->payment_section_desc_color ); ?>;
-}
-
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout #payment ul.payment_methods {
-	background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->payment_section_bg_color ); ?>;
-}
-
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout #payment div.payment_box {
-	background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->payment_info_bg_color ); ?>;
-}
-
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form #add_payment_method #payment div.payment_box::before,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-cart #payment div.payment_box::before,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout #payment div.payment_box::before {
-	border-bottom-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->payment_info_bg_color ); ?>;
-}
-
 .fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout #payment ul.payment_methods {
 	border-radius: <?php echo ( '' != $settings->payment_section_border_radius ) ? $settings->payment_section_border_radius : '0'; ?>px;
 }
@@ -393,42 +218,12 @@ body .wcf-pre-checkout-offer-wrapper #wcf-pre-checkout-offer-content button.wcf-
 	margin-right: <?php echo ( '' != $settings->payment_section_margin_dimension_right ) ? $settings->payment_section_margin_dimension_right : ''; ?>px;
 }
 
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce-checkout .woocommerce-invalid label,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form p.form-row.woocommerce-invalid label,
-.fl-node-<?php echo $id; ?> .woocommerce form .form-row.woocommerce-invalid label {
-	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->field_label_color ); ?>;
-}
-
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .select2-container--default.field-required .select2-selection--single,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form .form-row input.input-text.field-required,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form .form-row textarea.input-text.field-required,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #order_review .input-text.field-required
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form .form-row.woocommerce-invalid .select2-container,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form .form-row.woocommerce-invalid input.input-text,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form .form-row.woocommerce-invalid select {
-	border-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->error_field_border_color ); ?>;
-}
-
 .fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce .woocommerce-error,
 .fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce .woocommerce-NoticeGroup .woocommerce-error,
 .fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce .woocommerce-notices-wrapper .woocommerce-error {
 	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->error_text_color ); ?>;
 	border-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->error_border_color ); ?>;
 	background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->error_bg_color ); ?>;
-}
-
-.fl-node-<?php echo $id; ?> .woocommerce form .form-row.woocommerce-invalid label {
-	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->field_label_color ); ?>;
-}
-
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .select2-container--default.field-required .select2-selection--single,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form .form-row input.input-text.field-required,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form .form-row textarea.input-text.field-required,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce #order_review .input-text.field-required
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form .form-row.woocommerce-invalid .select2-container,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form .form-row.woocommerce-invalid input.input-text,
-.fl-node-<?php echo $id; ?> .wcf-embed-checkout-form .woocommerce form .form-row.woocommerce-invalid select {
-	border-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->error_field_border_color ); ?>;
 }
 
 .fl-node-<?php echo $id; ?> .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout table.shop_table th,

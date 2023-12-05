@@ -1,10 +1,10 @@
 === Brazilian Market on WooCommerce ===
 Contributors: claudiosanches
-Donate link: https://apoia.se/claudiosanches
+Donate link: https://apoia.se/claudiosanches?utm_source=plugin-bmw
 Tags: woocommerce, checkout, brazil, cpf, cpnj
 Requires at least: 4.0
 Tested up to: 6.3
-Stable tag: 3.8.4
+Stable tag: 4.0.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -13,7 +13,7 @@ Adds Brazilian checkout fields in WooCommerce
 
 == Description ==
 
-Adiciona novos campos para Pessoa Física ou Jurídica, Data de Nascimento, Sexo, Número, Bairro e Celular. Além de máscaras em campos e aviso de e-mail incorreto.
+Adiciona novos campos para Pessoa Física ou Jurídica, Data de Nascimento, Gênero, Número, Bairro e Celular. Além de máscaras em campos e aviso de e-mail incorreto.
 
 Em breve serão integradas mais novidades para o mercado brasileiro, como poder fazer login por CPF/CNPJ, ocultar alguns campos no carrinho, aguardem!
 
@@ -26,8 +26,7 @@ Compatível desde a versão 5.0.x do WooCommerce.
 Funciona com os plugins:
 
 * [PagSeguro](http://wordpress.org/extend/plugins/woocommerce-pagseguro/) (adiciona as informações de **bairro**, **CPF** e **número**)
-* [Bcash](http://wordpress.org/extend/plugins/woocommerce-bcash/) (adiciona as informações de **número**, **CPF**, **Razão Social** e **CNPJ**)
-* [Moip](http://wordpress.org/extend/plugins/woocommerce-moip/) (adiciona as informações de **bairro** e **número** e melhora o Checkout Transparente)
+* Flux Checkout for WooCommerce
 
 = Dúvidas? =
 
@@ -66,6 +65,29 @@ Você pode contribuir com código-fonte em nossa página no [GitHub](https://git
 5. Sugestão de e-mail
 
 == Changelog ==
+
+= 4.0.0 - 2023/11/06 =
+
+- Adicionada nova opção para estilo dos campos, agora por padrão com largura total para prevenir incompatibilidade com temas e plugins.
+- Melhorada a opção para campo de celular, podendo agora substituir o campo de telefone.
+- Separado os campos de Data de Nascimento e Gênero em campos próprios.
+- Atualizado sufixo `_sex` para `_gender` no banco de dados.
+- Corrigido bug que deixava o campo de Nome da Empresa sempre opcional.
+
+= 3.10.0 - 2023/10/30 =
+
+- Adicionada "Não quero informar" e "Outro" como opções para o campo de gênero.
+
+= 3.9.1 - 2023/10/29 =
+
+- Melhorado como o plugin lida o requerimento dos campos de PF e PJ.
+
+= 3.9.0 - 2023/10/29 =
+
+- Adicionado suporte para o plugin Flux Checkout for WooCommerce.
+- Adicionado suporte para WooCommerce 8.2+.
+- Adicionada opção para controlar a obrigatoriedade do campo de Bairro.
+- Adicionada regra para ignorar o requerimento do campo de empresa quando CPF é selecionado no checkout.
 
 = 3.8.4 - 2023/09/25 =
 
@@ -128,7 +150,10 @@ Você pode contribuir com código-fonte em nossa página no [GitHub](https://git
 
 == Upgrade Notice ==
 
-= 3.8.4 =
+= 4.0.0 =
 
-- Adicionado suporte para WooCommerce HPOS.
-- Adicionado suporte para WooCommerce 8.1+.
+- Adicionada nova opção para estilo dos campos, agora por padrão com largura total para prevenir incompatibilidade com temas e plugins.
+- Melhorada a opção para campo de celular, podendo agora substituir o campo de telefone.
+- Separado os campos de Data de Nascimento e Gênero em campos próprios.
+- Atualizado sufixo `_sex` para `_gender` no banco de dados.
+- Corrigido bug que deixava o campo de Nome da Empresa sempre opcional.

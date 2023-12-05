@@ -233,11 +233,11 @@ if ( ! class_exists( 'Astra_Sites_Onboarding_Setup' ) ) :
 					if ( isset( $option['desktop'] ) ) {
 						$option['desktop'] = $logo_width;
 					}
-						astra_update_option( $width_index, $option );
+					astra_update_option( $width_index, $option );
 
-						// Check if transparent header is used in the demo.
-						$transparent_header = astra_get_option( 'transparent-header-logo', false );
-						$inherit_desk_logo = astra_get_option( 'different-transparent-logo', false );
+					// Check if transparent header is used in the demo.
+					$transparent_header = astra_get_option( 'transparent-header-logo', false );
+					$inherit_desk_logo = astra_get_option( 'different-transparent-logo', false );
 
 					if ( '' !== $transparent_header && $inherit_desk_logo ) {
 						astra_update_option( 'transparent-header-logo', wp_get_attachment_url( $logo_id ) );
@@ -249,6 +249,17 @@ if ( ! class_exists( 'Astra_Sites_Onboarding_Setup' ) ) :
 						}
 						astra_update_option( $width_index, $option );
 					}
+
+					$retina_logo = astra_get_option( 'different-retina-logo', false );
+					if ( '' !== $retina_logo ) {
+						astra_update_option( 'ast-header-retina-logo', wp_get_attachment_url( $logo_id ) );
+					}
+					
+					$transparent_retina_logo = astra_get_option( 'different-transparent-retina-logo', false );
+					if ( '' !== $transparent_retina_logo ) {
+						astra_update_option( 'transparent-header-retina-logo', wp_get_attachment_url( $logo_id ) );
+					}
+
 
 					break;
 

@@ -74,11 +74,10 @@
 							fragmants &&
 							fragmants.hasOwnProperty( 'wcf_cart_data' )
 						) {
-							$(
-								document.body
-							).trigger( 'wcf_cart_data_restored', [
-								fragmants.wcf_cart_data,
-							] );
+							$( document.body ).trigger(
+								'wcf_cart_data_restored',
+								[ fragmants.wcf_cart_data ]
+							);
 						}
 					} );
 				}
@@ -146,6 +145,33 @@
 			add_validation_msg( isError, field_row, field_wrap );
 		};
 
+		const numberFieldValidation = function (
+			field_value,
+			field_row,
+			field_wrap,
+			minValue,
+			maxValue
+		) {
+			if (
+				field_value === '' ||
+				field_value < minValue ||
+				field_value > maxValue
+			) {
+				field_wrap.addClass( 'field-required' );
+				field_wrap.after(
+					'<span class="wcf-field-required-error">' +
+						cartflows.field_validation_msgs.number_field +
+						minValue +
+						' & ' +
+						maxValue +
+						'</span>'
+				);
+			} else {
+				field_wrap.removeClass( 'field-required' );
+				field_row.find( '.wcf-field-required-error' ).remove();
+			}
+		};
+
 		const fields_wrapper = $( 'form.woocommerce-checkout' ),
 			$all_fields = fields_wrapper.find( 'input, textarea' ),
 			$selects = fields_wrapper.find( 'select' );
@@ -157,6 +183,17 @@
 				field_value = $this.val();
 
 			custom_field_add_class( field_value, field_row, $this, field_type );
+			if ( 'number' === field_type ) {
+				const minValue = $this.attr( 'min' );
+				const maxValue = $this.attr( 'max' );
+				numberFieldValidation(
+					Number( field_value ),
+					field_row,
+					$this,
+					Number( minValue ),
+					Number( maxValue )
+				);
+			}
 		} );
 
 		$selects.on( 'blur', function () {
@@ -484,7 +521,8 @@
 	};
 
 	const validateEmail = function ( email ) {
-		const email_reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		const email_reg =
+			/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		return email_reg.test( email );
 	};
 

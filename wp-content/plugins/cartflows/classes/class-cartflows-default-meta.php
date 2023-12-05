@@ -372,25 +372,50 @@ class Cartflows_Default_Meta {
 
 		if ( null === self::$flow_fields ) {
 			self::$flow_fields = array(
-				'wcf-steps'              => array(
+				'wcf-steps'                        => array(
 					'default'  => array(),
 					'sanitize' => '', // This key always updated from prepared array. Not from user input and save button click.
 				),
-				'wcf-flow-indexing'      => array(
+				'wcf-flow-indexing'                => array(
 					'default'  => '',
 					'sanitize' => 'FILTER_SANITIZE_STRING',
 				),
-				'wcf-testing'            => array(
+				'wcf-testing'                      => array(
 					'default'  => 'no',
 					'sanitize' => 'FILTER_SANITIZE_STRING',
 				),
-				'wcf-enable-analytics'   => array(
+				'wcf-enable-analytics'             => array(
 					'default'  => 'no',
 					'sanitize' => 'FILTER_SANITIZE_STRING',
 				),
-				'wcf-flow-custom-script' => array(
+				'wcf-flow-custom-script'           => array(
 					'default'  => '',
 					'sanitize' => 'FILTER_SCRIPT',
+				),
+				// Global Color Pallet color options.
+				'wcf-enable-gcp-styling'           => array(
+					'default'  => 'no',
+					'sanitize' => 'FILTER_SANITIZE_STRING',
+				),
+				'wcf-gcp-primary-color'            => array(
+					'default'  => '#f16334',
+					'sanitize' => 'FILTER_SANITIZE_COLOR',
+				),
+				'wcf-gcp-secondary-color'          => array(
+					'default'  => '#000000',
+					'sanitize' => 'FILTER_SANITIZE_COLOR',
+				),
+				'wcf-gcp-text-color'               => array(
+					'default'  => '#4B5563',
+					'sanitize' => 'FILTER_SANITIZE_COLOR',
+				),
+				'wcf-gcp-accent-color'             => array(
+					'default'  => '#1F2937',
+					'sanitize' => 'FILTER_SANITIZE_COLOR',
+				),
+				'wcf-gcp-primary-base-font-family' => array(
+					'default'  => '',
+					'sanitize' => 'FILTER_SANITIZE_FONT_FAMILY',
 				),
 			);
 		}

@@ -2,8 +2,8 @@
 Contributors: sujaypawar, wpcrafter
 Tags: woocommerce, cart abandonment, cart recovery
 Requires at least: 5.4
-Tested up to: 6.3
-Stable tag: 1.2.25
+Tested up to: 6.4
+Stable tag: 1.2.26
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -127,6 +127,10 @@ Here are few thoughts behind making it available for free:
 4. General settings for Email, Webhook (Coupon Code), GDPR
 
 == Changelog ==
+
+= Version 1.2.26 - Wednesday, 29th November 2023 =
+* Fix: Product's custom data options were not displayed in the abandoned order data.
+* Fix: Fixed the error warning if null value passed while using the PHP 8.1 version.
 
 = Version 1.2.25 - Thursday, 18th May 2023 =
 - New: Added new action `wcf_ca_before_trigger_webhook` before triggering webhook.

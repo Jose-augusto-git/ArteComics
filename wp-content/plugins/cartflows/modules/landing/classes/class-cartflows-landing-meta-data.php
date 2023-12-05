@@ -52,8 +52,7 @@ class Cartflows_Landing_Meta_Data extends Cartflows_Step_Meta_Base {
 		$this->step_id = $step_id;
 		$this->options = $options;
 
-		$common_tabs = $this->common_tabs();
-		$add_tabs    = array(
+		$tabs = array(
 			'settings' => array(
 				'title'    => __( 'Settings', 'cartflows' ),
 				'id'       => 'settings',
@@ -64,7 +63,6 @@ class Cartflows_Landing_Meta_Data extends Cartflows_Step_Meta_Base {
 
 		);
 
-		$tabs     = array_merge( $common_tabs, $add_tabs );
 		$settings = $this->get_settings_fields( $step_id );
 
 		$settings_data = array(
@@ -89,56 +87,52 @@ class Cartflows_Landing_Meta_Data extends Cartflows_Step_Meta_Base {
 		$options  = $this->get_data( $step_id );
 		$settings = array(
 			'settings' => array(
-				'shortcode'       => array(
+				'shortcode' => array(
 					'title'    => __( 'Shortcode', 'cartflows' ),
 					'slug'     => 'shortcode',
 					'priority' => 20,
 					'fields'   => array(
 						'landing-shortcode' => array(
-							'type'     => 'text',
-							'name'     => 'thankyou-shortcode',
-							'label'    => __( 'Next Step Link', 'cartflows' ),
-							'value'    => $next_step_link,
-							'readonly' => true,
+							'type'          => 'text',
+							'name'          => 'thankyou-shortcode',
+							'label'         => __( 'Next Step Link', 'cartflows' ),
+							'value'         => $next_step_link,
+							'readonly'      => true,
+							'display_align' => 'vertical',
 						),
 					),
 				),
-				'general'         => array(
+				'general'   => array(
 					'title'    => __( 'General', 'cartflows' ),
 					'slug'     => 'general',
 					'priority' => 10,
 					'fields'   => array(
-						'slug'      => array(
-							'type'  => 'text',
-							'name'  => 'post_name',
-							'label' => __( 'Step Slug', 'cartflows' ),
-							'value' => get_post_field( 'post_name', $step_id ),
+						'slug'                      => array(
+							'type'          => 'text',
+							'name'          => 'post_name',
+							'label'         => __( 'Step Slug', 'cartflows' ),
+							'value'         => get_post_field( 'post_name', $step_id ),
+							'display_align' => 'vertical',
 						),
-						'step-note' => array(
-							'type'  => 'textarea',
-							'name'  => 'wcf-step-note',
-							'label' => __( 'Step Note', 'cartflows' ),
-							'value' => get_post_meta( $step_id, 'wcf-step-note', true ),
-							'rows'  => 2,
-							'cols'  => 38,
+						'step-note'                 => array(
+							'type'          => 'textarea',
+							'name'          => 'wcf-step-note',
+							'label'         => __( 'Step Note', 'cartflows' ),
+							'value'         => get_post_meta( $step_id, 'wcf-step-note', true ),
+							'rows'          => 2,
+							'cols'          => 38,
+							'display_align' => 'vertical',
 						),
-					),
-				),
-				'landing-scripts' => array(
-					'title'    => __( 'Custom Script', 'cartflows' ),
-					'slug'     => 'custom_script',
-					'priority' => 30,
-					'fields'   => array(
-
 						'wcf-landing-custom-script' => array(
-							'type'  => 'textarea',
-							'label' => __( 'Custom Script', 'cartflows' ),
-							'name'  => 'wcf-custom-script',
-							'value' => $options['wcf-custom-script'],
+							'type'          => 'textarea',
+							'label'         => __( 'Custom Script', 'cartflows' ),
+							'name'          => 'wcf-custom-script',
+							'value'         => $options['wcf-custom-script'],
+							'display_align' => 'vertical',
+							'tooltip'       => __( 'Enter custom JS/CSS. Wrap your custom CSS in style tag.', 'cartflows' ),
 						),
 					),
 				),
-
 			),
 		);
 

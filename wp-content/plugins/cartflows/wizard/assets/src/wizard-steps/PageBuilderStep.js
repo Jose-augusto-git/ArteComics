@@ -7,6 +7,7 @@ import Elementor from '@WizardImages/elementor.svg';
 import BeaverBuilder from '@WizardImages/beaver-builder.svg';
 import BlockEditor from '@WizardImages/block-editor.png';
 import otherPageBuilders from '@WizardImages/other.svg';
+import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 const mailingLists = [
 	{
@@ -70,7 +71,7 @@ function PageBuilderStep() {
 				dispatch( {
 					status: 'SET_NEXT_STEP',
 					action_button: {
-						button_text: __( 'Saving…', 'cartflows' ),
+						button_text: __( 'Saving', 'cartflows' ),
 						button_class: 'install-page-builder-plugins is-loading',
 					},
 				} );
@@ -114,27 +115,30 @@ function PageBuilderStep() {
 	return (
 		<div className="wcf-container">
 			<div className="wcf-row text-center mt-12">
-				<div className="bg-white rounded mx-auto px-11 py-14 drop-shadow-sm">
-					<h1 className="wcf-step-heading">
+				<div className="bg-white rounded mx-auto px-11">
+					<span className="text-sm font-medium text-primary-600 mb-10 text-center block tracking-[.24em] uppercase">
+						{ __( 'Step 2 of 6', 'cartflows' ) }
+					</span>
+					<h1 className="wcf-step-heading mb-4">
 						{ __(
 							'Hi there! Tell us which page builder you use.',
 							'cartflows'
 						) }
 					</h1>
 
-					<div className="flex justify-center">
+					<div className="flex justify-center mb-10">
 						<RadioGroup
 							value={ selectedMailingLists }
 							onChange={ handleChange }
 						>
-							<RadioGroup.Label className="text-base text-[#1F2937] mt-4 mb-10 sm:mb-10 block">
+							<RadioGroup.Label className="text-center overflow-hidden max-w-2xl mb-10 mx-auto text-lg font-normal text-slate-500 block">
 								{ __(
 									"CartFlows works with all page builders, so don't worry if your page builder is not in the list. ",
 									'cartflows'
 								) }
 							</RadioGroup.Label>
 
-							<div className="wcf-pb-list-wrapper">
+							<div className="wcf-pb-list-wrapper flex justify-center items-center gap-8">
 								{ mailingLists.map( ( mailingList ) => (
 									<RadioGroup.Option
 										key={ mailingList.id }
@@ -142,7 +146,7 @@ function PageBuilderStep() {
 										data-key={ mailingList.slug }
 										className={ ( { checked, active } ) =>
 											classNames(
-												'wcf-pb-list--option hover:translate-y-[-1px] hover:shadow-[0px 4px 8px -2px rgb(9 30 66 / 25%), 0px 0px 1px rgb(9 30 66 / 31%)]',
+												'wcf-pb-list--option relative border rounded shadow-sm flex justify-center cursor-pointer h-[9rem] w-[130px] transition-all duration-300 focus:outline-none hover:drop-shadow-lg hover:translate-y-[-1px] hover:shadow-[0px 4px 8px -2px rgb(9 30 66 / 25%), 0px 0px 1px rgb(9 30 66 / 31%)]',
 												checked
 													? 'border-transparent'
 													: 'border-gray-300',
@@ -197,7 +201,7 @@ function PageBuilderStep() {
 						></span>
 					</div>
 
-					<div className="mt-[40px] flex justify-center">
+					<div className="flex justify-center">
 						<div
 							className={ `wcf-wizard--button ${
 								action_button.button_class
@@ -206,20 +210,10 @@ function PageBuilderStep() {
 							}` }
 						>
 							{ action_button.button_text }
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="w-5 mt-0.5 ml-1.5 fill-[#243c5a]"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-								strokeWidth={ 2 }
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									d="M17 8l4 4m0 0l-4 4m4-4H3"
-								/>
-							</svg>
+							<ArrowRightIcon
+								className="w-5 mt-0.5 ml-1.5 stroke-2"
+								aria-hidden="true"
+							/>
 						</div>
 					</div>
 				</div>

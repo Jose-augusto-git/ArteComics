@@ -40,9 +40,7 @@ class Astra_Gutenberg {
 		if ( $post_id ) {
 			/** @psalm-suppress RedundantConditionGivenDocblockType */ // phpcs:ignore Generic.Commenting.DocComment.MissingShort
 
-			/** @psalm-suppress UndefinedConstant */ // phpcs:ignore Generic.Commenting.DocComment.MissingShort
-			$current_post = get_post( absint( $post_id ), OBJECT );
-			/** @psalm-suppress UndefinedConstant */ // phpcs:ignore Generic.Commenting.DocComment.MissingShort
+			$current_post = get_post( absint( $post_id ) );
 
 			/** @psalm-suppress TooManyArguments */ // phpcs:ignore Generic.Commenting.DocComment.MissingShort
 			$enable_block_editor_attr = apply_filters( 'astra_disable_block_content_attr', true, $post_id );
@@ -186,7 +184,7 @@ class Astra_Gutenberg {
 			 * @return mixed          Updated content.
 			 */
 			function ( $matches ) use ( $video_url, $block_content, $block ) {
-				return Astra_After_Setup_Theme::get_instance()->responsive_oembed_wrapper( '', $video_url, array(), true );
+				return Astra_After_Setup_Theme::get_instance()->responsive_oembed_wrapper( $matches[1], $video_url, array(), true );
 			},
 			$block_content
 		);

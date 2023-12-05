@@ -93,7 +93,7 @@ class Flows extends AjaxBase {
 		}
 
 		if ( ! isset( $_POST['flow_ids'] ) ) {
-			$response_data = array( 'message' => __( 'No Flow IDs has been supplied to export!', 'cartflows' ) );
+			$response_data = array( 'message' => __( 'No Funnel IDs has been supplied to export!', 'cartflows' ) );
 			wp_send_json_error( $response_data );
 		}
 
@@ -106,7 +106,7 @@ class Flows extends AjaxBase {
 		}
 
 		$response_data = array(
-			'message' => __( 'Flows exported successfully', 'cartflows' ),
+			'message' => __( 'Funnel exported successfully', 'cartflows' ),
 			'flows'   => $flows,
 		);
 
@@ -235,7 +235,7 @@ class Flows extends AjaxBase {
 		 * Redirect to the new flow edit screen
 		 */
 		$response_data = array(
-			'message' => __( 'Successfully deleted the Flows!', 'cartflows' ),
+			'message' => __( 'Successfully deleted the Funnels!', 'cartflows' ),
 		);
 		wp_send_json_success( $response_data );
 	}
@@ -263,7 +263,7 @@ class Flows extends AjaxBase {
 		}
 
 		if ( ! isset( $_POST['flow_ids'] ) ) {
-			$response_data = array( 'message' => __( 'No Flow IDs has been supplied to delete!', 'cartflows' ) );
+			$response_data = array( 'message' => __( 'No Funnel IDs has been supplied to delete!', 'cartflows' ) );
 			wp_send_json_error( $response_data );
 		}
 
@@ -312,7 +312,7 @@ class Flows extends AjaxBase {
 		 * Redirect to the new flow edit screen
 		 */
 		$response_data = array(
-			'message' => __( 'Successfully trashed the Flows!', 'cartflows' ),
+			'message' => __( 'Successfully trashed the Funnels!', 'cartflows' ),
 		);
 		wp_send_json_success( $response_data );
 	}
@@ -341,7 +341,7 @@ class Flows extends AjaxBase {
 		}
 
 		if ( ! isset( $_POST['flow_ids'] ) ) {
-			$response_data = array( 'message' => __( 'No Flow IDs has been supplied to delete!', 'cartflows' ) );
+			$response_data = array( 'message' => __( 'No Funnel IDs has been supplied to delete!', 'cartflows' ) );
 			wp_send_json_error( $response_data );
 		}
 
@@ -380,7 +380,7 @@ class Flows extends AjaxBase {
 		 * Redirect to the new flow edit screen
 		 */
 		$response_data = array(
-			'message' => __( 'Successfully trashed the Flows!', 'cartflows' ),
+			'message' => __( 'Successfully trashed the Funnels!', 'cartflows' ),
 		);
 		wp_send_json_success( $response_data );
 	}
@@ -411,7 +411,7 @@ class Flows extends AjaxBase {
 
 		/* Check if CartFlows Post type */
 		if ( CARTFLOWS_FLOW_POST_TYPE !== get_post_type( $flow_id ) ) {
-			wp_send_json_error( array( 'message' => __( 'Invalid Flow ID has been supplied to update title.', 'cartflows' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Invalid Funnel ID has been supplied to update title.', 'cartflows' ) ) );
 		}
 
 		$result = array(
@@ -432,7 +432,7 @@ class Flows extends AjaxBase {
 		$result = array(
 			'status' => true,
 			/* translators: %s flow id */
-			'text'   => sprintf( __( 'Flow title updated - %s', 'cartflows' ), $flow_id ),
+			'text'   => sprintf( __( 'Funnel title updated - %s', 'cartflows' ), $flow_id ),
 		);
 
 		wp_send_json( $result );
@@ -457,7 +457,7 @@ class Flows extends AjaxBase {
 			wp_send_json_error( $response_data );
 		}
 
-		$response_data = array( 'message' => __( 'Invalid Flow ID has been supplied to clone!', 'cartflows' ) );
+		$response_data = array( 'message' => __( 'Invalid Funnel ID has been supplied to clone!', 'cartflows' ) );
 
 		/**
 		 * Check flow id
@@ -491,7 +491,7 @@ class Flows extends AjaxBase {
 		 * If post data not exists, throw error
 		 */
 		if ( ! isset( $post ) || null === $post ) {
-			$response_data = array( 'message' => __( 'Invalid Flow ID has been supplied to clone!', 'cartflows' ) );
+			$response_data = array( 'message' => __( 'Invalid Funnel ID has been supplied to duplicate!', 'cartflows' ) );
 			wp_send_json_error( $response_data );
 		}
 
@@ -668,7 +668,7 @@ class Flows extends AjaxBase {
 		 * Redirect to the new flow edit screen
 		 */
 		$response_data = array(
-			'message'      => __( 'Successfully cloned the Flow!', 'cartflows' ),
+			'message'      => __( 'Successfully cloned the Funnel!', 'cartflows' ),
 			'redirect_url' => admin_url( 'post.php?action=edit&post=' . $new_flow_id ),
 		);
 		wp_send_json_success( $response_data );
@@ -697,7 +697,7 @@ class Flows extends AjaxBase {
 			wp_send_json_error( $response_data );
 		}
 
-		$response_data = array( 'message' => __( 'Invalid Flow ID has been supplied to restore!', 'cartflows' ) );
+		$response_data = array( 'message' => __( 'Invalid Funnel ID has been supplied to restore!', 'cartflows' ) );
 
 
 		if ( ! isset( $_POST['flow_id'] ) ) {
@@ -737,7 +737,7 @@ class Flows extends AjaxBase {
 		 * Redirect to the new flow edit screen
 		 */
 		$response_data = array(
-			'message' => __( 'Successfully restored the Flow!', 'cartflows' ),
+			'message' => __( 'Successfully restored the Funnel!', 'cartflows' ),
 		);
 		wp_send_json_success( $response_data );
 	}
@@ -764,7 +764,7 @@ class Flows extends AjaxBase {
 			wp_send_json_error( $response_data );
 		}
 
-		$response_data = array( 'message' => __( 'Invalid Flow ID has been supplied to trash!', 'cartflows' ) );
+		$response_data = array( 'message' => __( 'Invalid Funnel ID has been supplied to trash!', 'cartflows' ) );
 
 		if ( ! isset( $_POST['flow_id'] ) ) {
 			wp_send_json_error( $response_data );
@@ -803,7 +803,7 @@ class Flows extends AjaxBase {
 		 * Redirect to the new flow edit screen
 		 */
 		$response_data = array(
-			'message' => __( 'Successfully trashed the Flow!', 'cartflows' ),
+			'message' => __( 'Successfully trashed the Funnel!', 'cartflows' ),
 		);
 		wp_send_json_success( $response_data );
 	}
@@ -830,7 +830,7 @@ class Flows extends AjaxBase {
 			wp_send_json_error( $response_data );
 		}
 
-		$response_data = array( 'message' => __( 'Invalid Flow ID has been supplied to delete!', 'cartflows' ) );
+		$response_data = array( 'message' => __( 'Invalid Funnel ID has been supplied to delete!', 'cartflows' ) );
 
 		if ( ! isset( $_POST['flow_id'] ) ) {
 			wp_send_json_error( $response_data );
@@ -871,7 +871,7 @@ class Flows extends AjaxBase {
 		 * Redirect to the new flow edit screen
 		 */
 		$response_data = array(
-			'message' => __( 'Successfully deleted the Flow!', 'cartflows' ),
+			'message' => __( 'Successfully deleted the Funnel!', 'cartflows' ),
 		);
 		wp_send_json_success( $response_data );
 	}
@@ -898,7 +898,7 @@ class Flows extends AjaxBase {
 			wp_send_json_error( $response_data );
 		}
 
-		$response_data = array( 'message' => __( 'Invalid Flow IDs has been supplied to update status!', 'cartflows' ) );
+		$response_data = array( 'message' => __( 'Invalid Funnel IDs has been supplied to update status!', 'cartflows' ) );
 
 		if ( ! isset( $_POST['flow_id'] ) ) {
 			wp_send_json_error( $response_data );
@@ -947,7 +947,7 @@ class Flows extends AjaxBase {
 		 * Redirect to the new flow edit screen
 		 */
 		$response_data = array(
-			'message' => __( 'Successfully updated the Flow status!', 'cartflows' ),
+			'message' => __( 'Successfully updated the Funnel status!', 'cartflows' ),
 		);
 		wp_send_json_success( $response_data );
 	}
@@ -977,7 +977,7 @@ class Flows extends AjaxBase {
 		}
 
 		if ( ! isset( $_POST['enable_store_checkout'] ) ) {
-			$response_data = array( 'message' => __( 'No Flow IDs has been supplied to delete!', 'cartflows' ) );
+			$response_data = array( 'message' => __( 'No Funnel IDs has been supplied to delete!', 'cartflows' ) );
 			wp_send_json_error( $response_data );
 		}
 
@@ -1006,7 +1006,7 @@ class Flows extends AjaxBase {
 		 * Redirect to the new flow edit screen
 		 */
 		$response_data = array(
-			'message'     => __( 'Successfully updated the Flow status!', 'cartflows' ),
+			'message'     => __( 'Successfully updated the Funnel status!', 'cartflows' ),
 			'checkout_id' => $checkout_id,
 		);
 		wp_send_json_success( $response_data );

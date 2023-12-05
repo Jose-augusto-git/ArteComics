@@ -53,7 +53,6 @@ class CommonSettings extends AjaxBase {
 
 			$ajax_events = array(
 				'save_global_settings',
-				'switch_to_old_ui',
 				'regenerate_css_for_steps',
 			);
 			$this->init_ajax_events( $ajax_events );
@@ -89,52 +88,6 @@ class CommonSettings extends AjaxBase {
 
 	}
 
-
-	/**
-	 * Shift to old UI call.
-	 *
-	 * @return void
-	 */
-	public function switch_to_old_ui() {
-
-		$response_data = array( 'messsage' => $this->get_error_msg( 'permission' ) );
-
-		if ( ! current_user_can( 'cartflows_manage_settings' ) ) {
-			wp_send_json_error( $response_data );
-		}
-
-		/**
-		 * Nonce verification
-		 */
-		if ( ! check_ajax_referer( 'cartflows_switch_to_old_ui', 'security', false ) ) {
-			$response_data = array( 'messsage' => $this->get_error_msg( 'nonce' ) );
-			wp_send_json_error( $response_data );
-		}
-
-		if ( empty( $_POST ) ) {
-			$response_data = array( 'messsage' => __( 'No post data found!', 'cartflows' ) );
-			wp_send_json_error( $response_data );
-		}
-
-		if ( isset( $_POST['cartflows_ui'] ) && 'old' === $_POST['cartflows_ui'] ) {
-			// Loop through the input and sanitize each of the values.
-			update_option( 'cartflows-legacy-admin', true );
-			delete_option( 'cartflows-switch-ui-notice' );
-
-			$response_data = array(
-				'redirect_to' => add_query_arg(
-					array(
-						'page' => 'cartflows',
-					),
-					esc_url_raw( isset( $_POST['redirect_url'] ) ? wp_unslash( $_POST['redirect_url'] ) : '' )
-				),
-			);
-
-		}
-
-		wp_send_json_success( $response_data );
-	}
-
 	/**
 	 * Save settings.
 	 *
@@ -166,7 +119,7 @@ class CommonSettings extends AjaxBase {
 
 		switch ( $setting_tab ) {
 
-			case 'general_settings':
+			case 'general':
 				$this->save_general_settings();
 				break;
 
@@ -174,19 +127,7 @@ class CommonSettings extends AjaxBase {
 				$this->save_permalink_settings();
 				break;
 
-			case 'facebook_pixel':
-				$this->save_fb_pixel_settings();
-				break;
-
-			case 'google_analytics':
-				$this->save_google_analytics_settings();
-				break;
-
-			case 'google_address_autocomplete':
-				$this->save_address_autocomplete_setting();
-				break;
-
-			case 'other_settings':
+			case 'other':
 				$this->save_other_settings();
 				break;
 
@@ -194,16 +135,48 @@ class CommonSettings extends AjaxBase {
 				$this->save_user_roles_management_settings();
 				break;
 
+			case 'integrations':
+				$this->save_integration_settings();
+				break;
+
 			default:
 				$this->save_general_settings();
 
 		}
-	
+
+		do_action( 'cartflows_admin_save_global_settings', $setting_tab, 'cartflows_save_global_settings' );
+
+
 
 		$response_data = array(
 			'messsage' => __( 'Successfully saved data!', 'cartflows' ),
 		);
 		wp_send_json_success( $response_data );
+	}
+
+	/**
+	 * Save settings.
+	 *
+	 * @return void
+	 */
+	public function save_integration_settings() {
+
+		$new_settings = array();
+
+		if ( isset( $_POST['_cartflows_facebook'] ) ) { //phpcs:ignore
+			$new_settings = $this->sanitize_form_inputs( wp_unslash( $_POST['_cartflows_facebook'] ) ); //phpcs:ignore
+			$this->update_admin_settings_option( '_cartflows_facebook', $new_settings, false );
+		}
+
+		if ( isset( $_POST['_cartflows_google_analytics'] ) ) { //phpcs:ignore
+			$new_settings = $this->sanitize_form_inputs( wp_unslash( $_POST['_cartflows_google_analytics'] ) ); //phpcs:ignore
+			$this->update_admin_settings_option( '_cartflows_google_analytics', $new_settings, false );
+		}
+
+		if ( isset( $_POST['_cartflows_google_auto_address'] ) ) { //phpcs:ignore
+			$new_settings = $this->sanitize_form_inputs( wp_unslash( $_POST['_cartflows_google_auto_address'] ) ); //phpcs:ignore
+			$this->update_admin_settings_option( '_cartflows_google_auto_address', $new_settings, false );
+		}
 	}
 
 	/**

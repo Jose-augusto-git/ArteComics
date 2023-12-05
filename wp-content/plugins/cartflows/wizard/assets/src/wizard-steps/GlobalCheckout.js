@@ -7,6 +7,7 @@ import { RadioGroup } from '@headlessui/react';
 import { ColorPickerField } from '@WizardFields';
 import { sendPostMessage } from '@Utils/Helpers';
 import ReactHtmlParser from 'react-html-parser';
+import { XMarkIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 
 import GlobalFlowItem from './components/GlobalFlowItem';
 import UploadSiteLogo from './components/UploadSiteLogo';
@@ -28,10 +29,8 @@ function GlobalCheckout() {
 	const [ selectedStoreFlow, setSelectedFlow ] = useState();
 	const [ selectedStoreFlowTitle, setSelectedFlowTitle ] = useState();
 
-	const [
-		{ action_button, selected_page_builder, site_logo },
-		dispatch,
-	] = useStateValue();
+	const [ { action_button, selected_page_builder, site_logo }, dispatch ] =
+		useStateValue();
 
 	const page_builder = selected_page_builder
 		? selected_page_builder
@@ -187,6 +186,10 @@ function GlobalCheckout() {
 		/* Set show popup true/false */
 		if ( ShowSideBar ) {
 			setShowSideBar( false );
+			history.push( {
+				pathname: 'index.php',
+				search: `?page=cartflow-setup&step=store-checkout`,
+			} );
 		} else {
 			const wrapper_element = e.target.closest( '.wcf-item' );
 
@@ -202,6 +205,10 @@ function GlobalCheckout() {
 			setShowSideBar( true );
 			setSelectedFlowTitle( flow_title );
 			_get_flow_url( filteredFlows[ selected_flow_id ].steps );
+			history.push( {
+				pathname: 'index.php',
+				search: `?page=cartflow-setup&step=store-checkout&preview=true`,
+			} );
 		}
 	};
 
@@ -290,7 +297,7 @@ function GlobalCheckout() {
 										onChange={ setSelectedFlow }
 										onClick={ showOptionsSideBar }
 										className={
-											'wcf-store-flow-importer__list wcf-items-list wcf-flow-row grid grid-cols-4 gap-6 relative py-5'
+											'wcf-store-flow-importer__list wcf-items-list wcf-flow-row grid grid-cols-4 gap-6 relative p-5'
 										}
 									>
 										{ filteredFlows.map( ( item ) => (
@@ -303,9 +310,9 @@ function GlobalCheckout() {
 													active,
 												} ) =>
 													classNames(
-														`wcf-item hover:translate-y-[-1px] rounded`,
+														`wcf-item hover:translate-y-[-1px] rounded transition-all`,
 														checked
-															? 'border-transparent'
+															? 'border-0'
 															: 'border-gray-300',
 														active
 															? 'ring-2 ring-orange-500'
@@ -318,8 +325,12 @@ function GlobalCheckout() {
 														<GlobalFlowItem
 															key={ item.ID }
 															item={ item }
+															isChecked={
+																checked
+															}
+															isActive={ active }
 														/>
-														<div
+														{ /* <div
 															className={ classNames(
 																active
 																	? 'border-2'
@@ -330,7 +341,7 @@ function GlobalCheckout() {
 																'absolute -inset-px rounded pointer-events-none'
 															) }
 															aria-hidden="true"
-														/>
+														/> */ }
 													</>
 												) }
 											</RadioGroup.Option>
@@ -355,8 +366,8 @@ function GlobalCheckout() {
 
 			{ /* Sidemenu */ }
 			{ ShowSideBar && (
-				<div className="wcf-bg--overlay w-full h-full top-0 right-0 left-0 z-50">
-					<div className="wcf-sidebar bg-[#F7F7F9] fixed overflow-y-scroll overflow-x-hidden text-sm w-full left-0 h-full shadow max-w-xs">
+				<div className="wcf-bg--overlay w-full h-full bg-white absolute before:block top-0 right-0 left-0 z-50">
+					<div className="wcf-sidebar bg-[#F7F7F9] shadow w-full">
 						<div className="wcf-sidebar--header">
 							<div className="wcf-template-name">
 								<p className="text-[#6B7280]">
@@ -366,118 +377,39 @@ function GlobalCheckout() {
 									{ selectedStoreFlowTitle }
 								</h3>
 							</div>
-							<div className="wcf-header-action--buttons">
-								<button
-									type="button"
-									className="p-1.5 border border-solid border-[#626262] rounded-sm hover:border-[#1F2937]"
-									onClick={ showOptionsSideBar }
-								>
-									<svg
-										width="12"
-										height="12"
-										viewBox="0 0 14 14"
-										fill="none"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<path
-											d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z"
-											fill="#6B7280"
-										></path>
-									</svg>
-								</button>
-							</div>
-						</div>
-
-						<div
-							className={ `wcf-sidebar--content ${
-								previewProcessing ? 'wcf-content-blocked' : ''
-							}` }
-						>
-							<UploadSiteLogo
-								defaultPageBuilder={ page_builder }
-							/>
-
-							<div className="wcf-options--separator"></div>
-
-							<div className="wcf-options--row">
-								{
+							<div className="wcf-header-action--buttons flex gap-4">
+								<div className="wcf-design--options flex gap-6">
+									<UploadSiteLogo
+										defaultPageBuilder={ page_builder }
+									/>
 									<ColorPickerField
 										id={ 'primary_color' }
 										name={ 'primary_color' }
 										label={ __(
-											'Primary Color',
+											'Change Primary Color',
 											'cartflows'
 										) }
 										value={ '' }
+										displayAs={ 'button' }
 										handleOnchange={ onPaletteChange }
 									/>
-								}
-							</div>
+								</div>
 
-							<div className="wcf-options--row flex flex-col justify-center mt-5">
-								{ hasError && (
-									<p className="wcf-import-error-wrapper">
-										<h3 className="wcf-import-error--heading">
-											{ ReactHtmlParser( errorMessage ) }
-										</h3>
-										<span className="wcf-import-error--message">
-											{ ReactHtmlParser( callToAction ) }
-										</span>
-									</p>
-								) }
-
-								{ 'pro' ===
-									filteredFlows[ selectedStoreFlow ].type &&
-								! wcfCartflowsTypePro() ? (
-									<>
-										<div className="pb-5 font-medium text-sm">
-											{ __(
-												'Access all of our pro templates when you upgrade your plan to CartFlows Pro today.',
-												'cartflows'
-											) }
-										</div>
-										<a
-											className={ `wcf-wizard--button px-5 py-2 text-sm hover:text-white` }
-											href="https://cartflows.com/"
-											target="_blank"
-											rel="noreferrer"
-										>
-											{ __(
-												'Get CartFlows Pro',
-												'cartflows'
-											) }
-										</a>
-									</>
-								) : (
-									<button
-										className={ `wcf-wizard--button px-5 py-2 text-sm ${
-											action_button.button_class
-												? action_button.button_class
-												: ''
-										}` }
-									>
-										{ action_button.button_text }
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											className="w-5 mt-0.5 ml-1.5 fill-[#243c5a]"
-											fill="none"
-											viewBox="0 0 24 24"
-											stroke="currentColor"
-											strokeWidth={ 2 }
-										>
-											<path
-												strokeLinecap="round"
-												strokeLinejoin="round"
-												d="M17 8l4 4m0 0l-4 4m4-4H3"
-											/>
-										</svg>
-									</button>
-								) }
+								<button
+									type="button"
+									className="p-3 border border-slate-200 rounded hover:border-slate-500 text-gray-400 hover:text-gray-800 "
+									onClick={ showOptionsSideBar }
+								>
+									<XMarkIcon
+										className="w-4 h-4 stroke-2"
+										aria-hidden="true"
+									/>
+								</button>
 							</div>
 						</div>
 					</div>
 
-					<div className="wcf-sidebar-template-preview w-full ml-80 h-screen">
+					<div className="wcf-sidebar-template-preview w-full h-screen relative">
 						{ previewProcessing ? (
 							<TemplateLoadingSkeleton />
 						) : null }
@@ -490,10 +422,79 @@ function GlobalCheckout() {
 								width="100%"
 								src={ previewUrl }
 								onLoad={ handleIframeOnLoad }
+								// eslint-disable-next-line react/no-unknown-property
 								allowpaymentrequest="true"
 								sandbox="allow-scripts allow-same-origin"
 							/>
 						) }
+
+						<div
+							className={ `wcf-sidebar--footer fixed bottom-0 bg-white p-3.5 w-full border-t border-slate-200 ${
+								previewProcessing ? 'wcf-content-blocked' : ''
+							}` }
+						>
+							<div className="wcf-options--row flex justify-between items-center">
+								<div className="wcf-footer--info-wrapper">
+									<span className="text-sm font-medium text-primary-600 text-center block tracking-[.24em] uppercase">
+										{ __( 'Step 4 of 6', 'cartflows' ) }
+									</span>
+								</div>
+								<div className="wcf-footer--action-buttons flex items-center gap-5">
+									{ hasError && (
+										<p className="wcf-import-error-wrapper flex bg-red-100 p-3 rounded items-center gap-5">
+											<h3 className="wcf-import-error--heading font-normal text-red-700 text-sm">
+												{ ReactHtmlParser(
+													errorMessage
+												) }
+											</h3>
+											<span className="wcf-import-error--message text-sm text-slate-800">
+												{ ReactHtmlParser(
+													callToAction
+												) }
+											</span>
+										</p>
+									) }
+
+									{ 'pro' ===
+										filteredFlows[ selectedStoreFlow ]
+											.type && ! wcfCartflowsTypePro() ? (
+										<>
+											<div className="font-medium text-sm text-red-700">
+												{ __(
+													'Access all of our pro templates when you upgrade your plan to CartFlows Pro today.',
+													'cartflows'
+												) }
+											</div>
+											<a
+												className={ `wcf-wizard--button px-5 py-2 text-sm hover:text-white` }
+												href="https://cartflows.com/"
+												target="_blank"
+												rel="noreferrer"
+											>
+												{ __(
+													'Get CartFlows Pro',
+													'cartflows'
+												) }
+											</a>
+										</>
+									) : (
+										<button
+											className={ `wcf-wizard--button px-5 py-2 text-sm ${
+												action_button.button_class
+													? action_button.button_class
+													: ''
+											}` }
+										>
+											{ action_button.button_text }
+											<ArrowRightIcon
+												className="w-5 mt-0.5 ml-1.5 stroke-2"
+												aria-hidden="true"
+											/>
+										</button>
+									) }
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			) }

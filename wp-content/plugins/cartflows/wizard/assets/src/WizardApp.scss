@@ -17,15 +17,6 @@ body.cartflows-setup #wpadminbar {
 		}
 	}
 
-	.wcf-bg--overlay {
-		content: "";
-		display: flex;
-		background-color: rgba( 0, 0, 0, 0.4 );
-		position: absolute;
-		width: 100%;
-		height: 100%;
-	}
-
 	.wcf-content-blocked {
 		pointer-events: none;
 	}

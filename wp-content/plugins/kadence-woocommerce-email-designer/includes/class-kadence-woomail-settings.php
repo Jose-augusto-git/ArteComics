@@ -3090,7 +3090,7 @@ To reset your password, visit the following address:',
 					foreach ( $orders as $order_id ) {
 						// Get order object.
 						$order_object = new WC_Order( $order_id );
-						$order_array[ $order_object->get_id() ] = $order_object->get_id() . ' - ' . $order_object->get_billing_first_name() . ' ' . $order_object->get_billing_last_name();
+						$order_array[ $order_object->get_id() ] = $order_object->get_order_number() . ' - ' . $order_object->get_billing_first_name() . ' ' . $order_object->get_billing_last_name();
 					}
 				}
 				self::$order_ids = $order_array;

@@ -57,7 +57,29 @@ class WizardCore {
 			add_action( 'init', array( $this, 'load_scripts' ) );
 			add_action( 'admin_print_styles', array( $this, 'load_admin_media_styles' ) );
 
+			add_action( 'admin_init', array( $this, 'redirect_to_onboarding' ) );
 		}
+	}
+
+	/**
+	 * Redirect to onboarding if required.
+	 *
+	 * @return void
+	 * @since 2.0.0
+	 */
+	public function redirect_to_onboarding() {
+
+		if ( ! get_option( 'wcf_start_onboarding', false ) ) {
+			return;
+		}
+
+		if ( '1' === get_option( 'wcf_setup_complete', false ) || '1' === get_option( 'wcf_setup_skipped', false ) ) {
+			return;
+		}
+
+		delete_option( 'wcf_start_onboarding' );
+		wp_safe_redirect( esc_url_raw( admin_url( 'index.php?page=cartflow-setup' ) ) );
+		exit();
 	}
 
 

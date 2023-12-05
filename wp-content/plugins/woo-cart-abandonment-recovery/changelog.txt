@@ -1,3 +1,7 @@
+Version 1.2.26 - Wednesday, 29th November 2023
+- Fix: Product's custom data options were not displayed in the abandoned order data.
+- Fix: Fixed the error warning if null value passed while using the PHP 8.1 version.
+
 Version 1.2.25 - Thursday, 18th May 2023
 - New: Added new action `wcf_ca_before_trigger_webhook` before triggering webhook.
 - New: Added new action `wcf_ca_process_abandoned_order` while processing abandoned order.

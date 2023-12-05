@@ -128,7 +128,7 @@ class MetaData extends AjaxBase {
 		$products_found = array();
 
 		foreach ( $product_objects as $product_object ) {
-			$formatted_name = $product_object->get_name() . ' (#' . $product_object->get_id() . ')';
+			$formatted_name = $product_object->get_name();
 			$managing_stock = $product_object->managing_stock();
 
 			if ( $managing_stock && ! empty( $_GET['display_stock'] ) ) {

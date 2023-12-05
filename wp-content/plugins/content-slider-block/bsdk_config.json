@@ -1,0 +1,12 @@
+{
+	"prefix": "csb_pro",
+	"blockHandler": false,
+	"permalinks": [
+		"cspro"
+	],
+	"features": {
+		"license": true,
+		"optIn": true
+	},
+	"isBlock": true
+}

@@ -4,8 +4,8 @@ Tags: woocommerce, mail, email, email template, email templates, email design, p
 Donate link: https://www.kadencewp.com/about-us/
 Requires PHP: 5.2.4
 Requires at least: 5.3
-Tested up to: 6.2
-Stable tag: 1.5.11
+Tested up to: 6.3
+Stable tag: 1.5.12
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -70,6 +70,14 @@ WooCommerce core has a large group of translators that generously translate the 
 
 After you create your translations make sure to clear your server cache from any caching plugins. Also go to woocommerce > status > tools and clear your template cache. 
 
+= Where do I report security bugs found in this plugin? =
+
+Please report security bugs found in the source code of the
+Kadence WooCommerce Email Designer plugin through the Patchstack
+Vulnerability Disclosure Program https://patchstack.com/database/vdp/kadence-woocommerce-email-designer. The
+Patchstack team will assist you with verification, CVE assignment, and
+notify the developers of this plugin.
+
 == Screenshots ==
 
 1. Overview of available options
@@ -78,8 +86,22 @@ After you create your translations make sure to clear your server cache from any
 
 3. Change/edit text copy to match your brand
 
+== Security Policy ==
+
+= Reporting Security Bugs =
+
+Please report security bugs found in the
+Kadence WooCommerce Email Designer plugin's source code through the
+Patchstack Vulnerability Disclosure
+Program https://patchstack.com/database/vdp/kadence-woocommerce-email-designer. The Patchstack team will
+assist you with verification, CVE assignment, and notify the
+developers of this plugin.
 
 == Changelog ==
+
+= 1.5.12 =
+* Update: WC version support.
+* Update: Nonce verification with ajax calls.
 
 = 1.5.11 =
 * Fix: Issue with subtitle translation for WPML.

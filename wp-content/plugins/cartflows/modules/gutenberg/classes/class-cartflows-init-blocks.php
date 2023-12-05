@@ -71,6 +71,65 @@ class Cartflows_Init_Blocks {
 				return true;
 			}
 		);
+
+		add_action( 'enqueue_block_editor_assets', array( $this, 'add_gcp_vars_to_block_editor' ), 12 );
+
+		// Load the action only if the theme.json file is present in the file.
+		if ( wp_theme_has_theme_json() ) {
+			add_filter( 'wp_theme_json_data_theme', array( $this, 'update_theme_json_file_config' ) );
+		}
+	}
+
+	/**
+	 * Add CartFlows GCP css vars to the theme's theme.json file if it is present.
+	 *
+	 * Use-case: Some themes adds the theme.json file in the theme's root directory. Due to this change, it overrides the default color pallet.
+	 * and the filter which are using to add the CSS vars in the Gutenberg does not works and hence, we have to re-add and append it to the theme.json file.
+	 *
+	 * Note: If theme.json is not present then this filter will not be executed.
+	 *
+	 * @param WP_Theme_JSON_Data $theme_json_data The Data from the theme.json file.
+	 * @return WP_Theme_JSON_Data $theme_json_data Modified data of theme.json file.
+	 *
+	 * @since x.x.x
+	 */
+	public function update_theme_json_file_config( $theme_json_data ) {
+		$theme_json_data_two = $theme_json_data->get_data();
+
+		$post_id = isset( $_GET['post'] ) ? intval( $_GET['post'] ) : 0; //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$flow_id = wcf()->utils->get_flow_id_from_step_id( $post_id );
+
+		if (
+			! empty( $flow_id ) &&
+			Cartflows_Helper::is_gcp_styling_enabled( (int) $flow_id ) &&
+			isset( $theme_json_data_two['settings'] ) &&
+			isset( $theme_json_data_two['settings']['color'] )
+		) {
+
+			$new_color_palette = Cartflows_Helper::generate_css_var_array( $flow_id );
+
+			if ( ! empty( $new_color_palette ) ) {
+				$theme_json_data_two['settings']['color']['palette']['theme'] = array_merge( $theme_json_data_two['settings']['color']['palette']['theme'], $new_color_palette );
+			}
+		}
+
+		return $theme_json_data->update_with( $theme_json_data_two );
+	}
+
+	/**
+	 * Enqueue the Global Color Pallet CSS vars to the page to use in the page builder settings.
+	 * This CSS vars needs to be re-added so as to enqueue in the block editor to display the colors in the editor window.
+	 *
+	 * Note: Currently the GCP support is added for Elementor and Block Builder.
+	 *
+	 * @since x.x.x
+	 * @return void
+	 */
+	public function add_gcp_vars_to_block_editor() {
+
+		// Call the same function which generates the inline styles i:e the CSS VARs with the selected values.
+		wcf()->flow->enqueue_gcp_color_vars( 'CF_block-cartflows-frontend-style' );
+
 	}
 
 	/**
@@ -315,6 +374,25 @@ class Cartflows_Init_Blocks {
 				is_admin() ? array( 'wp-editor' ) : null, // Dependency to include the CSS after it.
 				CARTFLOWS_VER // filemtime( plugin_dir_path( __DIR__ ) . 'build/style-blocks.css' ) // Version: File modification time.
 			);
+
+			$flow_id = wcf()->utils->get_flow_id_from_step_id( $post->ID );
+
+			// Return if no flow ID is found.
+			if ( empty( $flow_id ) ) {
+				return;
+			}
+
+			if ( Cartflows_Helper::is_gcp_styling_enabled( (int) $flow_id ) ) {
+
+				$gcp_vars = Cartflows_Helper::generate_gcp_css_style( (int) $flow_id );
+
+				// Include the CSS/JS only if the CSS vars are set.
+				if ( ! empty( $gcp_vars ) ) {
+					// Add editor helper css & JS files.
+					wp_enqueue_style( 'wcf-editor-helper-style', CARTFLOWS_URL . 'modules/gutenberg/assets/css/editor-assets.css', array( 'wp-edit-blocks', 'wp-editor' ), CARTFLOWS_VER );
+					wp_enqueue_script( 'wcf-editor-helper-script', CARTFLOWS_URL . 'modules/gutenberg/assets/js/editor-assets.js', array( 'wp-editor', 'jquery' ), CARTFLOWS_VER, true );
+				}
+			}       
 		}
 
 	}
@@ -381,7 +459,7 @@ class Cartflows_Init_Blocks {
 			);
 
 			// Enqueue frontend CSS in editor.
-			wp_enqueue_style( 'CF_block-cartflows-frotend-style', CARTFLOWS_URL . 'assets/css/frontend.css', array( 'wp-edit-blocks' ), CARTFLOWS_VER );
+			wp_enqueue_style( 'CF_block-cartflows-frontend-style', CARTFLOWS_URL . 'assets/css/frontend.css', array( 'wp-edit-blocks' ), CARTFLOWS_VER );
 
 			// WP Localized globals. Use dynamic PHP stuff in JavaScript via `cartflowsGlobal` object.
 			wp_localize_script(

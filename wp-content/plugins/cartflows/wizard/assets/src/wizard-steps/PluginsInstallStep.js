@@ -32,7 +32,7 @@ function PluginsInstallStep() {
 	 */
 	const handleOnClickProcessing = function () {
 		const processing_buttonText = __(
-			'Installing required plugins…',
+			'Installing required plugins',
 			'cartflows'
 		);
 
@@ -63,7 +63,7 @@ function PluginsInstallStep() {
 				setProcessing( false );
 				history.push( {
 					pathname: 'index.php',
-					search: `?page=cartflow-setup&step=global-checkout`,
+					search: `?page=cartflow-setup&step=store-checkout`,
 				} );
 
 				dispatch( {
@@ -112,22 +112,28 @@ function PluginsInstallStep() {
 	return (
 		<div className="wcf-container wcf-wizard--plugin-install">
 			<div className="wcf-row mt-12">
-				<div className="bg-white rounded mx-auto px-11 text-center py-14 drop-shadow-sm">
-					<h1 className="wcf-step-heading flex justify-center items-center">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className="h-8 w-8 align-middle text-2xl mr-1.5 fill-[#ffc83d]"
-							viewBox="0 0 20 20"
-							fill="currentColor"
-						>
-							<path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
-						</svg>
+				<div className="bg-white rounded mx-auto px-11 text-center">
+					<span className="text-sm font-medium text-primary-600 mb-10 text-center block tracking-[.24em] uppercase">
+						{ __( 'Step 3 of 6', 'cartflows' ) }
+					</span>
+					<h1 className="wcf-step-heading mb-4">
+						<span className="flex items-center justify-center gap-3">
+							{ __( 'Great job!', 'cartflows' ) }
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								className="h-8 w-8 align-middle text-2xl mr-1.5 fill-[#ffc83d]"
+								viewBox="0 0 20 20"
+								fill="currentColor"
+							>
+								<path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
+							</svg>
+						</span>
 						{ __(
-							"Great job! Now let's install some required plugins.",
+							"Now let's install some required plugins.",
 							'cartflows'
 						) }
 					</h1>
-					<p className="mt-6 text-[#1F2937] text-base">
+					<p className="text-center overflow-hidden max-w-2xl mb-10 mx-auto text-lg font-normal text-slate-500 block">
 						{ __(
 							'Since CartFlows uses WooCommerce, we will install it for you with Cart Abandonment Recovery',
 							'cartflows'
@@ -138,13 +144,11 @@ function PluginsInstallStep() {
 							'cartflows'
 						) }
 					</p>
-					<p className="mt-6 leading-6">
-						<span className="text-[#1F2937] text-base">
-							{ __(
-								'The following plugin will be installed and activated for you:',
-								'cartflows'
-							) }
-						</span>
+					<p className="text-center overflow-hidden max-w-2xl mb-10 mx-auto text-lg font-normal text-slate-500 block">
+						{ __(
+							'The following plugin will be installed and activated for you:',
+							'cartflows'
+						) }
 					</p>
 
 					<div className="flex justify-center w-11/12 text-left text-base text-[#1F2937] mt-8 mx-auto">

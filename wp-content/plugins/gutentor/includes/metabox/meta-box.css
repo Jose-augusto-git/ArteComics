@@ -1,0 +1,26 @@
+.gutentor-custom-meta .components-select-control__input{
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	width: 100%;
+}
+.gutentor-custom-meta .components-base-control__field{
+	margin-bottom: 8px;
+}
+.gutentor-custom-meta .components-base-control__label{
+	margin-bottom: 4px;
+	display: inline-block;
+}
+.gutentor-custom-meta .gutentor-banner-img-wrap .button,
+.gutentor-custom-meta .gutentor-meta-video-upload-wrap .button{
+	display: block;
+	margin: 5px 0;
+}
+.gutentor-custom-meta .gutentor-banner-img-wrap .cwp-image-preview-wrap,
+.gutentor-custom-meta .gutentor-meta-video-upload-wrap .gutentor-video-preview-wrap{
+	display: block;
+	border: 1px dashed #ddd;
+	min-height: 100px;
+	margin: 10px auto;
+	background: #fbfbfb;
+}

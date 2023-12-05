@@ -49,10 +49,10 @@ class Extra_Checkout_Fields_For_Brazil_Settings {
 	public function plugin_settings() {
 		$option = 'wcbcf_settings';
 
-		// Set Custom Fields section.
+		// Set General Options section.
 		add_settings_section(
 			'options_section',
-			__( 'Checkout Custom Fields:', 'woocommerce-extra-checkout-fields-for-brazil' ),
+			__( 'Custom Field', 'woocommerce-extra-checkout-fields-for-brazil' ),
 			array( $this, 'section_options_callback' ),
 			$option
 		);
@@ -119,17 +119,31 @@ class Extra_Checkout_Fields_For_Brazil_Settings {
 			)
 		);
 
-		// Birthdate and Sex option.
+		// Birth Date option.
 		add_settings_field(
-			'birthdate_sex',
-			__( 'Display Birthdate and Sex:', 'woocommerce-extra-checkout-fields-for-brazil' ),
+			'birthdate',
+			__( 'Display Birthdate:', 'woocommerce-extra-checkout-fields-for-brazil' ),
 			array( $this, 'checkbox_element_callback' ),
 			$option,
 			'options_section',
 			array(
 				'menu'  => $option,
-				'id'    => 'birthdate_sex',
-				'label' => __( 'If checked show the Birthdate and Sex field in billing options.', 'woocommerce-extra-checkout-fields-for-brazil' ),
+				'id'    => 'birthdate',
+				'label' => __( 'If checked show the Birthdate field in billing options.', 'woocommerce-extra-checkout-fields-for-brazil' ),
+			)
+		);
+
+		// Gender option.
+		add_settings_field(
+			'gender',
+			__( 'Display Gender:', 'woocommerce-extra-checkout-fields-for-brazil' ),
+			array( $this, 'checkbox_element_callback' ),
+			$option,
+			'options_section',
+			array(
+				'menu'  => $option,
+				'id'    => 'gender',
+				'label' => __( 'If checked show the Gender field in billing options.', 'woocommerce-extra-checkout-fields-for-brazil' ),
 			)
 		);
 
@@ -137,20 +151,65 @@ class Extra_Checkout_Fields_For_Brazil_Settings {
 		add_settings_field(
 			'cell_phone',
 			__( 'Display Cell Phone:', 'woocommerce-extra-checkout-fields-for-brazil' ),
+			array( $this, 'select_element_callback' ),
+			$option,
+			'options_section',
+			array(
+				'menu'    => $option,
+				'id'      => 'cell_phone',
+				'options' => array(
+					1  => __( 'Show the Cell Phone field as optional.', 'woocommerce-extra-checkout-fields-for-brazil' ),
+					2  => __( 'Show the Cell Phone field as required.', 'woocommerce-extra-checkout-fields-for-brazil' ),
+					-1 => __( 'Change the label of the Phone field to "Cell Phone".', 'woocommerce-extra-checkout-fields-for-brazil' ),
+					0  => __( 'Disable.', 'woocommerce-extra-checkout-fields-for-brazil' ),
+				),
+			)
+		);
+
+		// Neighborhood is required option.
+		add_settings_field(
+			'neighborhood_required',
+			__( 'Display Neighborhood as required:', 'woocommerce-extra-checkout-fields-for-brazil' ),
 			array( $this, 'checkbox_element_callback' ),
 			$option,
 			'options_section',
 			array(
 				'menu'  => $option,
-				'id'    => 'cell_phone',
-				'label' => __( 'If checked show the Cell Phone field in billing options.', 'woocommerce-extra-checkout-fields-for-brazil' ),
+				'id'    => 'neighborhood_required',
+				'label' => __( 'If checked show the Neighborhood field will be a required field.', 'woocommerce-extra-checkout-fields-for-brazil' ),
 			)
 		);
 
-		// Set Custom Fields section.
+		// Set Design section.
+		add_settings_section(
+			'design_section',
+			__( 'Design', 'woocommerce-extra-checkout-fields-for-brazil' ),
+			array( $this, 'section_options_callback' ),
+			$option
+		);
+
+		// Fields Style option.
+		add_settings_field(
+			'fields_style',
+			__( 'Fields Style:', 'woocommerce-extra-checkout-fields-for-brazil' ),
+			array( $this, 'select_element_callback' ),
+			$option,
+			'design_section',
+			array(
+				'menu'        => $option,
+				'id'          => 'fields_style',
+				'description' => __( 'Choose the style of the fields. Note: Use Default if you are having problems with how the fields are displayed.', 'woocommerce-extra-checkout-fields-for-brazil' ),
+				'options'     => array(
+					'wide'         => __( 'Default (wide fields)', 'woocommerce-extra-checkout-fields-for-brazil' ),
+					'side_by_side' => __( 'Plugin\'s old styling (fields side by side)', 'woocommerce-extra-checkout-fields-for-brazil' ),
+				),
+			)
+		);
+
+		// Set jQuery section.
 		add_settings_section(
 			'jquery_section',
-			__( 'jQuery Options:', 'woocommerce-extra-checkout-fields-for-brazil' ),
+			__( 'jQuery Options', 'woocommerce-extra-checkout-fields-for-brazil' ),
 			array( $this, 'section_options_callback' ),
 			$option
 		);
@@ -246,7 +305,30 @@ class Extra_Checkout_Fields_For_Brazil_Settings {
 			$current = isset( $args['default'] ) ? $args['default'] : '0';
 		}
 
+		$current = intval( $current );
+
 		include dirname( __FILE__ ) . '/views/html-checkbox-field.php';
+	}
+
+	/**
+	 * Radio element fallback.
+	 *
+	 * @param array $args Callback arguments.
+	 */
+	public function radio_element_callback( $args ) {
+		$menu    = $args['menu'];
+		$id      = $args['id'];
+		$options = get_option( $menu );
+
+		if ( isset( $options[ $id ] ) ) {
+			$current = $options[ $id ];
+		} else {
+			$current = isset( $args['default'] ) ? $args['default'] : 0;
+		}
+
+		$current = intval( $current );
+
+		include dirname( __FILE__ ) . '/views/html-radio-field.php';
 	}
 
 	/**

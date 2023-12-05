@@ -16,7 +16,6 @@ use MailPoet\Entities\SendingQueueEntity;
 use MailPoet\Entities\SubscriberEntity;
 use MailPoet\Logging\LoggerFactory;
 use MailPoet\Mailer\MailerLog;
-use MailPoet\Models\SendingQueue as SendingQueueModel;
 use MailPoet\Newsletter\Links\Links as NewsletterLinks;
 use MailPoet\Newsletter\NewslettersRepository;
 use MailPoet\Newsletter\Renderer\PostProcess\OpenTracking;
@@ -159,7 +158,7 @@ class Newsletter {
       // hook to the newsletter post-processing filter and add tracking image
       $this->trackingImageInserted = OpenTracking::addTrackingImage();
       // render newsletter
-      $renderedNewsletter = $this->renderer->render($newsletter, $sendingTask);
+      $renderedNewsletter = $this->renderer->render($newsletter, $sendingTask->getSendingQueueEntity());
       $renderedNewsletter = $this->wp->applyFilters(
         'mailpoet_sending_newsletter_render_after_pre_process',
         $renderedNewsletter,
@@ -173,7 +172,7 @@ class Newsletter {
       $renderedNewsletter = $this->linksTask->process($renderedNewsletter, $newsletter, $sendingTask);
     } else {
       // render newsletter
-      $renderedNewsletter = $this->renderer->render($newsletter, $sendingTask);
+      $renderedNewsletter = $this->renderer->render($newsletter, $sendingTask->getSendingQueueEntity());
       $renderedNewsletter = $this->wp->applyFilters(
         'mailpoet_sending_newsletter_render_after_pre_process',
         $renderedNewsletter,
@@ -232,15 +231,10 @@ class Newsletter {
     $renderedNewsletter = $this->emoji->encodeEmojisInBody($renderedNewsletter);
     $sendingTask->newsletterRenderedBody = $renderedNewsletter;
     $sendingTask->save();
+
     // catch DB errors
     $queueErrors = $sendingTask->getErrors();
-    if (!$queueErrors) {
-      // verify that the rendered body was successfully saved
-      $sendingQueue = SendingQueueModel::findOne($sendingTask->id);
-      if ($sendingQueue instanceof SendingQueueModel) {
-        $queueErrors = ($sendingQueue->validate() !== true);
-      }
-    }
+
     if ($queueErrors) {
       $this->stopNewsletterPreProcessing(sprintf('QUEUE-%d-SAVE', $sendingTask->id));
     }

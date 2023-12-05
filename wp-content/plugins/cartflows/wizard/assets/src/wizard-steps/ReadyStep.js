@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { __ } from '@wordpress/i18n';
 import { useStateValue } from '../utils/StateProvider';
 import apiFetch from '@wordpress/api-fetch';
@@ -37,11 +37,8 @@ function ReadyStep() {
 		}, 100 );
 	}
 
-	const handleClick = ( e ) => {
-		e.preventDefault();
-
+	useEffect( () => {
 		const ajaxData = new window.FormData();
-
 		ajaxData.append( 'action', 'cartflows_onboarding_completed' );
 		ajaxData.append(
 			'security',
@@ -52,12 +49,14 @@ function ReadyStep() {
 			url: ajaxurl,
 			method: 'POST',
 			body: ajaxData,
-		} ).then( ( response ) => {
-			if ( response.success ) {
-				window.location.href =
-					cartflows_wizard.admin_url + '?page=cartflows&path=library';
-			}
-		} );
+		} ).then( () => {} );
+	}, [] );
+
+	const handleClick = ( e ) => {
+		e.preventDefault();
+
+		window.location.href =
+			cartflows_wizard.admin_url + '?page=cartflows&path=library';
 	};
 
 	return (
@@ -68,15 +67,18 @@ function ReadyStep() {
 				height={ window.innerHeight }
 			/>
 			<div className="wcf-row mt-12">
-				<div className="bg-white rounded mx-auto px-11 py-14 drop-shadow-sm">
+				<div className="bg-white rounded mx-auto px-11">
 					<div className="text-center overflow-hidden">
-						<h1 className="wcf-step-heading">
+						<span className="text-sm font-medium text-primary-600 mb-10 text-center block tracking-[.24em] uppercase">
+							{ __( 'Step 6 of 6', 'cartflows' ) }
+						</span>
+						<h1 className="wcf-step-heading mb-4">
 							{ __(
 								'Congratulations, You Did It!',
 								'cartflows'
 							) }
 						</h1>
-						<p className="mt-6 mb-10 sm:mb-10 mx-auto max-w-1xl text-base text-[#4B5563]">
+						<p className="text-center overflow-hidden mb-10 mx-auto text-lg font-normal text-slate-500">
 							{ __(
 								'CartFlows is set up on your website! Please watch the short video below for your next steps.',
 								'cartflows'

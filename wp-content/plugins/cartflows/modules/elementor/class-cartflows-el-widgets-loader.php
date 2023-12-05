@@ -46,6 +46,57 @@ class Cartflows_Widgets_Loader {
 		add_action( 'elementor/widgets/' . $action_name, array( $this, 'register_widgets' ) );
 
 		add_action( 'elementor/editor/after_enqueue_styles', array( $this, 'admin_enqueue_styles' ) );
+
+		add_action( 'wp_enqueue_scripts', array( $this, 'override_flow_level_global_colors_elementor' ), 25 );
+	}
+
+	/**
+	 * Override the global colors of every steps inside the funnel for elementor
+	 * with the global colors selected in the funnel's setting by the help of elementor's global color.
+	 *
+	 * Note: Currently the GCP support is added for Elementor and Block Builder.
+	 *
+	 * @since x.x.x
+	 * @return void
+	 */
+	public function override_flow_level_global_colors_elementor() {
+
+		if ( wcf()->utils->is_step_post_type() ) {
+
+			$flow_id = wcf()->utils->get_flow_id();
+
+			// Return if no flow ID is found.
+			if ( empty( $flow_id ) ) {
+				return;
+			}
+
+			if ( ! Cartflows_Helper::is_gcp_styling_enabled( (int) $flow_id ) ) {
+				return;
+			}
+
+			$style        = '';
+			$page_builder = Cartflows_Helper::get_common_setting( 'default_page_builder' );
+
+			// Override the CSS variables of selected page builder to override the page colors.
+			if ( 'elementor' === $page_builder ) {
+
+				$style .= '--e-global-color-primary: var( --wcf-gcp-primary-color ) !important;';
+
+				$style .= '--e-global-color-secondary: var( --wcf-gcp-secondary-color ) !important;';
+
+				$style .= '--e-global-color-accent: var( --wcf-gcp-accent-color ) !important;';
+
+				$style .= '--e-global-color-text: var( --wcf-gcp-text-color ) !important;';
+				// $style .= '--e-global-typography-primary-font-family: ' . $gcp_primary_font_family . ' !important; --e-global-typography-text-font-family: ' . $gcp_primary_font_family . ' !important;';
+			}
+
+			// Don't print the inline CSS style if the no style is generated.
+			if ( ! empty( $style ) ) {
+				$output = 'body.cartflows_step-template { ' . $style . ' }';
+				wp_add_inline_style( 'wcf-frontend-global', $output );
+			}
+		}
+
 	}
 
 	/**

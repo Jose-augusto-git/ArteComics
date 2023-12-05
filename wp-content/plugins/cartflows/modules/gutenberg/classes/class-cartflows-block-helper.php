@@ -533,16 +533,15 @@ if ( ! class_exists( 'Cartflows_Block_Helper' ) ) {
 
 			$m_selectors = array(
 				' .wcf-embed-checkout-form .woocommerce-checkout #payment ul.payment_methods' => array(
-					'background-color' => $attr['sectionbgColor'],
-					'padding-top'      => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingTopMobile'], $attr['paymentSectionpaddingTypeMobile'] ),
-					'padding-right'    => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingRightMobile'], $attr['paymentSectionpaddingTypeMobile'] ),
-					'padding-bottom'   => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingBottomMobile'], $attr['paymentSectionpaddingTypeMobile'] ),
-					'padding-left'     => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingLeftMobile'], $attr['paymentSectionpaddingTypeMobile'] ),
-					'margin-top'       => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginTopMobile'], $attr['paymentSectionMarginTypeMobile'] ),
-					'margin-right'     => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginRightMobile'], $attr['paymentSectionMarginTypeMobile'] ),
-					'margin-bottom'    => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginBottomMobile'], $attr['paymentSectionMarginTypeMobile'] ),
-					'margin-left'      => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginLeftMobile'], $attr['paymentSectionMarginTypeMobile'] ),
-					'border-radius'    => Cartflows_Gb_Helper::get_css_value( $attr['sectionBorderRadius'], 'px' ),
+					'padding-top'    => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingTopMobile'], $attr['paymentSectionpaddingTypeMobile'] ),
+					'padding-right'  => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingRightMobile'], $attr['paymentSectionpaddingTypeMobile'] ),
+					'padding-bottom' => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingBottomMobile'], $attr['paymentSectionpaddingTypeMobile'] ),
+					'padding-left'   => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingLeftMobile'], $attr['paymentSectionpaddingTypeMobile'] ),
+					'margin-top'     => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginTopMobile'], $attr['paymentSectionMarginTypeMobile'] ),
+					'margin-right'   => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginRightMobile'], $attr['paymentSectionMarginTypeMobile'] ),
+					'margin-bottom'  => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginBottomMobile'], $attr['paymentSectionMarginTypeMobile'] ),
+					'margin-left'    => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginLeftMobile'], $attr['paymentSectionMarginTypeMobile'] ),
+					'border-radius'  => Cartflows_Gb_Helper::get_css_value( $attr['sectionBorderRadius'], 'px' ),
 				),
 				' .wcf-embed-checkout-form .woocommerce #order_review button,  .wcf-embed-checkout-form .woocommerce #payment button, .wcf-embed-checkout-form .woocommerce .wcf-customer-login-section__login-button, .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns .wcf-next-button, .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns a.wcf-next-button,  .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn' => $button_border_css_tablet,
 				' .wcf-embed-checkout-form .woocommerce form .form-row input.input-text, .wcf-embed-checkout-form .woocommerce form .form-row select, .wcf-embed-checkout-form .woocommerce form .form-row textarea, .wcf-embed-checkout-form .select2-container--default .select2-selection--single, .wcf-embed-checkout-form #order_review .wcf-custom-coupon-field input[type="text"], .wcf-embed-checkout-form .woocommerce form .form-row input.input-text, .wcf-embed-checkout-form .woocommerce form .form-row textarea, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce form .form-row textarea, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce #order_review .input-text, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .select2-container--default .select2-selection--single, .wcf-embed-checkout-form .woocommerce form .form-row select.select, .wcf-embed-checkout-form .woocommerce form .form-row select' => $input_field_border_css_tablet,
@@ -552,16 +551,15 @@ if ( ! class_exists( 'Cartflows_Block_Helper' ) ) {
 			);
 			$t_selectors = array(
 				' .wcf-embed-checkout-form .woocommerce-checkout #payment ul.payment_methods' => array(
-					'background-color' => $attr['sectionbgColor'],
-					'padding-top'      => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingTopTablet'], $attr['paymentSectionpaddingTypeTablet'] ),
-					'padding-right'    => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingRightTablet'], $attr['paymentSectionpaddingTypeTablet'] ),
-					'padding-bottom'   => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingBottomTablet'], $attr['paymentSectionpaddingTypeTablet'] ),
-					'padding-left'     => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingLeftTablet'], $attr['paymentSectionpaddingTypeTablet'] ),
-					'margin-top'       => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginTopTablet'], $attr['paymentSectionMarginTypeTablet'] ),
-					'margin-right'     => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginRightTablet'], $attr['paymentSectionMarginTypeTablet'] ),
-					'margin-bottom'    => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginBottomTablet'], $attr['paymentSectionMarginTypeTablet'] ),
-					'margin-left'      => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginLeftTablet'], $attr['paymentSectionMarginTypeTablet'] ),
-					'border-radius'    => Cartflows_Gb_Helper::get_css_value( $attr['sectionBorderRadius'], 'px' ),
+					'padding-top'    => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingTopTablet'], $attr['paymentSectionpaddingTypeTablet'] ),
+					'padding-right'  => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingRightTablet'], $attr['paymentSectionpaddingTypeTablet'] ),
+					'padding-bottom' => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingBottomTablet'], $attr['paymentSectionpaddingTypeTablet'] ),
+					'padding-left'   => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingLeftTablet'], $attr['paymentSectionpaddingTypeTablet'] ),
+					'margin-top'     => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginTopTablet'], $attr['paymentSectionMarginTypeTablet'] ),
+					'margin-right'   => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginRightTablet'], $attr['paymentSectionMarginTypeTablet'] ),
+					'margin-bottom'  => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginBottomTablet'], $attr['paymentSectionMarginTypeTablet'] ),
+					'margin-left'    => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginLeftTablet'], $attr['paymentSectionMarginTypeTablet'] ),
+					'border-radius'  => Cartflows_Gb_Helper::get_css_value( $attr['sectionBorderRadius'], 'px' ),
 				),
 				' .wcf-embed-checkout-form .woocommerce #order_review button,  .wcf-embed-checkout-form .woocommerce #payment button, .wcf-embed-checkout-form .woocommerce .wcf-customer-login-section__login-button, .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns .wcf-next-button, .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns a.wcf-next-button,  .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn' => $button_border_css_mobile,
 				' .wcf-embed-checkout-form .woocommerce form .form-row input.input-text, .wcf-embed-checkout-form .woocommerce form .form-row select, .wcf-embed-checkout-form .woocommerce form .form-row textarea, .wcf-embed-checkout-form .select2-container--default .select2-selection--single, .wcf-embed-checkout-form #order_review .wcf-custom-coupon-field input[type="text"], .wcf-embed-checkout-form .woocommerce form .form-row input.input-text, .wcf-embed-checkout-form .woocommerce form .form-row textarea, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce form .form-row textarea, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce #order_review .input-text, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .select2-container--default .select2-selection--single, .wcf-embed-checkout-form .woocommerce form .form-row select.select, .wcf-embed-checkout-form .woocommerce form .form-row select' => $input_field_border_css_mobile,
@@ -571,39 +569,30 @@ if ( ! class_exists( 'Cartflows_Block_Helper' ) ) {
 			);
 
 			$selectors = array(
-
-				' .wcf-embed-checkout-form .woocommerce h3, .wcf-embed-checkout-form .woocommerce-checkout #order_review_heading, .wcf-embed-checkout-form-two-step .wcf-embed-checkout-form-steps .wcf-current .step-name,.wcf-embed-checkout-form .woocommerce-checkout .woocommerce-shipping-fields h3#ship-to-different-address' => array(
-					'color' => $attr['headBgColor'],
+				' .wcf-embed-checkout-form' => array(
+					'--wcf-primary-color'                 => $attr['globalbgColor'],
+					'--wcf-text-color'                    => $attr['globaltextColor'],
+					'--wcf-heading-color'                 => $attr['headBgColor'],
+					'--wcf-field-label-color'             => $attr['fieldLabelColor'],
+					'--wcf-field-bg-color'                => $attr['fieldBgColor'],
+					'--wcf-field-text-color'              => $attr['fieldInputColor'],
+					'--wcf-field-border-color'            => $attr['fieldBorderColor'],
+					'--wcf-field-error-label-color'       => $attr['errorLabelColor'],
+					'--wcf-field-error-border-color'      => $attr['errorFieldBorderColor'],
+					'--wcf-btn-text-color'                => $attr['buttonTextColor'],
+					'--wcf-btn-bg-color'                  => $attr['backgroundColor'],
+					'--wcf-btn-hover-text-color'          => $attr['buttonTextHoverColor'],
+					'--wcf-btn-bg-hover-color'            => $attr['backgroundHoverColor'],
+					'--wcf-payment-section-label-color'   => $attr['paymenttitleColor'],
+					'--wcf-payment-section-desc-text-color' => $attr['paymentdescriptionColor'],
+					'--wcf-payment-section-desc-bg-color' => $attr['informationbgColor'],
+					'--wcf-payment-section-bg-color'      => $attr['sectionbgColor'],
 				),
-				' .wcf-embed-checkout-form .woocommerce #payment input[type=radio]:checked:before, .wcf-embed-checkout-form .woocommerce #order_review input[type="radio"]:checked::before, .wcf-embed-checkout-form .woocommerce #order_review button, .wcf-embed-checkout-form .woocommerce #payment button, .wcf-embed-checkout-form .woocommerce form.woocommerce-form-login .form-row button, .wcf-embed-checkout-form .woocommerce #order_review button.wcf-btn-small, .wcf-embed-checkout-form .woocommerce-checkout form.woocommerce-form-login .button, .wcf-embed-checkout-form .woocommerce-checkout form.checkout_coupon .button, .wcf-embed-checkout-form .woocommerce-checkout form.login .button:hover, .wcf-embed-checkout-form .woocommerce-checkout form.checkout_coupon .button:hover, .wcf-embed-checkout-form .woocommerce #payment #place_order:hover, .wcf-embed-checkout-form .woocommerce #order_review button.wcf-btn-small:hover, .wcf-embed-checkout-form .woocommerce .wcf-customer-login-section__login-button, .wcf-embed-checkout-form .woocommerce .wcf-customer-login-section__login-button:hover, .wcf-embed-checkout-form-two-step .wcf-embed-checkout-form-steps .step-one.wcf-current:before, .wcf-embed-checkout-form-two-step .wcf-embed-checkout-form-steps .step-two.wcf-current:before, .wcf-embed-checkout-form-two-step .wcf-embed-checkout-form-steps .steps.wcf-current:before, .wcf-embed-checkout-form-two-step .wcf-embed-checkout-form-note, .wcf-embed-checkout-form .wcf-custom-coupon-field button.wcf-submit-coupon, .wcf-embed-checkout-form .wcf-custom-coupon-field button.wcf-submit-coupon:hover' => array(
-					'background-color' => $attr['globalbgColor'],
-					'border-color'     => $attr['globalbgColor'],
-				),
-				' .wcf-embed-checkout-form-two-step .wcf-embed-checkout-form-note:before' => array(
-					'border-top-color' => $attr['globalbgColor'],
-				),
-				' .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns .wcf-next-button, .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns a.wcf-next-button, .wcf-embed-checkout-form form.checkout_coupon .button, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn' => array(
-					'background-color' => $attr['globalbgColor'],
-				),
-				' .wcf-embed-checkout-form, .wcf-embed-checkout-form .woocommerce a, .wcf-embed-checkout-form #payment .woocommerce-privacy-policy-text p, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout #payment .woocommerce-privacy-policy-text p' => array(
-					'color' => $attr['globaltextColor'],
-				),
-
-				' .wcf-embed-checkout-form .woocommerce .woocommerce-checkout .product-name .remove:hover, .wcf-embed-checkout-form .woocommerce #payment input[type=checkbox]:checked:before, .wcf-embed-checkout-form .woocommerce .woocommerce-shipping-fields [type="checkbox"]:checked:before, .wcf-embed-checkout-form .woocommerce-info::before, .wcf-embed-checkout-form .woocommerce-message::before, .wcf-embed-checkout-form .woocommerce a, .wcf-embed-checkout-form-two-step .wcf-embed-checkout-form-steps .wcf-current .step-name' => array(
-					'color' => $attr['globalbgColor'],
-				),
-				' .wcf-embed-checkout-form .woocommerce .woocommerce-checkout input[type="checkbox"]:checked::before, .wcf-embed-checkout-form .woocommerce .woocommerce-checkout #order_review input[type="checkbox"]:checked::before, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce .woocommerce-checkout input[type="checkbox"]:checked::before, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce .woocommerce-checkout #order_review input[type="checkbox"]:checked::before ' => array(
-					'color' => $attr['globalbgColor'],
-				),
-
 				' .wcf-embed-checkout-form .woocommerce .woocommerce-checkout input[type="checkbox"]:focus, .wcf-embed-checkout-form .woocommerce .woocommerce-checkout #order_review input[type="checkbox"]:focus, .wcf-embed-checkout-form .woocommerce .woocommerce-checkout .woocommerce-account-fields input[type="checkbox"]:focus, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce .woocommerce-checkout input[type="checkbox"]:focus, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce #order_review input[type="checkbox"]:focus ' => array(
-					'border-color' => $attr['globalbgColor'],
-					'box-shadow'   => '0 0 2px',
+					'box-shadow' => '0 0 2px',
 				),
-
 				' .wcf-embed-checkout-form .woocommerce #order_review button, .wcf-embed-checkout-form .woocommerce #payment button, .wcf-embed-checkout-form .woocommerce .wcf-customer-login-section__login-button, .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns .wcf-next-button, .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns a.wcf-next-button, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn' => array_merge(
 					array(
-						'color'            => $attr['buttonTextColor'],
 						'background-color' => $attr['buttonBgColor'],
 						'text-transform'   => $attr['buttonTransform'],
 						'letter-spacing'   => Cartflows_Gb_Helper::get_css_value( $attr['buttonLetterSpacing'], $attr['buttonLetterSpacingType'] ),
@@ -611,54 +600,32 @@ if ( ! class_exists( 'Cartflows_Block_Helper' ) ) {
 					$button_border_css
 				),
 				' .wcf-embed-checkout-form .woocommerce #payment #place_order:hover' => array(
-					'color'            => $attr['buttonTextHoverColor'],
 					'border-color'     => $attr['buttonBorderHColor'],
 					'background-color' => $attr['buttonBgHoverColor'],
 				),
 				' .wcf-embed-checkout-form .woocommerce #order_review button.wcf-btn-small:hover, .wcf-embed-checkout-form .woocommerce .wcf-customer-login-section__login-button:hover, .wcf-embed-checkout-form .wcf-custom-coupon-field button.wcf-submit-coupon, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn:hover' => array(
-					'color'            => $attr['buttonTextHoverColor'],
 					'border-color'     => $attr['buttonBorderHColor'],
 					'background-color' => $attr['buttonBgHoverColor'],
 				),
 				' .wcf-embed-checkout-form .woocommerce-checkout #payment ul.payment_methods' => array(
-					'background-color' => $attr['sectionbgColor'],
-					'padding-top'      => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingTop'], $attr['paymentSectionpaddingTypeDesktop'] ),
-					'padding-right'    => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingRight'], $attr['paymentSectionpaddingTypeDesktop'] ),
-					'padding-bottom'   => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingBottom'], $attr['paymentSectionpaddingTypeDesktop'] ),
-					'padding-left'     => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingLeft'], $attr['paymentSectionpaddingTypeDesktop'] ),
-					'margin-top'       => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginTop'], $attr['paymentSectionMarginTypeDesktop'] ),
-					'margin-right'     => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginRight'], $attr['paymentSectionMarginTypeDesktop'] ),
-					'margin-bottom'    => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginBottom'], $attr['paymentSectionMarginTypeDesktop'] ),
-					'margin-left'      => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginLeft'], $attr['paymentSectionMarginTypeDesktop'] ),
-					'border-radius'    => Cartflows_Gb_Helper::get_css_value( $attr['sectionBorderRadius'], 'px' ),
-				),
-				' .wcf-embed-checkout-form .woocommerce-checkout #payment label a, .wcf-embed-checkout-form .woocommerce-checkout #payment label, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce #payment label' => array(
-					'color' => $attr['paymenttitleColor'],
+					'padding-top'    => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingTop'], $attr['paymentSectionpaddingTypeDesktop'] ),
+					'padding-right'  => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingRight'], $attr['paymentSectionpaddingTypeDesktop'] ),
+					'padding-bottom' => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingBottom'], $attr['paymentSectionpaddingTypeDesktop'] ),
+					'padding-left'   => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionpaddingLeft'], $attr['paymentSectionpaddingTypeDesktop'] ),
+					'margin-top'     => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginTop'], $attr['paymentSectionMarginTypeDesktop'] ),
+					'margin-right'   => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginRight'], $attr['paymentSectionMarginTypeDesktop'] ),
+					'margin-bottom'  => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginBottom'], $attr['paymentSectionMarginTypeDesktop'] ),
+					'margin-left'    => Cartflows_Gb_Helper::get_css_value( $attr['paymentSectionMarginLeft'], $attr['paymentSectionMarginTypeDesktop'] ),
+					'border-radius'  => Cartflows_Gb_Helper::get_css_value( $attr['sectionBorderRadius'], 'px' ),
 				),
 				' .wcf-embed-checkout-form #payment .woocommerce-privacy-policy-text p' => array(
 					'color' => $attr['paymentdescriptionColor'],
 				),
-				' .wcf-embed-checkout-form .woocommerce-checkout #payment div.payment_box' => array(
-					'background-color' => $attr['informationbgColor'],
-					'color'            => $attr['paymentdescriptionColor'],
-				),
-				' .wcf-embed-checkout-form .woocommerce-checkout #payment div.payment_box::before' => array(
-					'border-bottom-color' => $attr['informationbgColor'],
-				),
-				' .wcf-embed-checkout-form .woocommerce form p.form-row label,  .wcf-embed-checkout-form.wcf-field-modern-label .woocommerce #customer_details .form-row:not( .wcf-anim-hidden-label ) label:not( .woocommerce-form__label-for-checkbox, .checkbox, .input-radio)' => array(
-					'color' => $attr['fieldLabelColor'],
-				),
-				' .wcf-embed-checkout-form .woocommerce form .form-row input.input-text, .wcf-embed-checkout-form .woocommerce form .form-row select, .wcf-embed-checkout-form .woocommerce form .form-row textarea, .wcf-embed-checkout-form .select2-container--default .select2-selection--single, .wcf-embed-checkout-form #order_review .wcf-custom-coupon-field input[type="text"], .wcf-embed-checkout-form .woocommerce form .form-row input.input-text, .wcf-embed-checkout-form .woocommerce form .form-row textarea, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce form .form-row textarea, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce #order_review .input-text, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .select2-container--default .select2-selection--single, .wcf-embed-checkout-form .woocommerce form .form-row select.select, .wcf-embed-checkout-form .woocommerce form .form-row select' => array_merge(
-					array(
-						'background-color' => $attr['fieldBgColor'],
-					),
-					$input_field_border_css
+				' .wcf-embed-checkout-form .woocommerce form .form-row input.input-text, .wcf-embed-checkout-form .woocommerce form .form-row select, .wcf-embed-checkout-form .woocommerce form .form-row textarea, .wcf-embed-checkout-form .select2-container--default .select2-selection--single, .wcf-embed-checkout-form #order_review .wcf-custom-coupon-field input[type="text"], .wcf-embed-checkout-form .woocommerce form .form-row input.input-text, .wcf-embed-checkout-form .woocommerce form .form-row textarea, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce form .form-row textarea, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce #order_review .input-text, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .select2-container--default .select2-selection--single, .wcf-embed-checkout-form .woocommerce form .form-row select.select, .wcf-embed-checkout-form .woocommerce form .form-row select' => array(
+					$input_field_border_css,
 				),
 				' .wcf-embed-checkout-form .woocommerce form .form-row input.input-text:hover, .wcf-embed-checkout-form .woocommerce form .form-row select:hover, .wcf-embed-checkout-form .woocommerce form .form-row textarea:hover, .wcf-embed-checkout-form #order_review .wcf-custom-coupon-field input[type="text"]:hover, .wcf-embed-checkout-form .woocommerce form .form-row select#billing_country:hover, .wcf-embed-checkout-form .woocommerce form .form-row select:hover, .wcf-embed-checkout-form .woocommerce form .form-row select:hover, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .select2-container--default .select2-selection--single:hover, .wcf-embed-checkout-form .woocommerce form .form-row select.select:hover' => array(
 					'border-color' => $attr['fieldBorderHColor'],
-				),
-				' .wcf-embed-checkout-form .woocommerce form .form-row input.input-text, .wcf-embed-checkout-form .woocommerce form .form-row textarea, span#select2-shipping_country-container, span#select2-billing_country-container, .wcf-embed-checkout-form #order_review .wcf-custom-coupon-field input[type="text"], .wcf-embed-checkout-form .woocommerce form .form-row input.input-text, .wcf-embed-checkout-form .woocommerce form .form-row textarea, .wcf-embed-checkout-form .select2-container--default .select2-selection--single, .wcf-embed-checkout-form .woocommerce form .form-row select, .wcf-embed-checkout-form .woocommerce form .form-row select, .wcf-embed-checkout-form ::placeholder, .wcf-embed-checkout-form ::-webkit-input-placeholder, span#select2-shipping_state-container, span#select2-billing_state-container' => array(
-					'color' => $attr['fieldInputColor'],
 				),
 				' .woocommerce-NoticeGroup.woocommerce-NoticeGroup-checkout li, .wcf-embed-checkout-form .woocommerce .wcf-custom-coupon-field .woocommerce-error li' => array(
 					'color' => $attr['errorMsgColor'],
@@ -673,22 +640,6 @@ if ( ! class_exists( 'Cartflows_Block_Helper' ) ) {
 					'padding-left'     => Cartflows_Gb_Helper::get_css_value( $attr['msgVrPadding'], 'px' ),
 					'border-width'     => Cartflows_Gb_Helper::get_css_value( $attr['msgBorderSize'], 'px' ),
 				),
-				' .wcf-embed-checkout-form-two-step .wcf-embed-checkout-form-note:before' => array(
-					'border-top-color' => $attr['globalbgColor'],
-				),
-				' .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns .wcf-next-button, .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns a.wcf-next-button, .wcf-embed-checkout-form form.checkout_coupon .button, body .wcf-pre-checkout-offer-wrapper #wcf-pre-checkout-offer-content button.wcf-pre-checkout-offer-btn, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn' => array(
-					'background-color' => $attr['globalbgColor'],
-				),
-				' .wcf-embed-checkout-form, .wcf-embed-checkout-form .woocommerce a, .wcf-embed-checkout-form #payment .woocommerce-privacy-policy-text p, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout #payment .woocommerce-privacy-policy-text p' => array(
-					'color' => $attr['globaltextColor'],
-				),
-				' .woocommerce form .form-row.woocommerce-invalid label' => array(
-					'color' => $attr['errorLabelColor'],
-				),
-				' .wcf-embed-checkout-form .select2-container--default.field-required .select2-selection--single, .wcf-embed-checkout-form .woocommerce form .form-row input.input-text.field-required, .wcf-embed-checkout-form .woocommerce form .form-row textarea.input-text.field-required, .wcf-embed-checkout-form .woocommerce #order_review .input-text.field-required  .wcf-embed-checkout-form .woocommerce form .form-row.woocommerce-invalid .select2-container, .wcf-embed-checkout-form .woocommerce form .form-row.woocommerce-invalid input.input-text,  .wcf-embed-checkout-form .woocommerce form .form-row.woocommerce-invalid select, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce form .form-row input.input-text.field-required' => array(
-					'border-color' => $attr['errorFieldBorderColor'],
-				),
-
 				' .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce-checkout table.shop_table' => array(
 					'background-color' => $attr['orderReviewColumnColor'],
 				),
@@ -696,21 +647,13 @@ if ( ! class_exists( 'Cartflows_Block_Helper' ) ) {
 					'color' => $attr['orderReviewColumnTextColor'],
 				),
 				' .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce form .form-row input.input-text:focus, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce form .form-row textarea:focus, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout .woocommerce #order_review .wcf-custom-coupon-field input.input-text:focus' => array(
-					'border-color' => $attr['globalbgColor'],
-					'box-shadow'   => $attr['globalbgColor'] ? '0 0 0 1px ' . $attr['globalbgColor'] : '',
-				),
-				' .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .wcf-multistep-checkout-breadcrumb a.wcf-current-step' => array(
-					'color' => $attr['globalbgColor'],
+					'box-shadow' => $attr['globalbgColor'] ? '0 0 0 1px ' . $attr['globalbgColor'] : '',
 				),
 			);
 			if ( 'color' == $bg_type ) {
 				$selectors[' .wcf-embed-checkout-form .woocommerce #order_review button, .wcf-embed-checkout-form .woocommerce #payment button, .wcf-embed-checkout-form .woocommerce .wcf-customer-login-section__login-button, .wcf-embed-checkout-form .woocommerce form.woocommerce-form-login .form-row button, .wcf-embed-checkout-form .woocommerce #order_review button.wcf-btn-small, .wcf-embed-checkout-form .wcf-custom-coupon-field button.wcf-submit-coupon, .wcf-embed-checkout-form .woocommerce-checkout form.woocommerce-form-login .button, .wcf-embed-checkout-form .woocommerce-checkout form.checkout_coupon .button, .wcf-embed-checkout-form form.checkout_coupon .button, .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns a.wcf-next-button,  .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn'] = array(
-					'opacity'          => ( isset( $attr['backgroundOpacity'] ) && '' !== $attr['backgroundOpacity'] ) ? $attr['backgroundOpacity'] / 100 : 0.79,
-					'box-shadow'       => Cartflows_Gb_Helper::get_css_value( $attr['boxShadowHOffset'], 'px' ) . ' ' . Cartflows_Gb_Helper::get_css_value( $attr['boxShadowVOffset'], 'px' ) . ' ' . Cartflows_Gb_Helper::get_css_value( $attr['boxShadowBlur'], 'px' ) . ' ' . Cartflows_Gb_Helper::get_css_value( $attr['boxShadowSpread'], 'px' ) . ' ' . $attr['boxShadowColor'] . ' ' . $box_shadow_position_css,
-					'background-color' => $attr['backgroundColor'],
-				);
-				$selectors[' .wcf-embed-checkout-form .woocommerce #order_review button:hover, .wcf-embed-checkout-form .woocommerce #wcf-customer-login-section__login-button:hover, .wcf-embed-checkout-form .woocommerce form.woocommerce-form-login .form-row button:hover, .wcf-embed-checkout-form .woocommerce #order_review button.wcf-btn-small:hover, .wcf-embed-checkout-form .wcf-custom-coupon-field button.wcf-submit-coupon:hover, .wcf-embed-checkout-form .woocommerce-checkout form.woocommerce-form-login .button:hover, .wcf-embed-checkout-form .woocommerce-checkout form.checkout_coupon .button:hover, .wcf-embed-checkout-form form.checkout_coupon .button:hover, .wcf-embed-checkout-form-two-step .woocommerce .wcf-embed-checkout-form-nav-btns a.wcf-next-button:hover, .wcf-embed-checkout-form .woocommerce #payment #place_order:hover, .wcf-embed-checkout-form.wcf-embed-checkout-form-modern-checkout.wcf-modern-skin-multistep .woocommerce form .wcf-multistep-nav-btn-group .wcf-multistep-nav-next-btn:hover'] = array(
-					'background-color' => $attr['backgroundHoverColor'],
+					'opacity'    => ( isset( $attr['backgroundOpacity'] ) && '' !== $attr['backgroundOpacity'] ) ? $attr['backgroundOpacity'] / 100 : 0.79,
+					'box-shadow' => Cartflows_Gb_Helper::get_css_value( $attr['boxShadowHOffset'], 'px' ) . ' ' . Cartflows_Gb_Helper::get_css_value( $attr['boxShadowVOffset'], 'px' ) . ' ' . Cartflows_Gb_Helper::get_css_value( $attr['boxShadowBlur'], 'px' ) . ' ' . Cartflows_Gb_Helper::get_css_value( $attr['boxShadowSpread'], 'px' ) . ' ' . $attr['boxShadowColor'] . ' ' . $box_shadow_position_css,
 				);
 			}
 

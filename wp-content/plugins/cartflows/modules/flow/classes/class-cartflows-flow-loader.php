@@ -53,9 +53,6 @@ class Cartflows_Flow_Loader {
 		require_once CARTFLOWS_FLOW_DIR . 'classes/class-cartflows-flow-post-type.php';
 		require_once CARTFLOWS_FLOW_DIR . 'classes/class-cartflows-step-post-type.php';
 		require_once CARTFLOWS_FLOW_DIR . 'classes/class-cartflows-permalink.php';
-		// Need to remove this shortcodes file.
-		require_once CARTFLOWS_FLOW_DIR . 'classes/class-cartflows-flow-shortcodes.php';
-		// Need to remove this shortcodes file.
 	}
 }
 

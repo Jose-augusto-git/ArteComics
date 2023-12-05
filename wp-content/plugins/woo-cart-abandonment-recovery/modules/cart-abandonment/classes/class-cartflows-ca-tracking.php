@@ -333,6 +333,9 @@ class Cartflows_Ca_Tracking {
 				$_POST['billing_city']       = sanitize_text_field( $city );
 				$_POST['billing_country']    = sanitize_text_field( $country );
 
+				// Update the Cart Contents. This will be useful when there are product addons fields added in the cart data.
+				$woocommerce->cart->set_cart_contents( $cart_content );
+
 			}
 		}
 	}

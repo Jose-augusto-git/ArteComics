@@ -19,7 +19,7 @@ class Extra_Checkout_Fields_For_Brazil {
 	*
 	* @var string
 	*/
-	const VERSION = '3.8.3';
+	const VERSION = '4.0.0';
 
 	/**
 	 * Instance of this class.
@@ -76,7 +76,23 @@ class Extra_Checkout_Fields_For_Brazil {
 	 * Load the plugin text domain for translation.
 	 */
 	public function load_plugin_textdomain() {
-		load_plugin_textdomain( 'woocommerce-extra-checkout-fields-for-brazil', false, dirname( plugin_basename( CSBMW_PLUGIN_FILE ) ) . '/languages/' );
+		// Try to use the plugins own translation, only available for pt_BR.
+		$locale = apply_filters( 'plugin_locale', determine_locale(), 'woocommerce-extra-checkout-fields-for-brazil' );
+
+		if ( 'pt_BR' === $locale ) {
+			unload_textdomain( 'woocommerce-extra-checkout-fields-for-brazil' );
+			load_textdomain(
+				'woocommerce-extra-checkout-fields-for-brazil',
+				plugin_dir_path( CSBMW_PLUGIN_FILE ) . '/languages/woocommerce-extra-checkout-fields-for-brazil-' . $locale . '.mo'
+			);
+		}
+
+		// Load regular translation from WordPress.
+		load_plugin_textdomain(
+			'woocommerce-extra-checkout-fields-for-brazil',
+			false,
+			dirname( plugin_basename( CSBMW_PLUGIN_FILE ) ) . '/languages'
+		);
 	}
 
 	/**
@@ -126,8 +142,8 @@ class Extra_Checkout_Fields_For_Brazil {
 	public function plugin_action_links( $links ) {
 		$plugin_links   = array();
 		$plugin_links[] = '<a href="' . esc_url( admin_url( 'admin.php?page=woocommerce-extra-checkout-fields-for-brazil' ) ) . '">' . __( 'Settings', 'woocommerce-extra-checkout-fields-for-brazil' ) . '</a>';
-		$plugin_links[] = '<a href="https://apoia.se/claudiosanches" target="_blank" rel="noopener noreferrer">' . __( 'Premium Support', 'woocommerce-extra-checkout-fields-for-brazil' ) . '</a>';
-		$plugin_links[] = '<a href="https://apoia.se/claudiosanches" target="_blank" rel="noopener noreferrer">' . __( 'Contribute', 'woocommerce-extra-checkout-fields-for-brazil' ) . '</a>';
+		$plugin_links[] = '<a href="https://apoia.se/claudiosanches?utm_source=plugin-bmw" target="_blank" rel="noopener noreferrer">' . __( 'Premium Support', 'woocommerce-extra-checkout-fields-for-brazil' ) . '</a>';
+		$plugin_links[] = '<a href="https://apoia.se/claudiosanches?utm_source=plugin-bmw" target="_blank" rel="noopener noreferrer">' . __( 'Contribute', 'woocommerce-extra-checkout-fields-for-brazil' ) . '</a>';
 
 		return array_merge( $plugin_links, $links );
 	}

@@ -1585,18 +1585,28 @@ const ImportSite = () => {
 	};
 
 	const preventRefresh = ( event ) => {
-		event.returnValue = __(
-			'Are you sure you want to cancel the site import process?',
-			'astra-sites'
-		);
-		return event;
+		if ( importPercent < 100 ) {
+			event.returnValue = __(
+				'Are you sure you want to cancel the site import process?',
+				'astra-sites'
+			);
+			return event;
+		}
 	};
 
 	useEffect( () => {
-		window.addEventListener( 'beforeunload', preventRefresh ); // eslint-disable-line
-		return () =>
-			window.removeEventListener( 'beforeunload', preventRefresh ); // eslint-disable-line
-	} );
+		window.addEventListener('beforeunload', preventRefresh); // eslint-disable-line
+		return () => {
+		  window.removeEventListener('beforeunload', preventRefresh); // eslint-disable-line
+		};
+	}, [ importPercent ] ); // Add importPercent as a dependency.
+
+	// Add a useEffect to remove the event listener when importPercent is 100%.
+	useEffect( () => {
+		if ( importPercent === 100 ) {
+			window.removeEventListener( 'beforeunload', preventRefresh );
+		}
+	}, [ importPercent ] );
 
 	/**
 	 * When try again button is clicked:

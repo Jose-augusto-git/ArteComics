@@ -16,7 +16,7 @@ const LicenseValidation = () => {
 	}, [] );
 
 	const accessLinkOutput = __(
-		`This is a premium template and comes with our Essentials and Growth Bundle. <br/><br/> Get access to this premium template and 100+ more.`,
+		`This is a premium template and comes with our Essentials and Business Toolkits. <br/><br/> Get access to this premium template and 100+ more.`,
 		'astra-sites'
 	);
 

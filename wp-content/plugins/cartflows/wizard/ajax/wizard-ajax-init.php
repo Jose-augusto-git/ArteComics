@@ -70,8 +70,7 @@ class WizardAjaxInit {
 		);
 
 		foreach ( $controllers as $controller ) {
-			$this->$controller = $controller::get_instance();
-			$this->$controller->register_ajax_events();
+			$controller::get_instance()->register_ajax_events();
 		}
 	}
 }

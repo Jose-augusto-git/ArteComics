@@ -59,7 +59,7 @@ abstract class Cartflows_Step_Meta_Base {
 				'id'       => 'design',
 				'class'    => '',
 				'icon'     => 'dashicons-info',
-				'priority' => 10,
+				'priority' => 60,
 			),
 		);
 

@@ -43,6 +43,48 @@ class Cartflows_Gutenberg_Editor {
 		add_action( 'admin_init', array( $this, 'gutenberg_editor_compatibility' ) );
 
 		add_action( 'save_post_cartflows_step', array( $this, 'update_required_step_meta_data' ), 10, 3 );
+
+		add_action( 'admin_init', array( $this, 'add_gcp_colors_to_block_default_color_pallet' ), 12 );
+	}
+
+	/**
+	 * Function to add the CartFlows flow's Global Color Pallet to block editor's default color pallet.
+	 * This will display the flow's GCP colors in the color component of Gutenberg.
+	 *
+	 * @since x.x.x
+	 * @return void
+	 */
+	public function add_gcp_colors_to_block_default_color_pallet() {
+
+		$post_id   = isset( $_GET['post'] ) ? intval( $_GET['post'] ) : 0; //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$post_type = get_post_type( $post_id );
+		$flow_id   = wcf()->utils->get_flow_id_from_step_id( $post_id );
+
+		if ( ! empty( $flow_id ) && Cartflows_Helper::is_gcp_styling_enabled( (int) $flow_id ) && CARTFLOWS_STEP_POST_TYPE === $post_type ) {
+
+			// Try to get the current theme default color palette.
+			$default_color_pallet = current( (array) get_theme_support( 'editor-color-palette' ) );
+
+			// Get default core color palette from wp-includes/theme.json.
+			if ( false === $default_color_pallet && class_exists( 'WP_Theme_JSON_Resolver' ) ) {
+				$settings = WP_Theme_JSON_Resolver::get_core_data()->get_settings();
+
+				if ( isset( $settings['color']['palette']['default'] ) ) {
+					$default_color_pallet = $settings['color']['palette']['default'];
+				}
+			}
+
+			$new_color_palette = Cartflows_Helper::generate_css_var_array( $flow_id );
+
+			// Merge the old and new color palettes.
+			if ( ! empty( $default_color_pallet ) ) {
+				$new_color_palette = array_merge( $default_color_pallet, $new_color_palette );
+			}
+			// Apply the color palette containing the original colors and the new colors.
+			add_theme_support( 'editor-color-palette', $new_color_palette );
+
+		}
+
 	}
 
 	/**

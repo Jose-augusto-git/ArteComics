@@ -30,7 +30,8 @@ use Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingCo
 class RepricingrulesRepricingreports extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\Resource
 {
   /**
-   * Lists the metrics report for a given Repricing rule.
+   * *Deprecated*: New merchants can't start using this service. Lists the metrics
+   * report for a given Repricing rule.
    * (repricingreports.listRepricingrulesRepricingreports)
    *
    * @param string $merchantId Required. Id of the merchant who owns the Repricing

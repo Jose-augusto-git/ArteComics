@@ -52,6 +52,20 @@ if ( ! class_exists( 'Cartflows_Astra_Compatibility' ) ) :
 
 			add_action( 'cartflows_after_save_store_checkout', array( $this, 'clear_astra_woo_css_cache' ) );
 
+			// Update Astra's admin top level menu position.
+			add_filter( 'astra_menu_priority', array( $this, 'update_admin_menu_position' ), 10, 1 );
+
+		}
+
+		/**
+		 * Update Astra's menu priority to show after Dashboard menu.
+		 *
+		 * @param int $menu_priority priority for admin menu.
+		 * @since 2.0.0
+		 * @return float
+		 */
+		public function update_admin_menu_position( $menu_priority ) {
+			return 2.1;
 		}
 
 		/**
