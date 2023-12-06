@@ -1,0 +1,627 @@
+#wpf-pro {
+	background: #fff;
+    padding: 20px;
+    z-index: 0;
+    width: 600px;
+    float: right;
+    max-width: 40%;
+    border-left: 10px solid #E55B10;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+#wpf-pro img#pro-logo {
+    margin: 0 15px 0 0;
+    width: 36px;
+    float: left;
+}
+
+#wpf-pro a.button-primary, #webhooks-notice a.button-primary, #contact-fields-pro-notice a.button-primary {
+	margin: 0 15px;
+	margin-top: 5px;
+	background-color: #E55B10;
+    border-color: #E55B10;
+}
+
+#wpf-pro hr {
+	margin: 15px 0;
+}
+
+#contact-fields-pro-notice {
+    /* background: rgba( 255,255,255,0.85 ); */
+    background: radial-gradient(circle, rgba(255,255,255,0.85) 35%, rgba(255,255,255,0.35) 100%);
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+#contact-fields-pro-notice .wpf-upgrade-nag-container {
+	top: 45%;
+	margin: -150px auto 0 auto;
+}
+
+#contact-fields-pro-notice p {
+	/*font-size: 16px;*/
+	margin-bottom: 15px;
+}
+
+#contact-fields-pro-notice .buttonwrapper a {
+	/*font-size: 16px;*/
+}
+
+/* Integrations */
+#wpf-integrations-overview {
+	background-color: #ffe6d5;
+    border-radius: 4px 4px 4px 4px;
+    padding: 15px;
+    max-width: 980px;
+    border: 2px solid #e55b10;
+    margin: 10px 0;
+}
+
+#wpf-integrations-overview > p {
+	color: #e55b10;
+	margin-bottom: 15px;
+}
+
+#wpf-integrations-overview a.wpf-integration {
+	display: inline-block;
+	margin: 5px 10px 5px 0;
+    background: #e55b10;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 12px;
+    border: 2px solid #e55b10;
+    position: relative;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+#wpf-integrations-overview a.wpf-integration:hover {
+	text-decoration: underline;
+}
+
+#wpf-integrations-overview a.wpf-integration > span {
+	text-decoration: none;
+	font-size: 14px;
+	width: auto;
+    height: auto;
+    padding-right: 5px;
+}
+
+span#wpf-header-upgrade-message {
+	display: block;
+    text-align: center;
+    background-color: #f6f6f6;
+    border-top: 3px solid #E55B11;
+    padding: 7px;
+    max-height: 100px;
+    visibility: visible;
+}
+
+.error.validation-error {
+	padding: 4px 10px 8px;
+	margin-top: 20px !important;
+	margin-bottom: 0px !important;
+}
+
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+	vertical-align: middle;
+}
+
+input[type="checkbox"] {
+	margin-right: 7px;
+}
+
+input[type="radio"] {
+	top: -1px;
+    position: relative;
+    display: inline-block !important;
+}
+
+input[type="checkbox"]:focus, input[type="radio"]:focus {
+	box-shadow: none;
+	outline: none;
+}
+
+input#app_name {
+	width: 80px;
+}
+
+input.api_key, input#license_key, input#ac_url {
+	display: inline-block;
+	margin-right: 5px;
+	width: 300px;
+}
+
+select.wpf_type {
+	background-color: transparent !important;
+	border: none;
+	box-shadow: none;
+	padding: 0px;
+	color: #000;
+	padding-right: 25px;
+}
+
+button.verify-button {
+	position: relative;
+	margin-right: 5px;
+}
+
+button.create-button {
+	position: relative;
+}
+
+button.btn-verifying {
+	padding-left: 30px;
+}
+
+.wpf-settings-wrap a.button {
+	padding: 1px 10px;
+	vertical-align: middle;
+}
+
+.wpf-settings-wrap .dashicons.wpf-spin {
+   animation: dashicons-spin 2s infinite;
+   animation-timing-function: linear;
+}
+
+@keyframes dashicons-spin {
+   0% {
+      transform: rotate( 0deg );
+   }
+   100% {
+      transform: rotate( 360deg );
+   }
+}
+
+
+form#wpf-settings .settings_page_wpf-settings-tab-content {
+	padding: 0 10px;
+}
+
+form#wpf-settings #setup .form-table {
+	margin-top: 0px;
+}
+
+form#wpf-settings .form-table th {
+	padding: 20px 10px 20px 0;
+}
+
+button.btn-verifying i.fa {
+	left: 2px;
+	top: 7px;
+	font-size: 14px;
+}
+
+a#edd-license, a#export-btn {
+	min-width: 150px;
+	text-align: center;
+	position: relative;
+	vertical-align: middle;
+}
+
+a#edd-license.activated:before {
+	content: "\f12a";
+    font-family: 'dashicons';
+    position: absolute;
+    left: -35px;
+    font-size: 20px;
+    margin-top: -8px;
+}
+
+form#wpf-settings .tooltip .tooltip-inner {
+	background-color: #333;
+	opacity: 1;
+	color: #fff;
+	line-height: 1.5;
+	padding: 6px 10px;
+	border: 1px solid #333;
+	max-width: 300px;
+	text-align: left;
+}
+
+form#wpf-settings .tooltip .tooltip-arrow {
+	border-right-color: #333;
+}
+
+#s2id_import_role {
+	margin-left: 5px;
+	min-width: 180px;
+}
+
+a#import-users-btn {
+	margin-left: 5px;
+	min-width: 150px;
+	text-align: center;
+}
+
+th.import-date, td.import-date {
+	width: 150px;
+}
+
+tr.import-group-row {
+	position: relative;
+}
+
+#wpf-settings li#tab-batch-process {
+	display: none;
+}
+
+#wpf-settings #logs.tab-pane h3 {
+	display: none;
+}
+
+#wpf-settings.setup ul.nav-tabs, #wpf-settings.setup .settings_page_wpf-settings-tab-content .tab-pane {
+	display: none;
+}
+
+#wpf-settings.setup ul.nav-tabs li#tab-setup, #wpf-settings.setup .settings_page_wpf-settings-tab-content .tab-pane#setup {
+	display: block;
+}
+
+#wpf-batch-status {
+	position: relative;
+	width: 100%;
+}
+
+#wpf-batch-status.hidden {
+	display: none !important;
+}
+
+#wpf-batch-status span.dashicons {
+	color: #444;
+}
+
+#wpf-batch-status span.title {
+	display: inline-block;
+	padding-left: 8px;
+}
+
+#wpf-batch-status a#cancel-batch {
+	float: right;
+		position: relative;
+		top: -2px;
+}
+
+#wpf-settings input[type="radio"]+label {
+	line-height: 2;
+	position: relative;
+    top: -2px;
+}
+
+/* Select 2 */
+
+.select4-container.select4-container-disabled .select4-choice .select4-arrow {
+	display: none;
+}
+
+#wpf-settings input[type="number"] {
+    height: 34px;
+    line-height: 1.42857143;
+    width: 300px !important;
+}
+
+#wpf-settings h4 {
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 5px;
+	padding-top: 25px;
+	font-weight: normal;
+	width: 975px;
+    max-width: 100%;
+}
+
+#wpf-settings h4:first-of-type {
+	padding-top: 0px;
+}
+
+#wpf-settings h4 a.header-docs-link {
+	font-size: 14px;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+th.sync {
+	width: 30px;
+}
+
+#contact-fields > table > tbody > tr > td {
+	padding: 0px;
+	position: relative;
+}
+
+#contact-fields-table tr.group-header td {
+	padding: 10px 15px;
+    border: 1px solid #ccc;
+    font-weight: bold;
+    box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
+    z-index: 9;
+    position: relative;
+}
+
+#contact-fields-table tr.group-header td .group-header-title {
+	font-weight: bold;
+	width: 100%;
+}
+
+#contact-fields-table tr.group-header td .group-header-title i.fa {
+	float: right;
+    font-size: 24px;
+    line-height: 20px;
+    padding-right: 10px;
+}
+
+#contact-fields-table tr.group-header td .group-header-title i.fa.fa-angle-down {
+	display: none;
+}
+
+#contact-fields-table tr.group-header td .group-header-title.collapsed i.fa.fa-angle-down {
+	display: block;
+}
+
+#contact-fields-table tr.group-header td .group-header-title.collapsed i.fa.fa-angle-up {
+	display: none;
+}
+
+#contact-fields-table tr.group-header td input {
+	display: none;
+}
+
+#contact-fields-table tr.group-header td .table-header-docs-link {
+	margin-left: 10px;
+    font-weight: normal;
+}
+
+#contact-fields-table td, #import-groups td {
+	padding: 4px 8px;
+}
+
+#contact-fields-table td.wp_field_label label {
+	position: relative;
+	top: -2px;
+}
+
+#contact-fields-table td.wp_field_type input[type="text"] {
+	width: auto;
+	max-width: 80px;
+}
+
+#contact-fields-table td .checkbox {
+	margin-left: 7px;
+}
+
+#wpf-settings #contact-fields-table input[type="text"] {
+	width: 100%;
+}
+
+/* Disabled table sections
+
+#contact-fields-table tbody.disabled {
+	position: relative;
+}
+
+#contact-fields-table tbody.disabled:before {
+	content: "";
+    display: block;
+    background: rgba(255,255,255,0.5);
+    position: absolute;
+    width: 100%;
+    height: 385px;
+    z-index: 10;
+} */
+
+#wpf-settings input[type="text"], #wpf-settings input[type="password"] {
+	width: 300px;
+}
+
+#wpf-settings input[type="text"]#woo_error_message, #wpf-settings input[type="text"]#email_optin_message {
+	width: 800px;
+	max-width: 100%;
+}
+
+#wpf-settings input[type="text"], #wpf-settings input[type="password"] {
+    width: 318px;
+}
+
+/* Test connection */
+
+.wpf-settings-wrap a.button span.dashicons {
+	vertical-align: middle;
+	margin-bottom: 3px;
+	margin-right: 5px;
+}
+
+.wpf-settings-wrap a.button.test-connection-button {
+	position: relative;
+	vertical-align: middle;
+	padding-left: 32px;
+}
+
+.wpf-settings-wrap a.button.test-connection-button span.text {
+	display: inline-block;
+	min-width: 110px;
+	text-align: center;
+}
+
+.wpf-settings-wrap a.button.test-connection-button span.dashicons {
+	position: absolute;
+	top: 5px;
+	left: 8px;
+}
+
+.wpf-settings-wrap a#header-resync {
+	margin-left: 10px;
+	margin-top: 10px;
+}
+
+/* Webhook URL input */
+
+#wpf-settings input[type="text"]#webhook-base-url {
+	font-family: monospace;
+	color: #32373c;
+	width: auto;
+	padding-right: 10px;
+	border-color: #7e8993;
+}
+
+
+#wp-restricted_message-wrap {
+	width: 60%;
+	min-width: 600px;
+	margin-bottom: 6px;
+}
+
+#wpf-settings i.wpf-tip {
+	padding: 2px 4px;
+	font-size: 16px;
+	line-height: 1.5;
+	vertical-align: middle;
+	color: #428bca;
+	cursor: pointer;
+	width: 24px;
+}
+
+#wpf-settings i.wpf-tip:hover {
+	color: #0071a1;
+}
+
+#wpf-settings .skip-processed-container input[type="checkbox"]{
+    margin-bottom: 7px;
+}
+
+#wpf-settings .skip-processed-container {
+	display:none;
+	width: auto;
+	border: 1px solid #ddd;
+	padding: 10px 15px;
+	margin: 12px 0 12px -16px;
+}
+
+/* Debug stuff */
+
+#wpf-settings table.wpf-status-hooks-list {
+	display: inline-block;
+	margin-bottom: 15px;
+}
+
+#wpf-settings table.wpf-status-hooks-list tr:nth-child(even) {
+    background: #e9e9e9;
+}
+
+#wpf-settings table.wpf-status-hooks-list td, #wpf-settings table.wpf-status-hooks-list th {
+	padding: 6px;
+}
+
+#wpf-settings table.wpf-status-hooks-list td code {
+	background: none;
+	padding: 0px;
+}
+
+
+/* Log viewer */
+
+body.tools_page_wpf-settings-logs .alignleft span.select4-container {
+	float: left;
+	margin-right: 5px;
+}
+
+body.tools_page_wpf-settings-logs .alignleft span.select4-container.select4-container--default .select4-selection--single {
+	min-height: 30px;
+}
+
+body.tools_page_wpf-settings-logs .alignleft span.select4-container.select4-container--default .select4-selection--single .select4-selection__rendered {
+	line-height: 24px;
+	font-size: 14px;
+}
+
+/**
+* Add color to levels
+*
+* Descending severity:
+*   emergency, alert -> red
+*   critical, error  -> orange
+*   warning, notice  -> yellow
+*   info             -> blue
+*   debug            -> gree
+*/
+
+.wp-list-table.wpf-logs ul {
+	margin-top: 5px;
+    line-height: 1.25;
+    list-style-type: circle;
+    padding-left: 20px;
+}
+
+.wp-list-table.wpf-logs .log-level:empty {
+	display: none;
+}
+
+.wp-list-table.wpf-logs .log-level--error {
+	background-color: #f94f1d;
+}
+
+.wp-list-table.wpf-logs .log-level--warning {
+	background-color: #ff851b;
+}
+
+.wp-list-table.wpf-logs .log-level--notice {
+	color: #222;
+	background-color: #ffdc00;
+}
+
+.wp-list-table.wpf-logs .log-level--info {
+	background-color: #0074d9;
+}
+
+.wp-list-table.wpf-logs .log-level--http {
+	background-color: #5fc15d;
+}
+
+.wp-list-table.wpf-logs .log-level {
+	display: inline;
+	padding: 5px 10px;
+	font-size: 80%;
+	font-weight: bold;
+	line-height: 1;
+	color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: baseline;
+	border-radius: .2em;
+}
+
+.wp-list-table.wpf-logs .column-message pre {
+	background: #eee;
+    padding: 10px;
+    overflow: scroll;
+	max-height: 400px;;
+}
+
+.wp-list-table.wpf-logs .column-message code {
+	border-bottom: 1px dashed #999;
+	line-height: 1.85;
+}
+
+.wp-list-table.wpf-logs a span.dashicons.dashicons-external {
+	vertical-align: middle;
+    font-size: 16px;
+}
+
+@media screen and (min-width: 783px) {
+	.wp-list-table.wpf-logs .column-timestamp {
+		width: 18%;
+	}
+	.wp-list-table.wpf-logs .column-level {
+		width: 10%;
+	}
+	.wp-list-table.wpf-logs .column-source {
+		width: 10%;
+	}
+	.wp-list-table.wpf-logs .column-user {
+		width: 15%
+	}
+	.wp-list-table.wpf-logs .column-level {
+		width: 10%;
+	}
+}
